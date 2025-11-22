@@ -5,17 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Happy Birthday Ishita</title>
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
-<!-- Font Awesome for social icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
   body, html {
     margin: 0;
     padding: 0;
     font-family: 'Quicksand', sans-serif;
     overflow-x: hidden;
-  }
-
-  body {
+    scroll-behavior: smooth;
     background: linear-gradient(120deg, #ffd6e0, #ffe7ba);
     transition: background 1s ease;
     color: #333;
@@ -26,9 +22,34 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: 50px 20px;
     text-align: center;
     position: relative;
+  }
+
+  .text-bubble {
+    display: inline-block;
+    padding: 25px 35px;
+    background: rgba(255,255,255,0.6);
+    border-radius: 30px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    backdrop-filter: blur(5px);
+    max-width: 60%;
+    font-size: 1.3em;
+    margin: 30px 0;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 1s ease;
+  }
+
+  /* Alternate positions */
+  .section:nth-child(odd) .text-bubble {
+    float: left;
+    margin-left: 10%;
+  }
+  .section:nth-child(even) .text-bubble {
+    float: right;
+    margin-right: 10%;
   }
 
   h1 {
@@ -39,22 +60,6 @@
   p {
     font-size: 1.3em;
     max-width: 700px;
-  }
-
-  .particle {
-    position: fixed;
-    width: 10px;
-    height: 10px;
-    background: #fff;
-    border-radius: 50%;
-    animation: float 10s linear infinite;
-    opacity: 0.7;
-  }
-
-  @keyframes float {
-    0% {transform: translateY(0) translateX(0);}
-    50% {transform: translateY(-50vh) translateX(50px);}
-    100% {transform: translateY(-100vh) translateX(-50px);}
   }
 
   .interactive-btn {
@@ -68,31 +73,56 @@
     margin: 10px;
     transition: transform 0.2s;
   }
-
   .interactive-btn:hover {
     transform: scale(1.1);
   }
 
-  /* Social icons */
+  /* Floating icons */
   .pop-icon {
     font-size: 50px;
-    color: #fff;
     position: absolute;
-    top: 20px;
-    right: 20px;
-    opacity: 0;
-    transform: scale(0);
-    transition: transform 0.5s, opacity 0.5s;
+    animation: floatIcon 4s ease-in-out infinite alternate;
+    opacity: 0.8;
+  }
+  #snap-icon { top: 20px; left: 20px; color: #fffc00; }
+  #wa-icon { top: 20px; right: 20px; color: #25D366; }
+  #ig-icon { bottom: 20px; left: 50%; transform: translateX(-50%); color: #C13584; }
+  #movie-icon { bottom: 20px; right: 20px; color: #ff5c5c; }
+
+  @keyframes floatIcon {
+    0% { transform: translateY(0) rotate(0deg);}
+    50% { transform: translateY(-15px) rotate(10deg);}
+    100% { transform: translateY(0) rotate(-10deg);}
   }
 
-  .section.visible .pop-icon {
-    opacity: 1;
-    transform: scale(1);
+  /* Particles */
+  .particle {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background: #fff;
+    border-radius: 50%;
+    animation: float 15s linear infinite;
+    opacity: 0.7;
+    pointer-events: none;
+    z-index: 1;
   }
+  @keyframes float {
+    0% {transform: translateY(0) translateX(0);}
+    50% {transform: translateY(-50vh) translateX(50px);}
+    100% {transform: translateY(-100vh) translateX(-50px);}
+  }
+
+  .fade-in {
+    opacity: 1 !important;
+    transform: translateY(0px) !important;
+  }
+
 </style>
 </head>
 <body>
 
+<!-- Landing Section -->
 <div class="section" id="landing">
   <div>
     <h1>Happy Birthday Ishita 🎉</h1>
@@ -100,33 +130,40 @@
   </div>
 </div>
 
+<!-- Memories Sections -->
 <div class="section" id="snapchat">
-  <i class="fab fa-snapchat pop-icon"></i>
-  <p>Snapchat days: Our first talks, little snaps, and discovering each other slowly...</p>
+  <div class="text-bubble">Snapchat days: Our first talks, little snaps, and discovering each other slowly...</div>
+  <div class="pop-icon" id="snap-icon">📸</div>
 </div>
 
 <div class="section" id="whatsapp">
-  <i class="fab fa-whatsapp pop-icon"></i>
-  <p>WhatsApp chats: Long movie nights, deep talks, sending each other our favorite rom-coms.</p>
+  <div class="text-bubble">WhatsApp chats: Long movie nights, deep talks, sending each other our favorite rom-coms.</div>
+  <div class="pop-icon" id="wa-icon">💬</div>
 </div>
 
 <div class="section" id="instagram">
-  <i class="fab fa-instagram pop-icon"></i>
-  <p>Instagram days: Daily reels, jokes, cute conversations, sharing our favorite music and snippets of life.</p>
+  <div class="text-bubble">Instagram days: Daily reels, jokes, cute conversations, sharing our favorite music and snippets of life.</div>
+  <div class="pop-icon" id="ig-icon">🎞️</div>
 </div>
 
 <div class="section" id="movies">
-  <p>Our first rom-com movies: How to Lose a Guy in 10 Days & 10 Things I Hate About You 💖</p>
+  <div class="text-bubble">Our first rom-com movies: How to Lose a Guy in 10 Days & 10 Things I Hate About You 💖</div>
+  <div class="pop-icon" id="movie-icon">🍿</div>
 </div>
 
+<!-- Interactive -->
 <div class="section" id="interactive">
-  <p>Do you want to see your birthday surprise?</p>
-  <button class="interactive-btn" onclick="revealMessage(true)">Yes</button>
-  <button class="interactive-btn" onclick="revealMessage(false)">No</button>
+  <div class="text-bubble">
+    Do you want to see your birthday surprise?
+    <br>
+    <button class="interactive-btn" onclick="revealMessage(true)">Yes</button>
+    <button class="interactive-btn" onclick="revealMessage(false)">No</button>
+  </div>
 </div>
 
+<!-- Final Note -->
 <div class="section" id="final-message" style="display:none;">
-  <p id="birthday-note">Here will be the emotional birthday note...</p>
+  <div class="text-bubble" id="birthday-note">Here will be the emotional birthday note...</div>
   <p>From Mohit ❤️</p>
 </div>
 
@@ -135,63 +172,40 @@
 </audio>
 
 <script>
-  function startSite() {
-    document.getElementById('bg-music').play();
-    document.getElementById('landing').scrollIntoView({ behavior: 'smooth' });
-    createParticles(50);
-    checkVisibleSections();
+function startSite() {
+  document.getElementById('bg-music').play();
+  createParticles(50);
+  fadeInSections();
+}
+
+function revealMessage(choice) {
+  if(choice) {
+    document.getElementById('interactive').style.display = 'none';
+    document.getElementById('final-message').style.display = 'flex';
+    document.getElementById('final-message').scrollIntoView({behavior:'smooth'});
+  } else {
+    alert('You can scroll and see the memories anyway!');
   }
+}
 
-  function revealMessage(choice) {
-    if(choice) {
-      document.getElementById('interactive').style.display = 'none';
-      document.getElementById('final-message').style.display = 'flex';
-      document.getElementById('final-message').scrollIntoView({behavior:'smooth'});
-    } else {
-      alert('You can scroll and see the memories anyway!');
-    }
+function createParticles(count) {
+  for(let i=0;i<count;i++){
+    const p = document.createElement('div');
+    p.classList.add('particle');
+    p.style.left = Math.random()*100+'vw';
+    p.style.animationDuration = (5 + Math.random()*10)+'s';
+    p.style.width = p.style.height = (5 + Math.random()*10)+'px';
+    document.body.appendChild(p);
   }
+}
 
-  function createParticles(count) {
-    for(let i=0;i<count;i++){
-      const p = document.createElement('div');
-      p.classList.add('particle');
-      p.style.left = Math.random()*100+'vw';
-      p.style.animationDuration = (5 + Math.random()*10)+'s';
-      p.style.width = p.style.height = (5 + Math.random()*10)+'px';
-      document.body.appendChild(p);
-    }
-  }
-
-  // Check which sections are visible and trigger icon animation
-  function checkVisibleSections() {
-    const sections = document.querySelectorAll('.section');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if(entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.5 });
-
-    sections.forEach(section => observer.observe(section));
-  }
-
-  // Smooth background change on scroll
-  window.addEventListener('scroll', () => {
-    const scrollTop = window.scrollY;
-    const docHeight = document.body.scrollHeight - window.innerHeight;
-    const scrollFraction = scrollTop / docHeight; // 0 to 1
-    const gradients = [
-      'linear-gradient(120deg, #ffd6e0, #ffe7ba)',
-      'linear-gradient(120deg, #a1c4fd, #c2e9fb)',
-      'linear-gradient(120deg, #fbc2eb, #a6c1ee)',
-      'linear-gradient(120deg, #ffecd2, #fcb69f)',
-      'linear-gradient(120deg, #a8edea, #fed6e3)'
-    ];
-    const index = Math.floor(scrollFraction * (gradients.length - 1));
-    document.body.style.background = gradients[index];
+// Fade in on scroll
+function fadeInSections() {
+  const bubbles = document.querySelectorAll('.text-bubble');
+  bubbles.forEach(bubble => {
+    bubble.classList.add('fade-in');
   });
+}
 </script>
 
 </body>
