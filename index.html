@@ -152,23 +152,23 @@
 
   // Scroll-based background
   window.addEventListener('scroll', () => {
-    const scrollY = window.scrollY;
-    const height = window.innerHeight;
-    
-    if(scrollY < height) {
-      document.body.style.background = 'linear-gradient(120deg, #ffd6e0, #ffe7ba)';
-    } else if(scrollY < height*2) {
-      document.body.style.background = 'linear-gradient(120deg, #a1c4fd, #c2e9fb)';
-    } else if(scrollY < height*3) {
-      document.body.style.background = 'linear-gradient(120deg, #fbc2eb, #a6c1ee)';
-    } else if(scrollY < height*4) {
-      document.body.style.background = 'linear-gradient(120deg, #ffecd2, #fcb69f)';
-    } else {
-      document.body.style.background = 'linear-gradient(120deg, #a8edea, #fed6e3)';
-    }
+  const scrollTop = window.scrollY;
+  const docHeight = document.body.scrollHeight - window.innerHeight;
+  const scrollFraction = scrollTop / docHeight; // 0 to 1
 
-    revealVisibleSections(); // Fade in sections as they enter viewport
-  });
+  // Interpolate between multiple gradient colors
+  const gradients = [
+    'linear-gradient(120deg, #ffd6e0, #ffe7ba)',
+    'linear-gradient(120deg, #a1c4fd, #c2e9fb)',
+    'linear-gradient(120deg, #fbc2eb, #a6c1ee)',
+    'linear-gradient(120deg, #ffecd2, #fcb69f)',
+    'linear-gradient(120deg, #a8edea, #fed6e3)'
+  ];
+
+  // Determine which two gradients to interpolate between
+  const index = Math.floor(scrollFraction * (gradients.length - 1));
+  document.body.style.background = gradients[index];
+});
 
   // Fade in sections on scroll
   function revealVisibleSections() {
