@@ -11,11 +11,11 @@
     padding: 0;
     font-family: 'Quicksand', sans-serif;
     overflow-x: hidden;
+    transition: background 1s ease;
   }
 
   body {
     background: linear-gradient(120deg, #ffd6e0, #ffe7ba);
-    transition: background 1s ease;
     color: #333;
   }
 
@@ -26,6 +26,12 @@
     align-items: center;
     padding: 20px;
     text-align: center;
+    opacity: 0;
+    transition: opacity 1s ease;
+  }
+
+  .section.visible {
+    opacity: 1;
   }
 
   h1 {
@@ -46,6 +52,7 @@
     border-radius: 50%;
     animation: float 10s linear infinite;
     opacity: 0.7;
+    z-index: 1;
   }
 
   @keyframes float {
@@ -112,12 +119,15 @@
 </audio>
 
 <script>
+  // Start site and play music + particles
   function startSite() {
     document.getElementById('bg-music').play();
     document.getElementById('landing').scrollIntoView({ behavior: 'smooth' });
     createParticles(50);
+    revealVisibleSections(); // Show sections as you start
   }
 
+  // Interactive birthday message
   function revealMessage(choice) {
     if(choice) {
       document.getElementById('interactive').style.display = 'none';
@@ -128,6 +138,7 @@
     }
   }
 
+  // Particle creation
   function createParticles(count) {
     for(let i=0;i<count;i++){
       const p = document.createElement('div');
@@ -137,6 +148,40 @@
       p.style.width = p.style.height = (5 + Math.random()*10)+'px';
       document.body.appendChild(p);
     }
+  }
+
+  // Scroll-based background
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    const height = window.innerHeight;
+    
+    if(scrollY < height) {
+      document.body.style.background = 'linear-gradient(120deg, #ffd6e0, #ffe7ba)';
+    } else if(scrollY < height*2) {
+      document.body.style.background = 'linear-gradient(120deg, #a1c4fd, #c2e9fb)';
+    } else if(scrollY < height*3) {
+      document.body.style.background = 'linear-gradient(120deg, #fbc2eb, #a6c1ee)';
+    } else if(scrollY < height*4) {
+      document.body.style.background = 'linear-gradient(120deg, #ffecd2, #fcb69f)';
+    } else {
+      document.body.style.background = 'linear-gradient(120deg, #a8edea, #fed6e3)';
+    }
+
+    revealVisibleSections(); // Fade in sections as they enter viewport
+  });
+
+  // Fade in sections on scroll
+  function revealVisibleSections() {
+    const sections = document.querySelectorAll('.section');
+    const scrollTop = window.scrollY;
+    const windowHeight = window.innerHeight;
+
+    sections.forEach(section => {
+      const offsetTop = section.offsetTop;
+      if(scrollTop + windowHeight > offsetTop + 100) {
+        section.classList.add('visible');
+      }
+    });
   }
 </script>
 
