@@ -1,11 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Test Page</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Ishita</title>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Quicksand', sans-serif;
+    overflow-x: hidden;
+  }
+
+  body {
+    background: linear-gradient(120deg, #ffd6e0, #ffe7ba);
+    transition: background 1s ease;
+    color: #333;
+  }
+
+  .section {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    text-align: center;
+  }
+
+  h1 {
+    font-size: 3em;
+    margin-bottom: 0.5em;
+  }
+
+  p {
+    font-size: 1.3em;
+    max-width: 700px;
+  }
+
+  .particle {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background: #fff;
+    border-radius: 50%;
+    animation: float 10s linear infinite;
+    opacity: 0.7;
+  }
+
+  @keyframes float {
+    0% {transform: translateY(0) translateX(0);}
+    50% {transform: translateY(-50vh) translateX(50px);}
+    100% {transform: translateY(-100vh) translateX(-50px);}
+  }
+
+  .interactive-btn {
+    padding: 12px 24px;
+    background: #ff8fab;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 1.2em;
+    margin: 10px;
+    transition: transform 0.2s;
+  }
+
+  .interactive-btn:hover {
+    transform: scale(1.1);
+  }
+</style>
 </head>
 <body>
-  <h1>Happy Birthday Ishita 🎉</h1>
-  <p>This is a test content.</p>
+
+<div class="section" id="landing">
+  <div>
+    <h1>Happy Birthday Ishita 🎉</h1>
+    <button class="interactive-btn" onclick="startSite()">Click to Start</button>
+  </div>
+</div>
+
+<div class="section" id="snapchat">
+  <p>Snapchat days: Our first talks, little snaps, and discovering each other slowly...</p>
+</div>
+
+<div class="section" id="whatsapp">
+  <p>WhatsApp chats: Long movie nights, deep talks, sending each other our favorite rom-coms.</p>
+</div>
+
+<div class="section" id="instagram">
+  <p>Instagram days: Daily reels, jokes, cute conversations, sharing our favorite music and snippets of life.</p>
+</div>
+
+<div class="section" id="movies">
+  <p>Our first rom-com movies: How to Lose a Guy in 10 Days & 10 Things I Hate About You 💖</p>
+</div>
+
+<div class="section" id="interactive">
+  <p>Do you want to see your birthday surprise?</p>
+  <button class="interactive-btn" onclick="revealMessage(true)">Yes</button>
+  <button class="interactive-btn" onclick="revealMessage(false)">No</button>
+</div>
+
+<div class="section" id="final-message" style="display:none;">
+  <p id="birthday-note">Here will be the emotional birthday note...</p>
+  <p>From Mohit ❤️</p>
+</div>
+
+<audio id="bg-music" loop>
+  <source src="soft-music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  function startSite() {
+    document.getElementById('bg-music').play();
+    document.getElementById('landing').scrollIntoView({ behavior: 'smooth' });
+    createParticles(50);
+  }
+
+  function revealMessage(choice) {
+    if(choice) {
+      document.getElementById('interactive').style.display = 'none';
+      document.getElementById('final-message').style.display = 'flex';
+      document.getElementById('final-message').scrollIntoView({behavior:'smooth'});
+    } else {
+      alert('You can scroll and see the memories anyway!');
+    }
+  }
+
+  function createParticles(count) {
+    for(let i=0;i<count;i++){
+      const p = document.createElement('div');
+      p.classList.add('particle');
+      p.style.left = Math.random()*100+'vw';
+      p.style.animationDuration = (5 + Math.random()*10)+'s';
+      p.style.width = p.style.height = (5 + Math.random()*10)+'px';
+      document.body.appendChild(p);
+    }
+  }
+</script>
+
 </body>
 </html>
