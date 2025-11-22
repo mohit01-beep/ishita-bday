@@ -5,17 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Happy Birthday Ishita</title>
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+<!-- Font Awesome for social icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
   body, html {
     margin: 0;
     padding: 0;
     font-family: 'Quicksand', sans-serif;
     overflow-x: hidden;
-    transition: background 1s ease;
   }
 
   body {
     background: linear-gradient(120deg, #ffd6e0, #ffe7ba);
+    transition: background 1s ease;
     color: #333;
   }
 
@@ -26,12 +28,7 @@
     align-items: center;
     padding: 20px;
     text-align: center;
-    opacity: 0;
-    transition: opacity 1s ease;
-  }
-
-  .section.visible {
-    opacity: 1;
+    position: relative;
   }
 
   h1 {
@@ -52,7 +49,6 @@
     border-radius: 50%;
     animation: float 10s linear infinite;
     opacity: 0.7;
-    z-index: 1;
   }
 
   @keyframes float {
@@ -76,6 +72,23 @@
   .interactive-btn:hover {
     transform: scale(1.1);
   }
+
+  /* Social icons */
+  .pop-icon {
+    font-size: 50px;
+    color: #fff;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    opacity: 0;
+    transform: scale(0);
+    transition: transform 0.5s, opacity 0.5s;
+  }
+
+  .section.visible .pop-icon {
+    opacity: 1;
+    transform: scale(1);
+  }
 </style>
 </head>
 <body>
@@ -88,14 +101,17 @@
 </div>
 
 <div class="section" id="snapchat">
+  <i class="fab fa-snapchat pop-icon"></i>
   <p>Snapchat days: Our first talks, little snaps, and discovering each other slowly...</p>
 </div>
 
 <div class="section" id="whatsapp">
+  <i class="fab fa-whatsapp pop-icon"></i>
   <p>WhatsApp chats: Long movie nights, deep talks, sending each other our favorite rom-coms.</p>
 </div>
 
 <div class="section" id="instagram">
+  <i class="fab fa-instagram pop-icon"></i>
   <p>Instagram days: Daily reels, jokes, cute conversations, sharing our favorite music and snippets of life.</p>
 </div>
 
@@ -119,15 +135,13 @@
 </audio>
 
 <script>
-  // Start site and play music + particles
   function startSite() {
     document.getElementById('bg-music').play();
     document.getElementById('landing').scrollIntoView({ behavior: 'smooth' });
     createParticles(50);
-    revealVisibleSections(); // Show sections as you start
+    checkVisibleSections();
   }
 
-  // Interactive birthday message
   function revealMessage(choice) {
     if(choice) {
       document.getElementById('interactive').style.display = 'none';
@@ -138,7 +152,6 @@
     }
   }
 
-  // Particle creation
   function createParticles(count) {
     for(let i=0;i<count;i++){
       const p = document.createElement('div');
@@ -150,39 +163,35 @@
     }
   }
 
-  // Scroll-based background
-  window.addEventListener('scroll', () => {
-  const scrollTop = window.scrollY;
-  const docHeight = document.body.scrollHeight - window.innerHeight;
-  const scrollFraction = scrollTop / docHeight; // 0 to 1
-
-  // Interpolate between multiple gradient colors
-  const gradients = [
-    'linear-gradient(120deg, #ffd6e0, #ffe7ba)',
-    'linear-gradient(120deg, #a1c4fd, #c2e9fb)',
-    'linear-gradient(120deg, #fbc2eb, #a6c1ee)',
-    'linear-gradient(120deg, #ffecd2, #fcb69f)',
-    'linear-gradient(120deg, #a8edea, #fed6e3)'
-  ];
-
-  // Determine which two gradients to interpolate between
-  const index = Math.floor(scrollFraction * (gradients.length - 1));
-  document.body.style.background = gradients[index];
-});
-
-  // Fade in sections on scroll
-  function revealVisibleSections() {
+  // Check which sections are visible and trigger icon animation
+  function checkVisibleSections() {
     const sections = document.querySelectorAll('.section');
-    const scrollTop = window.scrollY;
-    const windowHeight = window.innerHeight;
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.5 });
 
-    sections.forEach(section => {
-      const offsetTop = section.offsetTop;
-      if(scrollTop + windowHeight > offsetTop + 100) {
-        section.classList.add('visible');
-      }
-    });
+    sections.forEach(section => observer.observe(section));
   }
+
+  // Smooth background change on scroll
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.body.scrollHeight - window.innerHeight;
+    const scrollFraction = scrollTop / docHeight; // 0 to 1
+    const gradients = [
+      'linear-gradient(120deg, #ffd6e0, #ffe7ba)',
+      'linear-gradient(120deg, #a1c4fd, #c2e9fb)',
+      'linear-gradient(120deg, #fbc2eb, #a6c1ee)',
+      'linear-gradient(120deg, #ffecd2, #fcb69f)',
+      'linear-gradient(120deg, #a8edea, #fed6e3)'
+    ];
+    const index = Math.floor(scrollFraction * (gradients.length - 1));
+    document.body.style.background = gradients[index];
+  });
 </script>
 
 </body>
