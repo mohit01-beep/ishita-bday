@@ -15,6 +15,7 @@
     background: linear-gradient(180deg, #ffcf9c, #f8a1c1);
     transition: background 1s ease;
     color: #333;
+    position: relative;
   }
 
   .section {
@@ -46,9 +47,6 @@
     z-index: 5;
   }
 
-  .section:nth-child(odd) .text-bubble { float: left; margin-left: 10%; }
-  .section:nth-child(even) .text-bubble { float: right; margin-right: 10%; }
-
   h1 { font-size: 3em; margin-bottom: 0.5em; }
   p { font-size: 1.3em; max-width: 700px; }
 
@@ -67,42 +65,16 @@
   }
   .interactive-btn:hover { transform: scale(1.1); }
 
-  .pop-icon {
-    font-size: 50px;
-    position: absolute;
-    animation: floatIcon 4s ease-in-out infinite alternate;
-    opacity: 0.8;
-    z-index: 5;
-  }
-  #snap-icon { top: 20px; left: 20px; color: #fffc00; }
-  #wa-icon { top: 20px; right: 20px; color: #25D366; }
-  #ig-icon { bottom: 20px; left: 50%; transform: translateX(-50%); color: #C13584; }
-  #movie-icon { bottom: 20px; right: 20px; color: #ff5c5c; }
-
-  @keyframes floatIcon {
-    0% { transform: translateY(0) rotate(0deg);}
-    50% { transform: translateY(-15px) rotate(10deg);}
-    100% { transform: translateY(0) rotate(-10deg);}
-  }
-
   .fade-in { opacity: 1 !important; transform: translateY(0px) !important; }
 
-  /* MOBILE */
   @media (max-width: 900px) {
     .text-bubble { max-width: 85%; font-size: 1.1em; padding: 20px 25px; margin: 20px auto; float: none !important; margin-left:auto !important; margin-right:auto !important; }
     h1 { font-size: 2.5em; }
-    .pop-icon { font-size: 35px; }
   }
   @media (max-width: 600px) {
     .section { padding: 40px 15px; }
     .text-bubble { max-width: 95%; font-size: 1em; padding: 18px 22px; margin: 15px 0; }
     h1 { font-size: 2em; margin-top: 20px; }
-    #whatsapp { flex-direction: row; justify-content: center; }
-    #whatsapp .text-bubble { flex: 1 1 100%; max-width: 100%; }
-    #snap-icon { top: 10px; left: 10px; }
-    #wa-icon { top: 10px; right: 10px; }
-    #ig-icon { bottom: 10px; }
-    #movie-icon { bottom: 10px; right: 10px; }
   }
 
   /* Twinkle stars */
@@ -127,18 +99,35 @@
   /* Shooting stars */
   .shooting-star {
     position: fixed;
-    width: 2px;
-    height: 120px;
+    width: 3px;
+    height: 150px;
     background: linear-gradient(to bottom, rgba(255,255,255,1), rgba(255,255,255,0));
     opacity: 1;
     transform: rotate(45deg);
-    animation: shoot 1s linear forwards;
+    animation: shoot 1.2s linear forwards;
     pointer-events: none;
     z-index: 0;
   }
   @keyframes shoot {
     0% { transform: translateY(0) translateX(0) rotate(45deg); opacity: 1; }
-    100% { transform: translateY(500px) translateX(500px) rotate(45deg); opacity: 0; }
+    100% { transform: translateY(600px) translateX(600px) rotate(45deg); opacity: 0; }
+  }
+
+  /* Clouds */
+  .cloud {
+    position: fixed;
+    background: rgba(255,255,255,0.5);
+    border-radius: 50%;
+    width: 200px;
+    height: 60px;
+    top: 50px;
+    animation: moveClouds linear infinite;
+    z-index: 0;
+    pointer-events: none;
+  }
+  @keyframes moveClouds {
+    0% { transform: translateX(-250px); }
+    100% { transform: translateX(100vw); }
   }
 
 </style>
@@ -158,27 +147,17 @@
   <div class="text-bubble">Snapchat days: Our first talks, little snaps, and discovering each other slowly...</div>
   <div class="text-bubble">Thanks to Yogita we got closer earlier and I got your number...</div>
   <div class="text-bubble">Maybe I would’ve gotten your number later too, but I don’t know when—or how long I would’ve waited.</div>
-  <div class="text-bubble">But because of yogita's job search, we connected on WhatsApp and since then we got to know each other more...</div>
-  <div class="pop-icon" id="snap-icon">📸</div>
+  <div class="text-bubble">But because of Yogita's job search, we connected on WhatsApp and got to know each other more...</div>
 </div>
 
-<div class="section" id="whatsapp" style="display:flex; flex-wrap:wrap; justify-content:center; gap:20px;">
-  <div class="text-bubble" style="flex:1 1 30%; max-width:30%;">WhatsApp chats: Long movie nights, deep talks, sending each other our favorite rom-coms 🎬💖</div>
-  <div class="text-bubble" style="flex:1 1 30%; max-width:30%;">Whenever I see any reel about How to Lose a Guy in 10 Days or 10 Things I Hate About You, it reminds me of youuuu 😅💓</div>
-  <div class="text-bubble" style="flex:1 1 30%; max-width:30%;">I mean any rom-com movie reminds me of youuuuuu 🎥💕 These two are special to both of us and I will never forget these ones 😍</div>
-  <div class="text-bubble" style="flex:1 1 30%; max-width:30%;">Officially our 1st one was Saltburn jo mene dikhai thi 🎞️ Your reactions were accurate and funny 😂🤣</div>
-  <div class="text-bubble" style="flex:1 1 30%; max-width:30%;">And remember our horror movie together - IT Chapter 1 👻😱</div>
-  <div class="pop-icon" id="whatsapp-icon">💬</div>
+<div class="section" id="whatsapp">
+  <div class="text-bubble">WhatsApp chats: Sharing memes, long movie nights, and sending each other our favorite rom-coms 🎬💖</div>
+  <div class="text-bubble">Every time I see "How to Lose a Guy in 10 Days" or "10 Things I Hate About You", I think of you 😅💓</div>
+  <div class="text-bubble">Rom-coms always remind me of our little movie adventures 🎥💕</div>
 </div>
 
 <div class="section" id="instagram">
-  <div class="text-bubble">Instagram days: Daily reels, jokes, cute conversations, sharing our favorite music and snippets of life.</div>
-  <div class="pop-icon" id="ig-icon">🎞️</div>
-</div>
-
-<div class="section" id="movies">
-  <div class="text-bubble">Our first rom-com movies: How to Lose a Guy in 10 Days & 10 Things I Hate About You 💖</div>
-  <div class="pop-icon" id="movie-icon">🍿</div>
+  <div class="text-bubble">Instagram days: Daily reels, jokes, cute conversations, sharing music and snippets of life.</div>
 </div>
 
 <div class="section" id="interactive">
@@ -204,6 +183,7 @@ function startSite() {
   document.getElementById('bg-music').play();
   createTwinkleStars(100);
   fadeInSections();
+  createClouds(5);
 }
 
 function revealMessage(choice) {
@@ -238,8 +218,9 @@ function shootingStar(){
   star.classList.add('shooting-star');
   star.style.left = Math.random()*80+'vw';
   star.style.top = Math.random()*50+'vh';
+  star.style.height = 120 + Math.random()*80 + 'px'; // bigger shooting star
   document.body.appendChild(star);
-  setTimeout(()=>star.remove(), 1200);
+  setTimeout(()=>star.remove(), 1500);
 }
 
 function randomShooting(){
@@ -247,6 +228,19 @@ function randomShooting(){
   setTimeout(()=>{ shootingStar(); randomShooting(); }, delay);
 }
 randomShooting();
+
+/* Clouds */
+function createClouds(count){
+  for(let i=0; i<count; i++){
+    const cloud = document.createElement('div');
+    cloud.classList.add('cloud');
+    cloud.style.top = Math.random()*50+'vh';
+    cloud.style.width = 150 + Math.random()*150 +'px';
+    cloud.style.height = 50 + Math.random()*50 +'px';
+    cloud.style.animationDuration = 40 + Math.random()*60 +'s';
+    document.body.appendChild(cloud);
+  }
+}
 
 /* Scroll background sunset → night */
 window.addEventListener('scroll', ()=>{
