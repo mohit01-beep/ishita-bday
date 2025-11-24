@@ -117,7 +117,6 @@
   /* =======================
        MOBILE RESPONSIVE
      ======================= */
-
   @media (max-width: 900px) {
     .text-bubble {
       max-width: 85%;
@@ -128,105 +127,76 @@
       margin-left: auto !important;
       margin-right: auto !important;
     }
-
     h1 { font-size: 2.5em; }
-
-    /* Icons resize */
-    .pop-icon {
-      font-size: 35px;
-    }
+    .pop-icon { font-size: 35px; }
   }
 
   @media (max-width: 600px) {
-    .section {
-      padding: 40px 15px;
-    }
-
+    .section { padding: 40px 15px; }
     .text-bubble {
       max-width: 95%;
       font-size: 1em;
       padding: 18px 22px;
       margin: 15px 0;
     }
-
-    h1 { 
-      font-size: 2em; 
-      margin-top: 20px; 
-    }
-
-    /* WhatsApp 3-column → 1 or 2 column */
-    #whatsapp {
-      flex-direction: row;
-      justify-content: center;
-    }
-    #whatsapp .text-bubble {
-      flex: 1 1 100%;
-      max-width: 100%;
-    }
-
-    /* Better icon placement */
+    h1 { font-size: 2em; margin-top: 20px; }
+    #whatsapp { flex-direction: row; justify-content: center; }
+    #whatsapp .text-bubble { flex: 1 1 100%; max-width: 100%; }
     #snap-icon { top: 10px; left: 10px; }
     #wa-icon { top: 10px; right: 10px; }
     #ig-icon { bottom: 10px; }
     #movie-icon { bottom: 10px; right: 10px; }
+    .twinkle-star { width: 1.5px; height: 1.5px; }
+    .shooting-star { width: 1.5px; height: 80px; }
   }
 
   /* -----------------------------
-   TWINKLING STARS BACKGROUND
+   TWINKLE STARS BACKGROUND
 --------------------------------*/
-.twinkle-star {
-  position: fixed;
-  width: 3px;
-  height: 3px;
-  background: white;
-  border-radius: 50%;
-  opacity: 0;
-  animation: twinkle 2.5s infinite ease-in-out;
-  pointer-events: none;
-  z-index: 0;
-}
+  .twinkle-star {
+    position: fixed;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.7;
+    animation: twinkle 2.5s infinite ease-in-out alternate;
+    pointer-events: none;
+    z-index: 0;
+  }
 
-@keyframes twinkle {
-  0%, 100% { opacity: 0; transform: scale(0.4); }
-  50% { opacity: 1; transform: scale(1); }
-}
+  @keyframes twinkle {
+    0% { opacity: 0.3; transform: scale(0.3); }
+    50% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0.3; transform: scale(0.3); }
+  }
 
-/* -----------------------------
+  /* -----------------------------
    SHOOTING STAR EFFECT
 --------------------------------*/
-.shooting-star {
-  position: fixed;
-  width: 2px;
-  height: 120px;
-  background: linear-gradient(to bottom, white, rgba(255,255,255,0));
-  opacity: 0.8;
-  transform: rotate(45deg);
-  animation: shoot 1.4s linear forwards;
-  pointer-events: none;
-  z-index: 0;
-}
-
-@keyframes shoot {
-  0% {
-    transform: translateY(0) translateX(0) rotate(45deg);
-    opacity: 1;
+  .shooting-star {
+    position: fixed;
+    width: 2px;
+    height: 120px;
+    background: linear-gradient(to bottom, white, rgba(255,255,255,0));
+    opacity: 0.8;
+    transform: rotate(45deg);
+    pointer-events: none;
+    z-index: 0;
+    animation: shoot 1.4s linear forwards;
   }
-  100% {
-    transform: translateY(400px) translateX(400px) rotate(45deg);
-    opacity: 0;
-  }
-}
 
-/* Make sure your content stays ABOVE stars */
-.section,
-.text-bubble,
-.pop-icon {
-  position: relative;
-  z-index: 5;
-}
+  @keyframes shoot {
+    0% { transform: translateY(0) translateX(0) rotate(45deg); opacity:1; }
+    100% { transform: translateY(400px) translateX(400px) rotate(45deg); opacity:0; }
+  }
+
+  /* Make sure your content stays ABOVE stars */
+  .section,
+  .text-bubble,
+  .pop-icon { position: relative; z-index: 5; }
 
 </style>
-  
 </head>
 <body>
 
@@ -239,7 +209,6 @@
 </div>
 
 <!-- Memories Sections -->
-<!-- Snapchat Section -->
 <div class="section" id="snapchat">
   <div class="text-bubble">Snapchat days: Our first talks, little snaps, and discovering each other slowly...</div>
   <div class="text-bubble">Thanks to Yogita we got closer earlier and I got your number...</div>
@@ -248,8 +217,6 @@
   <div class="pop-icon" id="snap-icon">📸</div>
 </div>
 
-<!-- WhatsApp Section -->
-<!-- WhatsApp Section with 3-bubble rows -->
 <div class="section" id="whatsapp" style="display:flex; flex-wrap:wrap; justify-content:center; gap:20px;">
   <div class="text-bubble" style="flex:1 1 30%; max-width:30%;">WhatsApp chats: Long movie nights, deep talks, sending each other our favorite rom-coms 🎬💖</div>
   <div class="text-bubble" style="flex:1 1 30%; max-width:30%;">Whenever I see any reel about How to Lose a Guy in 10 Days or 10 Things I Hate About You, it reminds me of youuuu 😅💓</div>
@@ -269,7 +236,6 @@
   <div class="pop-icon" id="movie-icon">🍿</div>
 </div>
 
-<!-- Interactive -->
 <div class="section" id="interactive">
   <div class="text-bubble">
     Do you want to see your birthday surprise?
@@ -279,7 +245,6 @@
   </div>
 </div>
 
-<!-- Final Note -->
 <div class="section" id="final-message" style="display:none;">
   <div class="text-bubble" id="birthday-note">Here will be the emotional birthday note...</div>
   <p>From Mohit ❤️</p>
@@ -294,6 +259,8 @@ function startSite() {
   document.getElementById('bg-music').play();
   createParticles(50);
   fadeInSections();
+  createTwinkleStars(100);
+  randomShooting();
 }
 
 function revealMessage(choice) {
@@ -317,61 +284,43 @@ function createParticles(count) {
   }
 }
 
-// Fade in on scroll
 function fadeInSections() {
   const bubbles = document.querySelectorAll('.text-bubble');
-  bubbles.forEach(bubble => {
-    bubble.classList.add('fade-in');
+  bubbles.forEach((bubble, index) => {
+    setTimeout(() => {
+      bubble.classList.add('fade-in');
+    }, index * 500);
   });
 }
 
-// ---------------------------------------------
-// CREATE TWINKLE STARS
-// ---------------------------------------------
+// Twinkle stars
 function createTwinkleStars(count = 80) {
   for (let i = 0; i < count; i++) {
     const star = document.createElement("div");
     star.classList.add("twinkle-star");
-
     star.style.left = Math.random() * 100 + "vw";
     star.style.top = Math.random() * 100 + "vh";
     star.style.animationDelay = Math.random() * 3 + "s";
-
     document.body.appendChild(star);
   }
 }
 
-// ---------------------------------------------
-// SHOOTING STARS AT RANDOM INTERVALS
-// ---------------------------------------------
+// Shooting stars
 function shootingStar() {
   const star = document.createElement("div");
   star.classList.add("shooting-star");
-
   star.style.left = Math.random() * 80 + "vw";
   star.style.top = Math.random() * 50 + "vh";
-
   document.body.appendChild(star);
-
-  setTimeout(() => {
-    star.remove();
-  }, 1500);
+  setTimeout(() => star.remove(), 1500);
 }
-
-// Random shooting star every 3–7 seconds
-setInterval(() => {
-  shootingStar();
-}, Math.random() * 4000 + 3000);
-
-// ---------------------------------------------
-// UPDATE startSite() TO INCLUDE STARS
-// ---------------------------------------------
-const originalStartSite = startSite;
-startSite = function() {
-  originalStartSite();
-  createTwinkleStars(100);   // ☆ new dreamy background
-};
-  
+function randomShooting() {
+  const delay = Math.random() * 4000 + 3000; // 3–7 sec
+  setTimeout(() => {
+    shootingStar();
+    randomShooting();
+  }, delay);
+}
 </script>
 
 </body>
