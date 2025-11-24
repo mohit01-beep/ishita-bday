@@ -12,8 +12,7 @@
     font-family: 'Quicksand', sans-serif;
     overflow-x: hidden;
     scroll-behavior: smooth;
-    background: linear-gradient(120deg, #ffd6e0, #ffe7ba); /* favorite sunset */
-    transition: background 1s ease;
+    background: linear-gradient(120deg, #ffd6e0, #ffe7ba);
     color: #333;
   }
 
@@ -76,24 +75,27 @@
     h1 { font-size: 2em; margin-top: 20px; }
   }
 
-  /* STARS */
+  /* DYNAMIC TWINKLE STARS */
   .twinkle-star {
     position: fixed;
-    width: 4px;
-    height: 4px;
+    width: 2px;
+    height: 2px;
     background: white;
     border-radius: 50%;
-    opacity: 1;
-    animation: twinkle 1.5s infinite ease-in-out alternate;
+    opacity: 0.8;
     pointer-events: none;
     z-index: 2;
-    box-shadow: 0 0 15px white;
+    box-shadow: 0 0 12px white;
   }
 
-  @keyframes twinkle {
-    0% { opacity: 0.4; transform: scale(0.5); }
-    50% { opacity: 1; transform: scale(1.2); }
-    100% { opacity: 0.4; transform: scale(0.5); }
+  /* CLOUDS */
+  .cloud {
+    position: fixed;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.4);
+    z-index: 1;
+    pointer-events: none;
+    filter: blur(10px);
   }
 
   /* SHOOTING STAR */
@@ -114,15 +116,6 @@
     100% { transform: translateY(400px) translateX(400px) rotate(45deg); opacity: 0; }
   }
 
-  /* CLOUDS */
-  .cloud {
-    position: fixed;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.4);
-    z-index: 1;
-    pointer-events: none;
-    filter: blur(10px);
-  }
 </style>
 </head>
 <body>
@@ -170,8 +163,8 @@
 <script>
 function startSite(){
   document.getElementById('bg-music').play();
-  createTwinkleStars(120);
-  createClouds(6); // fewer and slower
+  createDynamicStars(120);
+  createClouds(6);
   fadeInSections();
 }
 
@@ -187,16 +180,31 @@ function revealMessage(choice){
   } else alert('You can scroll and see the memories anyway!');
 }
 
-// Stars
-function createTwinkleStars(count){
+// DYNAMIC STAR FUNCTION
+function createDynamicStars(count){
   for(let i=0;i<count;i++){
     const star=document.createElement('div');
     star.classList.add('twinkle-star');
     star.style.left=Math.random()*100+'vw';
     star.style.top=Math.random()*100+'vh';
-    star.style.animationDelay=Math.random()*3+'s';
+    star.style.width=star.style.height=(2+Math.random()*3)+'px'; // varied size
+    const duration = 0.5 + Math.random()*2;
+    animateStarTwinkle(star, duration);
     document.body.appendChild(star);
   }
+}
+
+function animateStarTwinkle(star,duration){
+  let increasing = true;
+  let opacity = 0.5 + Math.random()*0.5;
+  function twinkle(){
+    opacity += (increasing?0.02:-0.02);
+    if(opacity >= 1) increasing=false;
+    if(opacity <=0.3) increasing=true;
+    star.style.opacity = opacity;
+    requestAnimationFrame(twinkle);
+  }
+  twinkle();
 }
 
 // Clouds
@@ -210,7 +218,7 @@ function createClouds(count){
     c.style.left=Math.random()*100+'vw';
     c.style.top=Math.random()*50+'vh';
     document.body.appendChild(c);
-    animateCloud(c, 0.05+Math.random()*0.05); // slow clouds
+    animateCloud(c, 0.02+Math.random()*0.03); // slower clouds
   }
 }
 
@@ -241,7 +249,7 @@ function randomShooting(){
   setTimeout(()=>{
     shootingStar();
     randomShooting();
-  },Math.random()*3000+2000);
+  },Math.random()*2000+1500); // more frequent
 }
 randomShooting();
 
