@@ -117,6 +117,7 @@
   /* =======================
        MOBILE RESPONSIVE
      ======================= */
+
   @media (max-width: 900px) {
     .text-bubble {
       max-width: 85%;
@@ -127,74 +128,109 @@
       margin-left: auto !important;
       margin-right: auto !important;
     }
+
     h1 { font-size: 2.5em; }
-    .pop-icon { font-size: 35px; }
+
+    /* Icons resize */
+    .pop-icon {
+      font-size: 35px;
+    }
   }
 
   @media (max-width: 600px) {
-    .section { padding: 40px 15px; }
+    .section {
+      padding: 40px 15px;
+    }
+
     .text-bubble {
       max-width: 95%;
       font-size: 1em;
       padding: 18px 22px;
       margin: 15px 0;
     }
-    h1 { font-size: 2em; margin-top: 20px; }
-    #whatsapp { flex-direction: row; justify-content: center; }
-    #whatsapp .text-bubble { flex: 1 1 100%; max-width: 100%; }
+
+    h1 { 
+      font-size: 2em; 
+      margin-top: 20px; 
+    }
+
+    #whatsapp {
+      flex-direction: row;
+      justify-content: center;
+    }
+    #whatsapp .text-bubble {
+      flex: 1 1 100%;
+      max-width: 100%;
+    }
+
     #snap-icon { top: 10px; left: 10px; }
     #wa-icon { top: 10px; right: 10px; }
     #ig-icon { bottom: 10px; }
     #movie-icon { bottom: 10px; right: 10px; }
-    .twinkle-star { width: 1.5px; height: 1.5px; }
-    .shooting-star { width: 1.5px; height: 80px; }
   }
 
-  /* -----------------------------
-   TWINKLE STARS BACKGROUND
---------------------------------*/
+  /* =======================
+       TWINKLE STARS
+     ======================= */
   .twinkle-star {
     position: fixed;
-    width: 2px;
-    height: 2px;
-    background: white;
+    width: 3px;
+    height: 3px;
+    background: rgba(255,255,200,0.9);
     border-radius: 50%;
-    opacity: 0.7;
+    box-shadow: 0 0 6px rgba(255,255,200,0.8);
+    opacity: 0.2;
     animation: twinkle 2.5s infinite ease-in-out alternate;
     pointer-events: none;
-    z-index: 0;
+    z-index: 1;
   }
 
   @keyframes twinkle {
-    0% { opacity: 0.3; transform: scale(0.3); }
+    0% { opacity: 0.2; transform: scale(0.5); }
     50% { opacity: 1; transform: scale(1); }
-    100% { opacity: 0.3; transform: scale(0.3); }
+    100% { opacity: 0.2; transform: scale(0.5); }
   }
 
-  /* -----------------------------
-   SHOOTING STAR EFFECT
---------------------------------*/
   .shooting-star {
     position: fixed;
     width: 2px;
-    height: 120px;
+    height: 100px;
     background: linear-gradient(to bottom, white, rgba(255,255,255,0));
     opacity: 0.8;
     transform: rotate(45deg);
-    pointer-events: none;
-    z-index: 0;
     animation: shoot 1.4s linear forwards;
+    pointer-events: none;
+    z-index: 2;
   }
 
   @keyframes shoot {
-    0% { transform: translateY(0) translateX(0) rotate(45deg); opacity:1; }
-    100% { transform: translateY(400px) translateX(400px) rotate(45deg); opacity:0; }
+    0% {
+      transform: translateY(0) translateX(0) rotate(45deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(400px) translateX(400px) rotate(45deg);
+      opacity: 0;
+    }
   }
 
-  /* Make sure your content stays ABOVE stars */
   .section,
   .text-bubble,
-  .pop-icon { position: relative; z-index: 5; }
+  .pop-icon {
+    position: relative;
+    z-index: 5;
+  }
+
+  @media (max-width: 600px) {
+    .twinkle-star {
+      width: 2px;
+      height: 2px;
+    }
+    .shooting-star {
+      width: 1.5px;
+      height: 80px;
+    }
+  }
 
 </style>
 </head>
@@ -258,9 +294,8 @@
 function startSite() {
   document.getElementById('bg-music').play();
   createParticles(50);
-  fadeInSections();
   createTwinkleStars(100);
-  randomShooting();
+  fadeInSections();
 }
 
 function revealMessage(choice) {
@@ -286,10 +321,8 @@ function createParticles(count) {
 
 function fadeInSections() {
   const bubbles = document.querySelectorAll('.text-bubble');
-  bubbles.forEach((bubble, index) => {
-    setTimeout(() => {
-      bubble.classList.add('fade-in');
-    }, index * 500);
+  bubbles.forEach(bubble => {
+    bubble.classList.add('fade-in');
   });
 }
 
@@ -298,6 +331,8 @@ function createTwinkleStars(count = 80) {
   for (let i = 0; i < count; i++) {
     const star = document.createElement("div");
     star.classList.add("twinkle-star");
+    const size = 2 + Math.random() * 2;
+    star.style.width = star.style.height = size + "px";
     star.style.left = Math.random() * 100 + "vw";
     star.style.top = Math.random() * 100 + "vh";
     star.style.animationDelay = Math.random() * 3 + "s";
@@ -312,16 +347,15 @@ function shootingStar() {
   star.style.left = Math.random() * 80 + "vw";
   star.style.top = Math.random() * 50 + "vh";
   document.body.appendChild(star);
-  setTimeout(() => star.remove(), 1500);
+  setTimeout(() => { star.remove(); }, 1500);
 }
-function randomShooting() {
-  const delay = Math.random() * 4000 + 3000; // 3–7 sec
-  setTimeout(() => {
-    shootingStar();
-    randomShooting();
-  }, delay);
-}
-</script>
 
+function randomShooting() {
+  const delay = Math.random() * 4000 + 3000;
+  setTimeout(() => { shootingStar(); randomShooting(); }, delay);
+}
+randomShooting();
+
+</script>
 </body>
 </html>
