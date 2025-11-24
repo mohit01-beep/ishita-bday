@@ -6,23 +6,25 @@
 <title>Happy Birthday Ishita</title>
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
+  /* -----------------------
+     BODY & GENERAL
+  ----------------------- */
   body, html {
     margin: 0;
     padding: 0;
     font-family: 'Quicksand', sans-serif;
     overflow-x: hidden;
     scroll-behavior: smooth;
-    background: linear-gradient(120deg, #ffd6e0, #ffe7ba);
+    background: linear-gradient(135deg, #f8c1e1, #fcd0b3); /* Pink Dreamy */
     transition: background 1s ease;
     color: #333;
   }
 
-  /* Dark overlay for stars */
   .night-overlay {
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
-    background: rgba(0,0,30,0.2); /* soft night filter */
+    background: rgba(0,0,30,0.15); /* soft night filter */
     z-index: 1;
     pointer-events: none;
   }
@@ -127,13 +129,13 @@
     position: fixed;
     width: 2px;
     height: 2px;
-    background: rgba(255,200,200,0.9); /* soft pink glow */
+    background: rgba(255,255,255,0.9);
     border-radius: 50%;
     opacity: 0.7;
     animation: twinkle 2.5s infinite ease-in-out alternate;
     pointer-events: none;
     z-index: 0;
-    box-shadow: 0 0 8px rgba(255,180,180,0.8);
+    box-shadow: 0 0 6px rgba(255,255,255,0.8);
   }
 
   @keyframes twinkle {
@@ -176,7 +178,7 @@
   </div>
 </div>
 
-<!-- Memories Sections -->
+<!-- Snapchat Section -->
 <div class="section" id="snapchat">
   <div class="text-bubble">Snapchat days: Our first talks, little snaps, and discovering each other slowly...</div>
   <div class="text-bubble">Thanks to Yogita we got closer earlier and I got your number...</div>
@@ -185,6 +187,7 @@
   <div class="pop-icon" id="snap-icon">📸</div>
 </div>
 
+<!-- WhatsApp Section -->
 <div class="section" id="whatsapp" style="display:flex; flex-wrap:wrap; justify-content:center; gap:20px;">
   <div class="text-bubble" style="flex:1 1 30%; max-width:30%;">WhatsApp chats: Long movie nights, deep talks, sending each other our favorite rom-coms 🎬💖</div>
   <div class="text-bubble" style="flex:1 1 30%; max-width:30%;">Whenever I see any reel about How to Lose a Guy in 10 Days or 10 Things I Hate About You, it reminds me of youuuu 😅💓</div>
@@ -194,16 +197,19 @@
   <div class="pop-icon" id="whatsapp-icon">💬</div>
 </div>
 
+<!-- Instagram Section -->
 <div class="section" id="instagram">
   <div class="text-bubble">Instagram days: Daily reels, jokes, cute conversations, sharing our favorite music and snippets of life.</div>
   <div class="pop-icon" id="ig-icon">🎞️</div>
 </div>
 
+<!-- Movies Section -->
 <div class="section" id="movies">
   <div class="text-bubble">Our first rom-com movies: How to Lose a Guy in 10 Days & 10 Things I Hate About You 💖</div>
   <div class="pop-icon" id="movie-icon">🍿</div>
 </div>
 
+<!-- Interactive Section -->
 <div class="section" id="interactive">
   <div class="text-bubble">
     Do you want to see your birthday surprise?
@@ -213,11 +219,13 @@
   </div>
 </div>
 
+<!-- Final Birthday Note -->
 <div class="section" id="final-message" style="display:none;">
   <div class="text-bubble" id="birthday-note">Here will be the emotional birthday note...</div>
   <p>From Mohit ❤️</p>
 </div>
 
+<!-- Background Music -->
 <audio id="bg-music" loop>
   <source src="soft-music.mp3" type="audio/mpeg">
 </audio>
@@ -225,63 +233,61 @@
 <script>
 function startSite() {
   document.getElementById('bg-music').play();
-  createParticles(50);
   fadeInSections();
   createTwinkleStars(100);
+  createParticles(50);
 }
 
 function revealMessage(choice) {
-  if(choice) {
-    document.getElementById('interactive').style.display = 'none';
-    document.getElementById('final-message').style.display = 'flex';
+  if(choice){
+    document.getElementById('interactive').style.display='none';
+    document.getElementById('final-message').style.display='flex';
     document.getElementById('final-message').scrollIntoView({behavior:'smooth'});
   } else {
     alert('You can scroll and see the memories anyway!');
   }
 }
 
-function createParticles(count) {
+function fadeInSections(){
+  document.querySelectorAll('.text-bubble').forEach(b=>b.classList.add('fade-in'));
+}
+
+function createParticles(count){
   for(let i=0;i<count;i++){
-    const p = document.createElement('div');
+    const p=document.createElement('div');
     p.classList.add('particle');
-    p.style.left = Math.random()*100+'vw';
-    p.style.animationDuration = (5 + Math.random()*10)+'s';
-    p.style.width = p.style.height = (5 + Math.random()*10)+'px';
+    p.style.left=Math.random()*100+'vw';
+    p.style.animationDuration=(5 + Math.random()*10)+'s';
+    p.style.width=p.style.height=(5+Math.random()*10)+'px';
     document.body.appendChild(p);
   }
 }
 
-function fadeInSections() {
-  const bubbles = document.querySelectorAll('.text-bubble');
-  bubbles.forEach(bubble => bubble.classList.add('fade-in'));
-}
-
-function createTwinkleStars(count = 80) {
-  for (let i = 0; i < count; i++) {
-    const star = document.createElement("div");
-    star.classList.add("twinkle-star");
-    star.style.left = Math.random() * 100 + "vw";
-    star.style.top = Math.random() * 100 + "vh";
-    star.style.animationDelay = Math.random() * 3 + "s";
+function createTwinkleStars(count=80){
+  for(let i=0;i<count;i++){
+    const star=document.createElement('div');
+    star.classList.add('twinkle-star');
+    star.style.left=Math.random()*100+'vw';
+    star.style.top=Math.random()*100+'vh';
+    star.style.animationDelay=Math.random()*3+'s';
     document.body.appendChild(star);
   }
 }
 
-function shootingStar() {
-  const star = document.createElement("div");
-  star.classList.add("shooting-star");
-  star.style.left = Math.random() * 80 + "vw";
-  star.style.top = Math.random() * 50 + "vh";
+function shootingStar(){
+  const star=document.createElement('div');
+  star.classList.add('shooting-star');
+  star.style.left=Math.random()*80+'vw';
+  star.style.top=Math.random()*50+'vh';
   document.body.appendChild(star);
-  setTimeout(() => { star.remove(); }, 1500);
+  setTimeout(()=>star.remove(),1500);
 }
 
-function randomShooting() {
-  const delay = Math.random() * 4000 + 3000; 
-  setTimeout(() => { shootingStar(); randomShooting(); }, delay);
+function randomShooting(){
+  const delay=Math.random()*4000+3000;
+  setTimeout(()=>{shootingStar(); randomShooting();},delay);
 }
 randomShooting();
 </script>
-
 </body>
 </html>
