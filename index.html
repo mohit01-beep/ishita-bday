@@ -12,7 +12,8 @@
     font-family: 'Quicksand', sans-serif;
     overflow-x: hidden;
     scroll-behavior: smooth;
-    background: linear-gradient(120deg, #ffd6e0, #ffe7ba);
+    transition: background 1s linear;
+    background: linear-gradient(120deg, #ffd6e0, #ffe7ba); /* initial sunset */
     color: #333;
   }
 
@@ -75,20 +76,20 @@
     h1 { font-size: 2em; margin-top: 20px; }
   }
 
-  /* DYNAMIC TWINKLE STARS */
+  /* Stars */
   .twinkle-star {
     position: fixed;
     width: 2px;
     height: 2px;
     background: white;
     border-radius: 50%;
-    opacity: 0.8;
+    opacity: 0.5;
     pointer-events: none;
     z-index: 2;
-    box-shadow: 0 0 12px white;
+    box-shadow: 0 0 10px white;
   }
 
-  /* CLOUDS */
+  /* Clouds */
   .cloud {
     position: fixed;
     border-radius: 50%;
@@ -98,7 +99,7 @@
     filter: blur(10px);
   }
 
-  /* SHOOTING STAR */
+  /* Shooting stars */
   .shooting-star {
     position: fixed;
     width: 5px;
@@ -115,7 +116,6 @@
     0% { transform: translateY(0) translateX(0) rotate(45deg); opacity: 1; }
     100% { transform: translateY(400px) translateX(400px) rotate(45deg); opacity: 0; }
   }
-
 </style>
 </head>
 <body>
@@ -163,7 +163,7 @@
 <script>
 function startSite(){
   document.getElementById('bg-music').play();
-  createDynamicStars(120);
+  createStars(120);
   createClouds(6);
   fadeInSections();
 }
@@ -180,28 +180,28 @@ function revealMessage(choice){
   } else alert('You can scroll and see the memories anyway!');
 }
 
-// DYNAMIC STAR FUNCTION
-function createDynamicStars(count){
+// Dynamic stars
+function createStars(count){
   for(let i=0;i<count;i++){
     const star=document.createElement('div');
     star.classList.add('twinkle-star');
     star.style.left=Math.random()*100+'vw';
     star.style.top=Math.random()*100+'vh';
-    star.style.width=star.style.height=(2+Math.random()*3)+'px'; // varied size
-    const duration = 0.5 + Math.random()*2;
-    animateStarTwinkle(star, duration);
+    const size=1+Math.random()*3;
+    star.style.width=star.style.height=size+'px';
+    animateStar(star);
     document.body.appendChild(star);
   }
 }
 
-function animateStarTwinkle(star,duration){
-  let increasing = true;
-  let opacity = 0.5 + Math.random()*0.5;
+function animateStar(star){
+  let opacity = Math.random()*0.5+0.5;
+  let increasing=true;
   function twinkle(){
-    opacity += (increasing?0.02:-0.02);
-    if(opacity >= 1) increasing=false;
-    if(opacity <=0.3) increasing=true;
-    star.style.opacity = opacity;
+    if(increasing) opacity += 0.01; else opacity -=0.01;
+    if(opacity>=1) increasing=false;
+    if(opacity<=0.3) increasing=true;
+    star.style.opacity=opacity;
     requestAnimationFrame(twinkle);
   }
   twinkle();
@@ -212,24 +212,24 @@ function createClouds(count){
   for(let i=0;i<count;i++){
     const c=document.createElement('div');
     c.classList.add('cloud');
-    const size=200+Math.random()*150;
+    const size=150+Math.random()*150;
     c.style.width=size+'px';
     c.style.height=(size/2)+'px';
     c.style.left=Math.random()*100+'vw';
     c.style.top=Math.random()*50+'vh';
     document.body.appendChild(c);
-    animateCloud(c, 0.02+Math.random()*0.03); // slower clouds
+    animateCloud(c, 0.01+Math.random()*0.02);
   }
 }
 
-function animateCloud(cloud,speed){
-  let pos=parseFloat(cloud.style.left);
-  let direction=Math.random()<0.5?-1:1;
+function animateCloud(c,speed){
+  let pos=parseFloat(c.style.left);
+  let dir=Math.random()<0.5?-1:1;
   function move(){
-    pos+=direction*speed;
+    pos+=dir*speed;
     if(pos>100) pos=-20;
     if(pos<-20) pos=100;
-    cloud.style.left=pos+'vw';
+    c.style.left=pos+'vw';
     requestAnimationFrame(move);
   }
   move();
@@ -237,23 +237,40 @@ function animateCloud(cloud,speed){
 
 // Shooting stars
 function shootingStar(){
-  const star=document.createElement('div');
-  star.classList.add('shooting-star');
-  star.style.left=Math.random()*80+'vw';
-  star.style.top=Math.random()*50+'vh';
-  document.body.appendChild(star);
-  setTimeout(()=>star.remove(),1500);
+  const s=document.createElement('div');
+  s.classList.add('shooting-star');
+  s.style.left=Math.random()*80+'vw';
+  s.style.top=Math.random()*50+'vh';
+  document.body.appendChild(s);
+  setTimeout(()=>s.remove(),1500);
 }
-
-function randomShooting(){
-  setTimeout(()=>{
-    shootingStar();
-    randomShooting();
-  },Math.random()*2000+1500); // more frequent
-}
+function randomShooting(){ setTimeout(()=>{ shootingStar(); randomShooting(); }, Math.random()*2000+1500); }
 randomShooting();
 
-</script>
+// Scroll-based sunset → night
+window.addEventListener('scroll',()=>{
+  const scroll=(window.scrollY)/(document.body.scrollHeight-window.innerHeight);
+  // gradient change from warm sunset to night
+  const start='#ffd6e0,#ffe7ba';
+  const end='#0d1b2a,#1b263b';
+  const bg=`linear-gradient(120deg, ${interpolateColor('#ffd6e0','#0d1b2a',scroll)}, ${interpolateColor('#ffe7ba','#1b263b',scroll)})`;
+  document.body.style.background=bg;
 
+  // star opacity increases at night
+  document.querySelectorAll('.twinkle-star').forEach(s=>{
+    s.style.opacity=0.3 + scroll*0.7;
+  });
+});
+
+// helper to interpolate colors
+function interpolateColor(c1,c2,f){
+  const n1=parseInt(c1.slice(1),16);
+  const n2=parseInt(c2.slice(1),16);
+  const r=Math.round(((n2>>16)&255)*f + ((n1>>16)&255)*(1-f));
+  const g=Math.round(((n2>>8)&255)*f + ((n1>>8)&255)*(1-f));
+  const b=Math.round((n2&255)*f + (n1&255)*(1-f));
+  return `rgb(${r},${g},${b})`;
+}
+</script>
 </body>
 </html>
