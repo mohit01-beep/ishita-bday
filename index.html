@@ -12,10 +12,9 @@
     font-family: 'Quicksand', sans-serif;
     overflow-x: hidden;
     scroll-behavior: smooth;
-    background: linear-gradient(to top, #ff9a9e 0%, #fad0c4 50%, #a18cd1 100%);
+    background: linear-gradient(120deg, #FFD6E0, #FFE7BA); /* sunset */
+    transition: background 1s ease;
     color: #333;
-    height: 100%;
-    position: relative;
   }
 
   .section {
@@ -28,13 +27,12 @@
     position: relative;
     flex-direction: column;
     z-index: 5;
-    transition: transform 0.5s ease;
   }
 
   .text-bubble {
     display: inline-block;
     padding: 25px 35px;
-    background: rgba(255,255,255,0.7);
+    background: rgba(255,255,255,0.6);
     border-radius: 30px;
     box-shadow: 0 8px 20px rgba(0,0,0,0.1);
     backdrop-filter: blur(5px);
@@ -42,7 +40,7 @@
     font-size: 1.2em;
     margin: 30px 0;
     opacity: 0;
-    transform: translateY(50px);
+    transform: translateY(30px);
     transition: all 1s ease;
     position: relative;
     z-index: 5;
@@ -66,132 +64,123 @@
   }
   .interactive-btn:hover { transform: scale(1.1); }
 
-  /* Fade-in class */
   .fade-in { opacity: 1 !important; transform: translateY(0px) !important; }
 
-  /* Particles / Bokeh */
-  .particle {
-    position: fixed;
-    width: 8px;
-    height: 8px;
-    background: rgba(255,255,255,0.6);
-    border-radius: 50%;
-    animation: float 20s linear infinite;
-    opacity: 0.5;
-    pointer-events: none;
-    z-index: 0;
-    box-shadow: 0 0 12px rgba(255,255,255,0.5);
-  }
-  @keyframes float {
-    0% {transform: translateY(0) translateX(0);}
-    50% {transform: translateY(-50vh) translateX(50px);}
-    100% {transform: translateY(-100vh) translateX(-50px);}
+  /* =======================
+       MOBILE RESPONSIVE
+     ======================= */
+  @media (max-width: 900px) {
+    .text-bubble { max-width: 85%; font-size: 1.1em; padding: 20px 25px; margin: 20px auto; float: none !important; margin-left:auto !important; margin-right:auto !important; }
+    h1 { font-size: 2.5em; }
   }
 
-  /* Stars */
+  @media (max-width: 600px) {
+    .section { padding: 40px 15px; }
+    .text-bubble { max-width: 95%; font-size: 1em; padding: 18px 22px; margin: 15px 0; }
+    h1 { font-size: 2em; margin-top: 20px; }
+  }
+
+  /* -----------------------------
+       TWINKLING STARS
+  --------------------------------*/
   .twinkle-star {
     position: fixed;
-    width: 2px;
-    height: 2px;
+    width: 3px;
+    height: 3px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.9;
+    animation: twinkle 1.5s infinite ease-in-out alternate;
+    pointer-events: none;
+    z-index: 2;
+    box-shadow: 0 0 10px white;
+  }
+
+  @keyframes twinkle {
+    0% { opacity: 0.3; transform: scale(0.3); }
+    50% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0.3; transform: scale(0.3); }
+  }
+
+  /* -----------------------------
+       SHOOTING STAR
+  --------------------------------*/
+  .shooting-star {
+    position: fixed;
+    width: 4px;
+    height: 200px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.9), rgba(255,255,255,0));
+    opacity: 1;
+    transform: rotate(45deg);
+    animation: shoot 1.4s linear forwards;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  @keyframes shoot {
+    0% { transform: translateY(0) translateX(0) rotate(45deg); opacity: 1; }
+    100% { transform: translateY(400px) translateX(400px) rotate(45deg); opacity: 0; }
+  }
+
+  /* -----------------------------
+       PARTICLES / BOKEH
+  --------------------------------*/
+  .particle {
+    position: fixed;
+    width: 10px;
+    height: 10px;
     background: white;
     border-radius: 50%;
     opacity: 0.7;
-    animation: twinkle 2.5s infinite ease-in-out alternate;
     pointer-events: none;
     z-index: 1;
-    box-shadow: 0 0 6px white;
-  }
-  @keyframes twinkle {
-    0% { opacity: 0.2; transform: scale(0.2); }
-    50% { opacity: 1; transform: scale(1); }
-    100% { opacity: 0.2; transform: scale(0.2); }
+    box-shadow: 0 0 15px rgba(255,255,255,0.7);
+    animation: float 15s linear infinite;
   }
 
-  /* Shooting stars */
-  .shooting-star {
-    position: fixed;
-    width: 3px;
-    height: 150px;
-    background: linear-gradient(to bottom, white, rgba(255,255,255,0));
-    opacity: 0.8;
-    transform: rotate(45deg);
-    animation: shoot 1.5s linear forwards;
-    pointer-events: none;
-    z-index: 1;
-  }
-  @keyframes shoot {
-    0% { transform: translateY(0) translateX(0) rotate(45deg); opacity: 1; }
-    100% { transform: translateY(600px) translateX(600px) rotate(45deg); opacity: 0; }
+  @keyframes float {
+    0% { transform: translateY(0) translateX(0); }
+    50% { transform: translateY(-50vh) translateX(50px); }
+    100% { transform: translateY(-100vh) translateX(-50px); }
   }
 
-  /* Floating hearts/balloons */
-  .floating-heart {
-    position: fixed;
-    font-size: 20px;
-    opacity: 0.7;
-    animation: floatHeart 7s linear infinite;
-    z-index: 2;
-    pointer-events: none;
-  }
-  @keyframes floatHeart {
-    0% { transform: translateY(0) scale(0.5); opacity:0; }
-    50% { opacity:0.8; }
-    100% { transform: translateY(-100vh) scale(1.2); opacity:0; }
-  }
-
-  /* Clouds */
+  /* -----------------------------
+       CLOUDS
+  --------------------------------*/
   .cloud {
     position: fixed;
-    background: rgba(255,255,255,0.3);
     border-radius: 50%;
-    z-index: 0;
-    opacity: 0.5;
-  }
-
-  /* Confetti */
-  .confetti {
-    position: fixed;
-    width: 10px; height: 10px;
-    background-color: #ffcc00;
-    opacity: 0.9;
-    z-index: 6;
+    background: rgba(255,255,255,0.5);
+    z-index: 1;
     pointer-events: none;
-    animation: confettiFall 4s linear forwards;
-  }
-  @keyframes confettiFall {
-    0% { transform: translateY(0) rotate(0deg);}
-    100% { transform: translateY(100vh) rotate(360deg);}
-  }
-
-  /* Responsive */
-  @media (max-width: 900px) {
-    .text-bubble { max-width: 85%; padding: 20px 25px; margin: 20px auto; }
-    h1 { font-size: 2.5em; }
-  }
-  @media (max-width: 600px) {
-    .text-bubble { max-width: 95%; padding: 18px 22px; margin: 15px auto; }
-    h1 { font-size: 2em; }
   }
 
 </style>
 </head>
 <body>
 
-<!-- Sections -->
+<!-- Landing -->
 <div class="section" id="landing">
-  <h1>Happy Birthday Ishita 🎉</h1>
-  <button class="interactive-btn" onclick="startSite()">Click to Start</button>
+  <div>
+    <h1>Happy Birthday Ishita 🎉</h1>
+    <button class="interactive-btn" onclick="startSite()">Click to Start</button>
+  </div>
 </div>
 
+<!-- Memories -->
 <div class="section" id="snapchat">
-  <div class="text-bubble">Snapchat days: Our first talks, little snaps, discovering each other slowly...</div>
+  <div class="text-bubble">Snapchat days: Our first talks, little snaps, and discovering each other slowly...</div>
   <div class="text-bubble">Thanks to Yogita we got closer earlier and I got your number...</div>
+  <div class="text-bubble">Maybe I would’ve gotten your number later too, but I don’t know when—or how long I would’ve waited.</div>
+  <div class="text-bubble">But because of yogita's job search, we connected on WhatsApp and since then we got to know each other more...</div>
 </div>
 
 <div class="section" id="whatsapp">
   <div class="text-bubble">WhatsApp chats: Long movie nights, deep talks, sending each other our favorite rom-coms 🎬💖</div>
-  <div class="text-bubble">Whenever I see any reel about How to Lose a Guy in 10 Days or 10 Things I Hate About You, it reminds me of you 😅💓</div>
-  <div class="text-bubble">I mean any rom-com reminds me of you 🎥💕</div>
+  <div class="text-bubble">Whenever I see any reel about How to Lose a Guy in 10 Days or 10 Things I Hate About You, it reminds me of youuuu 😅💓</div>
+  <div class="text-bubble">I mean any rom-com movie reminds me of youuuuuu 🎥💕 These two are special to both of us and I will never forget these ones 😍</div>
+  <div class="text-bubble">Officially our 1st one was Saltburn jo mene dikhai thi 🎞️ Your reactions were accurate and funny 😂🤣</div>
+  <div class="text-bubble">And remember our horror movie together - IT Chapter 1 👻😱</div>
 </div>
 
 <div class="section" id="instagram">
@@ -221,41 +210,36 @@
 </audio>
 
 <script>
-// ------------------- START -------------------
 function startSite() {
   document.getElementById('bg-music').play();
+  createParticles(70);
+  createTwinkleStars(120);
+  createClouds(8);
   fadeInSections();
-  createParticles(50);
-  createTwinkleStars(100);
-  createClouds();
-  spawnFloatingHearts();
 }
 
-// Fade-in text
-function fadeInSections() {
-  document.querySelectorAll('.text-bubble').forEach(b => b.classList.add('fade-in'));
-}
-
-// Reveal final message
 function revealMessage(choice) {
   if(choice){
     document.getElementById('interactive').style.display='none';
     document.getElementById('final-message').style.display='flex';
     document.getElementById('final-message').scrollIntoView({behavior:'smooth'});
-    createConfetti(50);
   } else {
     alert('You can scroll and see the memories anyway!');
   }
 }
 
-// Particles / Bokeh
+function fadeInSections(){
+  document.querySelectorAll('.text-bubble').forEach(b=>b.classList.add('fade-in'));
+}
+
+// Particles
 function createParticles(count){
   for(let i=0;i<count;i++){
     const p = document.createElement('div');
     p.classList.add('particle');
     p.style.left = Math.random()*100+'vw';
-    p.style.width = p.style.height = (5 + Math.random()*8)+'px';
-    p.style.animationDuration = (15 + Math.random()*10)+'s';
+    p.style.width = p.style.height = (8 + Math.random()*12)+'px';
+    p.style.animationDuration = (10 + Math.random()*10)+'s';
     document.body.appendChild(p);
   }
 }
@@ -263,78 +247,63 @@ function createParticles(count){
 // Stars
 function createTwinkleStars(count){
   for(let i=0;i<count;i++){
-    const s=document.createElement('div');
-    s.classList.add('twinkle-star');
-    s.style.left=Math.random()*100+'vw';
-    s.style.top=Math.random()*100+'vh';
-    s.style.animationDelay=Math.random()*3+'s';
-    document.body.appendChild(s);
+    const star = document.createElement('div');
+    star.classList.add('twinkle-star');
+    star.style.left = Math.random()*100+'vw';
+    star.style.top = Math.random()*100+'vh';
+    star.style.animationDelay = Math.random()*3+'s';
+    document.body.appendChild(star);
   }
 }
 
-// Shooting stars
-function shootingStar(){
-  const star=document.createElement('div');
-  star.classList.add('shooting-star');
-  star.style.left=Math.random()*80+'vw';
-  star.style.top=Math.random()*50+'vh';
-  document.body.appendChild(star);
-  setTimeout(()=>star.remove(),1500);
-}
-function randomShooting(){ setTimeout(()=>{ shootingStar(); randomShooting(); }, Math.random()*3000+2000);}
-randomShooting();
-
 // Clouds
-function createClouds(count=5){
+function createClouds(count){
   for(let i=0;i<count;i++){
     const c=document.createElement('div');
     c.classList.add('cloud');
-    const size=100+Math.random()*150;
+    const size=150+Math.random()*150;
     c.style.width=size+'px';
     c.style.height=(size/2)+'px';
     c.style.left=Math.random()*100+'vw';
     c.style.top=Math.random()*50+'vh';
-    c.style.opacity=0.3+Math.random()*0.3;
-    c.style.transition='transform 50s linear';
+    c.style.opacity=0.5+Math.random()*0.3;
     document.body.appendChild(c);
     animateCloud(c);
   }
 }
+
 function animateCloud(cloud){
-  let x=0;
+  let direction = Math.random()<0.5?-1:1;
+  let speed = 0.1 + Math.random()*0.2;
+  let pos = parseFloat(cloud.style.left);
   function move(){
-    x+=0.05;
-    cloud.style.transform=`translateX(${x}vw)`;
-    if(x>120)x=-120;
+    pos += direction*speed;
+    if(pos > 100) pos=-20;
+    if(pos < -20) pos=100;
+    cloud.style.left = pos+'vw';
     requestAnimationFrame(move);
   }
   move();
 }
 
-// Floating hearts
-function spawnFloatingHearts(){
-  setInterval(()=>{
-    const heart=document.createElement('div');
-    heart.classList.add('floating-heart');
-    heart.style.left=Math.random()*100+'vw';
-    heart.style.fontSize=15+Math.random()*20+'px';
-    heart.innerText='❤️';
-    document.body.appendChild(heart);
-    setTimeout(()=>heart.remove(),7000);
-  },1000);
+// Shooting stars
+function shootingStar(){
+  const star = document.createElement('div');
+  star.classList.add('shooting-star');
+  star.style.left = Math.random()*80+'vw';
+  star.style.top = Math.random()*50+'vh';
+  document.body.appendChild(star);
+  setTimeout(()=>star.remove(),1500);
 }
 
-// Confetti
-function createConfetti(count){
-  for(let i=0;i<count;i++){
-    const conf=document.createElement('div');
-    conf.classList.add('confetti');
-    conf.style.left=Math.random()*100+'vw';
-    conf.style.backgroundColor=`hsl(${Math.random()*360},80%,60%)`;
-    document.body.appendChild(conf);
-    setTimeout(()=>conf.remove(),4000);
-  }
+function randomShooting(){
+  setTimeout(()=>{
+    shootingStar();
+    randomShooting();
+  }, Math.random()*3000+2000);
 }
+randomShooting();
+
 </script>
 
 </body>
