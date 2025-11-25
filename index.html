@@ -152,7 +152,7 @@ p { font-size:1.3em; max-width:700px; }
 <body>
 
 <div class="section" id="landing">
-  <h1>Happyyyy bdayyyyy Elsa❄️💖</h1>
+  <h1>Happy Birthday Ishita 💖</h1>
   <button class="interactive-btn" onclick="startSite()">Click to Start</button>
 </div>
 
@@ -172,7 +172,7 @@ p { font-size:1.3em; max-width:700px; }
 <div class="section" id="whatsapp">
   <div class="text-bubble">WhatsApp chats: Long movie nights, deep talks, sending each other our favorite rom-coms 🎬💖</div>
   <div class="text-bubble">Whenever I see reels about How to Lose a Guy in 10 Days or 10 Things I Hate About You, it reminds me of you 😅💓</div>
-  <div class="text-bubble">Any rom-com movie reminds me of youuuuuu 🎥💕 but thhese 2 are special and unforgettable 😍</div>
+  <div class="text-bubble">Any rom-com movie reminds me of youuuuuu 🎥💕 but these 2 are special and unforgettable 😍</div>
   <div class="text-bubble">Our first movie together was Saltburn 🎞️ Your reactions were hilarious 🤭🤣</div>
   <div class="text-bubble">And remember our horror movie together - IT Chapter 1 👻😱</div>
 </div>
@@ -256,22 +256,39 @@ function createHearts(count){
 function shootingStar(){const s=document.createElement('div'); s.className='shooting-star'; s.style.left=Math.random()*80+'vw'; s.style.top=Math.random()*50+'vh'; document.body.appendChild(s); setTimeout(()=>s.remove(),1500);}
 function randomShooting(){setTimeout(()=>{shootingStar();randomShooting();},Math.random()*2000+1500);} randomShooting();
 
-// Scroll-based gradient per section
+// Smooth background gradient
 const sectionGradients = [
   ['#ffd6e0','#ffe7ba'], // landing
+  ['#ffe0d6','#ffd1ba'], // intro
   ['#ffdde1','#ffc1e3'], // snapchat
   ['#e3c1ff','#c1b0ff'], // whatsapp
-  ['#ffb6c1','#ff9ec3'], // interactive
+  ['#ffc1d6','#ff9ec3'], // interactive
   ['#0d1b2a','#1b263b']  // final
 ];
+
+function interpolateColor(c1,c2,f){
+  const n1=parseInt(c1.slice(1),16), n2=parseInt(c2.slice(1),16);
+  const r=Math.round(((n2>>16)&255)*f + ((n1>>16)&255)*(1-f));
+  const g=Math.round(((n2>>8)&255)*f + ((n1>>8)&255)*(1-f));
+  const b=Math.round((n2&255)*f + (n1&255)*(1-f));
+  return `rgb(${r},${g},${b})`;
+}
+
 window.addEventListener('scroll',()=>{
-  const sections=document.querySelectorAll('.section');
-  let scrollPos=window.scrollY+window.innerHeight/2;
-  sections.forEach((sec,i)=>{
-    if(scrollPos>sec.offsetTop && scrollPos<sec.offsetTop+sec.offsetHeight){
-      document.body.style.background=`linear-gradient(120deg, ${sectionGradients[i][0]}, ${sectionGradients[i][1]})`;
+  const scroll = window.scrollY;
+  const totalHeight = document.body.scrollHeight - window.innerHeight;
+  const normScroll = scroll / totalHeight;
+  let sectionIndex = 0;
+  for(let i=0; i<sectionGradients.length-1; i++){
+    if(normScroll >= i/(sectionGradients.length-1) && normScroll <= (i+1)/(sectionGradients.length-1)){
+      sectionIndex = i;
+      break;
     }
-  });
+  }
+  const frac = (normScroll - sectionIndex/(sectionGradients.length-1)) * (sectionGradients.length-1);
+  const start = sectionGradients[sectionIndex];
+  const end = sectionGradients[sectionIndex+1];
+  document.body.style.background = `linear-gradient(120deg, ${interpolateColor(start[0], end[0], frac)}, ${interpolateColor(start[1], end[1], frac)})`;
 });
 </script>
 </body>
