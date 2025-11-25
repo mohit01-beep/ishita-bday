@@ -13,7 +13,9 @@
     overflow-x: hidden;
     scroll-behavior: smooth;
     transition: background 1s linear;
-    background: linear-gradient(120deg, #ffd6e0, #ffe7ba); /* initial sunset */
+
+    /* ⭐ Updated dreamy soft pinkish–evening gradient */
+    background: linear-gradient(120deg, #ffb3d9, #ffd8c2, #ffe5cc);
     color: #333;
   }
 
@@ -32,17 +34,16 @@
   .text-bubble {
     display: inline-block;
     padding: 25px 35px;
-    background: rgba(255,255,255,0.6);
+    background: rgba(255,255,255,0.55);
     border-radius: 30px;
     box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(6px);
     max-width: 70%;
     font-size: 1.2em;
     margin: 30px 0;
     opacity: 0;
     transform: translateY(30px);
     transition: all 1s ease;
-    position: relative;
     z-index: 5;
   }
 
@@ -51,7 +52,7 @@
 
   .interactive-btn {
     padding: 12px 24px;
-    background: #ff8fab;
+    background: #ff9ec9;
     color: #fff;
     border: none;
     border-radius: 20px;
@@ -60,12 +61,12 @@
     margin: 10px;
     transition: transform 0.2s;
     z-index: 5;
-    position: relative;
   }
   .interactive-btn:hover { transform: scale(1.1); }
 
   .fade-in { opacity: 1 !important; transform: translateY(0px) !important; }
 
+  /* Responsive */
   @media (max-width: 900px) {
     .text-bubble { max-width: 85%; font-size: 1.1em; padding: 20px 25px; margin: 20px auto; }
     h1 { font-size: 2.5em; }
@@ -83,7 +84,7 @@
     height: 2px;
     background: white;
     border-radius: 50%;
-    opacity: 0.5;
+    opacity: 0.4;
     pointer-events: none;
     z-index: 2;
     box-shadow: 0 0 10px white;
@@ -99,7 +100,7 @@
     filter: blur(10px);
   }
 
-  /* Shooting stars */
+  /* Shooting star */
   .shooting-star {
     position: fixed;
     width: 5px;
@@ -195,12 +196,12 @@ function createStars(count){
 }
 
 function animateStar(star){
-  let opacity = Math.random()*0.5+0.5;
+  let opacity = Math.random()*0.4+0.4;
   let increasing=true;
   function twinkle(){
     if(increasing) opacity += 0.01; else opacity -=0.01;
     if(opacity>=1) increasing=false;
-    if(opacity<=0.3) increasing=true;
+    if(opacity<=0.2) increasing=true;
     star.style.opacity=opacity;
     requestAnimationFrame(twinkle);
   }
@@ -247,18 +248,21 @@ function shootingStar(){
 function randomShooting(){ setTimeout(()=>{ shootingStar(); randomShooting(); }, Math.random()*2000+1500); }
 randomShooting();
 
-// Scroll-based sunset → night
+// Scroll-based evening → night
 window.addEventListener('scroll',()=>{
   const scroll=(window.scrollY)/(document.body.scrollHeight-window.innerHeight);
-  // gradient change from warm sunset to night
-  const start='#ffd6e0,#ffe7ba';
-  const end='#0d1b2a,#1b263b';
-  const bg=`linear-gradient(120deg, ${interpolateColor('#ffd6e0','#0d1b2a',scroll)}, ${interpolateColor('#ffe7ba','#1b263b',scroll)})`;
+
+  /* ⭐ Evening → night gradient updated */
+  const bg=`linear-gradient(120deg,
+      ${interpolateColor('#ffb3d9','#4b4f7a',scroll)},
+      ${interpolateColor('#ffd8c2','#1b263b',scroll)}
+  )`;
+
   document.body.style.background=bg;
 
-  // star opacity increases at night
+  // Increase star visibility as night comes
   document.querySelectorAll('.twinkle-star').forEach(s=>{
-    s.style.opacity=0.3 + scroll*0.7;
+    s.style.opacity=0.2 + scroll*0.8;
   });
 });
 
