@@ -3,78 +3,94 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Happy Birthday Ishita</title>
-<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+<title>Happy Birthday Ishita 💖</title>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
 <style>
   body, html {
-    margin: 0;
-    padding: 0;
-    font-family: 'Quicksand', sans-serif;
-    overflow-x: hidden;
-    scroll-behavior: smooth;
+    margin:0; padding:0;
+    font-family:'Quicksand',sans-serif;
+    overflow-x:hidden;
+    scroll-behavior:smooth;
+    background: linear-gradient(120deg,#ffd6e0,#ffe7ba);
+    color:#333;
     transition: background 1s linear;
-
-    /* ⭐ Updated dreamy soft pinkish–evening gradient */
-    background: linear-gradient(120deg, #ffb3d9, #ffd8c2, #ffe5cc);
-    color: #333;
   }
 
   .section {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 50px 20px;
-    text-align: center;
-    position: relative;
-    flex-direction: column;
-    z-index: 5;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:50px 20px;
+    text-align:center;
+    flex-direction:column;
+    position:relative;
+    z-index:5;
   }
 
   .text-bubble {
-    display: inline-block;
-    padding: 25px 35px;
-    background: rgba(255,255,255,0.55);
-    border-radius: 30px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-    backdrop-filter: blur(6px);
-    max-width: 70%;
-    font-size: 1.2em;
-    margin: 30px 0;
-    opacity: 0;
-    transform: translateY(30px);
+    display:inline-block;
+    padding:25px 35px;
+    background: rgba(255,255,255,0.6);
+    border-radius:30px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.1);
+    backdrop-filter:blur(5px);
+    max-width:70%;
+    font-size:1.2em;
+    margin:30px 0;
+    opacity:0;
+    transform:translateY(30px);
     transition: all 1s ease;
-    z-index: 5;
+    position:relative;
+    z-index:5;
   }
 
-  h1 { font-size: 3em; margin-bottom: 0.5em; }
-  p { font-size: 1.3em; max-width: 700px; }
+  .fade-in { opacity:1 !important; transform:translateY(0px) !important; }
+
+  h1 { font-family:'Great Vibes', cursive; font-size:4em; margin-bottom:0.5em; color:#ff77aa; }
+  p { font-size:1.3em; max-width:700px; }
 
   .interactive-btn {
-    padding: 12px 24px;
-    background: #ff9ec9;
-    color: #fff;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 1.2em;
-    margin: 10px;
+    padding:12px 24px;
+    background:#ff8fab;
+    color:#fff;
+    border:none;
+    border-radius:20px;
+    cursor:pointer;
+    font-size:1.2em;
+    margin:10px;
     transition: transform 0.2s;
-    z-index: 5;
+    z-index:5;
+    position:relative;
   }
   .interactive-btn:hover { transform: scale(1.1); }
 
-  .fade-in { opacity: 1 !important; transform: translateY(0px) !important; }
-
-  /* Responsive */
-  @media (max-width: 900px) {
-    .text-bubble { max-width: 85%; font-size: 1.1em; padding: 20px 25px; margin: 20px auto; }
-    h1 { font-size: 2.5em; }
+  @media(max-width:900px){
+    .text-bubble{max-width:85%; font-size:1.1em; padding:20px 25px; margin:20px auto;}
+    h1{font-size:3em;}
   }
-  @media (max-width: 600px) {
-    .section { padding: 40px 15px; }
-    .text-bubble { max-width: 95%; font-size: 1em; padding: 18px 22px; margin: 15px 0; }
-    h1 { font-size: 2em; margin-top: 20px; }
+  @media(max-width:600px){
+    .section{padding:40px 15px;}
+    .text-bubble{max-width:95%; font-size:1em; padding:18px 22px; margin:15px 0;}
+    h1{font-size:2.5em; margin-top:20px;}
+  }
+
+  /* Floating hearts */
+  .heart {
+    position:fixed;
+    width:20px;
+    height:20px;
+    background:#ff77aa;
+    clip-path: polygon(50% 0%, 61% 11%, 75% 11%, 88% 25%, 100% 44%, 88% 62%, 75% 75%, 50% 100%, 25% 75%, 12% 62%, 0% 44%, 12% 25%, 25% 11%, 39% 11%);
+    opacity:0.7;
+    pointer-events:none;
+    animation: floatUp linear infinite;
+    z-index:3;
+  }
+
+  @keyframes floatUp {
+    0% { transform: translateY(0) scale(0.8); opacity:0.7; }
+    100% { transform: translateY(-800px) scale(1.2); opacity:0; }
   }
 
   /* Stars */
@@ -84,7 +100,7 @@
     height: 2px;
     background: white;
     border-radius: 50%;
-    opacity: 0.4;
+    opacity: 0.5;
     pointer-events: none;
     z-index: 2;
     box-shadow: 0 0 10px white;
@@ -100,7 +116,7 @@
     filter: blur(10px);
   }
 
-  /* Shooting star */
+  /* Shooting stars */
   .shooting-star {
     position: fixed;
     width: 5px;
@@ -112,20 +128,32 @@
     pointer-events: none;
     z-index: 2;
   }
-
   @keyframes shoot {
     0% { transform: translateY(0) translateX(0) rotate(45deg); opacity: 1; }
     100% { transform: translateY(400px) translateX(400px) rotate(45deg); opacity: 0; }
+  }
+
+  /* Carousel placeholder */
+  .carousel {
+    width: 80%;
+    max-width:500px;
+    height:250px;
+    margin:30px auto;
+    background: rgba(255,255,255,0.5);
+    border-radius:20px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:1.2em;
+    color:#333;
   }
 </style>
 </head>
 <body>
 
 <div class="section" id="landing">
-  <div>
-    <h1>Happy Birthday Ishita 🎉</h1>
-    <button class="interactive-btn" onclick="startSite()">Click to Start</button>
-  </div>
+  <h1>Ishita 💖</h1>
+  <button class="interactive-btn" onclick="startSite()">Click to Start</button>
 </div>
 
 <div class="section" id="snapchat">
@@ -153,7 +181,8 @@
 </div>
 
 <div class="section" id="final-message" style="display:none;">
-  <div class="text-bubble" id="birthday-note">Here will be the emotional birthday note...</div>
+  <div class="text-bubble" id="birthday-note">Here will be your emotional birthday note...</div>
+  <div class="carousel">[Photo carousel placeholder]</div>
   <p>From Mohit ❤️</p>
 </div>
 
@@ -162,17 +191,19 @@
 </audio>
 
 <script>
+// Start site
 function startSite(){
   document.getElementById('bg-music').play();
-  createStars(120);
-  createClouds(6);
+  createStars(100);
+  createClouds(5);
+  createHearts(15);
   fadeInSections();
 }
 
-function fadeInSections(){
-  document.querySelectorAll('.text-bubble').forEach(b=>b.classList.add('fade-in'));
-}
+// Fade-in
+function fadeInSections(){document.querySelectorAll('.text-bubble').forEach(b=>b.classList.add('fade-in'));}
 
+// Reveal birthday
 function revealMessage(choice){
   if(choice){
     document.getElementById('interactive').style.display='none';
@@ -181,95 +212,52 @@ function revealMessage(choice){
   } else alert('You can scroll and see the memories anyway!');
 }
 
-// Dynamic stars
+// Stars
 function createStars(count){
   for(let i=0;i<count;i++){
     const star=document.createElement('div');
-    star.classList.add('twinkle-star');
+    star.className='twinkle-star';
     star.style.left=Math.random()*100+'vw';
     star.style.top=Math.random()*100+'vh';
-    const size=1+Math.random()*3;
-    star.style.width=star.style.height=size+'px';
-    animateStar(star);
-    document.body.appendChild(star);
+    const size=1+Math.random()*3; star.style.width=size+'px'; star.style.height=size+'px';
+    animateStar(star); document.body.appendChild(star);
   }
 }
-
-function animateStar(star){
-  let opacity = Math.random()*0.4+0.4;
-  let increasing=true;
-  function twinkle(){
-    if(increasing) opacity += 0.01; else opacity -=0.01;
-    if(opacity>=1) increasing=false;
-    if(opacity<=0.2) increasing=true;
-    star.style.opacity=opacity;
-    requestAnimationFrame(twinkle);
-  }
-  twinkle();
-}
+function animateStar(star){let opacity=Math.random()*0.5+0.5; let increasing=true; function twinkle(){if(increasing)opacity+=0.01;else opacity-=0.01;if(opacity>=1)increasing=false;if(opacity<=0.3)increasing=true;star.style.opacity=opacity;requestAnimationFrame(twinkle);} twinkle();}
 
 // Clouds
 function createClouds(count){
   for(let i=0;i<count;i++){
-    const c=document.createElement('div');
-    c.classList.add('cloud');
-    const size=150+Math.random()*150;
-    c.style.width=size+'px';
-    c.style.height=(size/2)+'px';
-    c.style.left=Math.random()*100+'vw';
-    c.style.top=Math.random()*50+'vh';
-    document.body.appendChild(c);
-    animateCloud(c, 0.01+Math.random()*0.02);
+    const c=document.createElement('div'); c.className='cloud';
+    const size=150+Math.random()*150; c.style.width=size+'px'; c.style.height=(size/2)+'px';
+    c.style.left=Math.random()*100+'vw'; c.style.top=Math.random()*50+'vh';
+    document.body.appendChild(c); animateCloud(c, 0.01+Math.random()*0.02);
   }
 }
+function animateCloud(c,speed){let pos=parseFloat(c.style.left);let dir=Math.random()<0.5?-1:1;function move(){pos+=dir*speed;if(pos>100)pos=-20;if(pos<-20)pos=100;c.style.left=pos+'vw';requestAnimationFrame(move);} move();}
 
-function animateCloud(c,speed){
-  let pos=parseFloat(c.style.left);
-  let dir=Math.random()<0.5?-1:1;
-  function move(){
-    pos+=dir*speed;
-    if(pos>100) pos=-20;
-    if(pos<-20) pos=100;
-    c.style.left=pos+'vw';
-    requestAnimationFrame(move);
+// Floating hearts
+function createHearts(count){
+  for(let i=0;i<count;i++){
+    const h=document.createElement('div'); h.className='heart';
+    h.style.left=Math.random()*100+'vw';
+    h.style.animationDuration=(5+Math.random()*5)+'s';
+    document.body.appendChild(h);
   }
-  move();
 }
 
 // Shooting stars
-function shootingStar(){
-  const s=document.createElement('div');
-  s.classList.add('shooting-star');
-  s.style.left=Math.random()*80+'vw';
-  s.style.top=Math.random()*50+'vh';
-  document.body.appendChild(s);
-  setTimeout(()=>s.remove(),1500);
-}
-function randomShooting(){ setTimeout(()=>{ shootingStar(); randomShooting(); }, Math.random()*2000+1500); }
-randomShooting();
+function shootingStar(){const s=document.createElement('div'); s.className='shooting-star'; s.style.left=Math.random()*80+'vw'; s.style.top=Math.random()*50+'vh'; document.body.appendChild(s); setTimeout(()=>s.remove(),1500);}
+function randomShooting(){setTimeout(()=>{shootingStar();randomShooting();},Math.random()*2000+1500);} randomShooting();
 
-// Scroll-based evening → night
+// Scroll background gradient
 window.addEventListener('scroll',()=>{
   const scroll=(window.scrollY)/(document.body.scrollHeight-window.innerHeight);
-
-  /* ⭐ Evening → night gradient updated */
-  const bg=`linear-gradient(120deg,
-      ${interpolateColor('#ffb3d9','#4b4f7a',scroll)},
-      ${interpolateColor('#ffd8c2','#1b263b',scroll)}
-  )`;
-
+  const bg=`linear-gradient(120deg, ${interpolateColor('#ffd6e0','#f2a1c1',scroll)}, ${interpolateColor('#ffe7ba','#0d1b2a',scroll)})`;
   document.body.style.background=bg;
-
-  // Increase star visibility as night comes
-  document.querySelectorAll('.twinkle-star').forEach(s=>{
-    s.style.opacity=0.2 + scroll*0.8;
-  });
 });
-
-// helper to interpolate colors
 function interpolateColor(c1,c2,f){
-  const n1=parseInt(c1.slice(1),16);
-  const n2=parseInt(c2.slice(1),16);
+  const n1=parseInt(c1.slice(1),16); const n2=parseInt(c2.slice(1),16);
   const r=Math.round(((n2>>16)&255)*f + ((n1>>16)&255)*(1-f));
   const g=Math.round(((n2>>8)&255)*f + ((n1>>8)&255)*(1-f));
   const b=Math.round((n2&255)*f + (n1&255)*(1-f));
