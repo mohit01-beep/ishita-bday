@@ -116,7 +116,7 @@ p { font-size:1.3em; max-width:700px; }
   filter: blur(10px);
 }
 
-/* SHOOTING STAR */
+/* Shooting star */
 .shooting-star {
   position: fixed;
   width: 2px;
@@ -280,6 +280,40 @@ function shootingStar() {
     spawnStars();
   }, 2000 + Math.random() * 2000);
 })();
+
+/* BACKGROUND GRADIENT TRANSITION (day -> evening -> night) */
+const sectionGradients = [
+  ['#ffd6e0','#ffe7ba'], // morning
+  ['#ffe0d6','#ffd1ba'], // afternoon
+  ['#ffdde1','#ffc1e3'], // evening
+  ['#e3c1ff','#c1b0ff'], // sunset
+  ['#0d1b2a','#1b263b']  // night
+];
+
+function interpolateColor(c1,c2,f){
+  const n1=parseInt(c1.slice(1),16), n2=parseInt(c2.slice(1),16);
+  const r=Math.round(((n2>>16)&255)*f + ((n1>>16)&255)*(1-f));
+  const g=Math.round(((n2>>8)&255)*f + ((n1>>8)&255)*(1-f));
+  const b=Math.round((n2&255)*f + (n1&255)*(1-f));
+  return `rgb(${r},${g},${b})`;
+}
+
+window.addEventListener('scroll',()=>{
+  const scroll = window.scrollY;
+  const totalHeight = document.body.scrollHeight - window.innerHeight;
+  const normScroll = scroll / totalHeight;
+  let sectionIndex = 0;
+  for(let i=0; i<sectionGradients.length-1; i++){
+    if(normScroll >= i/(sectionGradients.length-1) && normScroll <= (i+1)/(sectionGradients.length-1)){
+      sectionIndex = i;
+      break;
+    }
+  }
+  const frac = (normScroll - sectionIndex/(sectionGradients.length-1)) * (sectionGradients.length-1);
+  const start = sectionGradients[sectionIndex];
+  const end = sectionGradients[sectionIndex+1];
+  document.body.style.background = `linear-gradient(120deg, ${interpolateColor(start[0], end[0], frac)}, ${interpolateColor(start[1], end[1], frac)})`;
+});
 </script>
 </body>
 </html>
