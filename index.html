@@ -249,30 +249,59 @@ function createHearts(count){
 }
 
 /* REALISTIC FALLING SHOOTING STAR */
+/* MAGICAL GLOWING SHOOTING STAR */
 function shootingStar() {
   const star = document.createElement('div');
   star.className = 'shooting-star';
 
-  const startX = 80 + Math.random() * 20; // start from right 80-100vw
+  const head = document.createElement('div');
+  head.style.position = 'absolute';
+  head.style.width = '8px';
+  head.style.height = '8px';
+  head.style.background = 'radial-gradient(circle, white 0%, rgba(255,255,255,0) 60%)';
+  head.style.borderRadius = '50%';
+  head.style.top = '-4px';
+  head.style.left = '-4px';
+  head.style.filter = 'blur(2px)';
+  star.appendChild(head);
+
+  const startX = 80 + Math.random() * 20; // right 80-100vw
   const startY = Math.random() * 30;      // top 0-30vh
   star.style.left = startX + 'vw';
   star.style.top = startY + 'vh';
 
+  // give tail a glowing gradient
+  star.style.width = '2px';
+  star.style.height = 120 + Math.random()*60 + 'px';
+  star.style.background = 'linear-gradient(to bottom, white, rgba(255,255,255,0))';
+  star.style.borderRadius = '50px';
+  star.style.transform = 'rotate(45deg)';
+  star.style.position = 'fixed';
+  star.style.zIndex = 3;
+  star.style.pointerEvents = 'none';
+  star.style.opacity = '0';
+
   document.body.appendChild(star);
 
-  const distanceX = - (window.innerWidth * (0.8 + Math.random() * 0.2)); // move left
-  const distanceY = window.innerHeight * (0.5 + Math.random() * 0.3);    // move down
+  const distanceX = - (window.innerWidth * (0.8 + Math.random() * 0.2));
+  const distanceY = window.innerHeight * (0.5 + Math.random() * 0.3);
 
   star.style.transition = 'transform 1.2s linear, opacity 1.2s linear';
   requestAnimationFrame(() => {
     star.style.transform = `translate(${distanceX}px, ${distanceY}px) rotate(45deg)`;
-    star.style.opacity = '0';
+    star.style.opacity = '1';
   });
 
-  setTimeout(() => star.remove(), 1500);
+  // fade out before removing
+  setTimeout(() => {
+    star.style.transition = 'opacity 400ms linear';
+    star.style.opacity = '0';
+  }, 800);
+
+  setTimeout(() => star.remove(), 1600);
 }
 
-// Spawn shooting stars
+// Spawn shooting stars randomly
 (function spawnStars() {
   setTimeout(() => {
     shootingStar();
