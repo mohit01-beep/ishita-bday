@@ -76,21 +76,35 @@ p { font-size:1.3em; max-width:700px; }
   h1{font-size:2.5em; margin-top:20px;}
 }
 
-/* Floating hearts */
+/* Rounded floating hearts */
 .heart {
-  position:fixed;
-  width:20px;
-  height:20px;
-  background:#ff77aa;
-  clip-path: polygon(50% 0%,61% 11%,75% 11%,88% 25%,100% 44%,88% 62%,75% 75%,50% 100%,25% 75%,12% 62%,0% 44%,12% 25%,25% 11%,39% 11%);
-  opacity:0.7;
-  pointer-events:none;
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  background: #ff77aa;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0.8;
+  transform: rotate(-45deg);
   animation: floatUp linear infinite;
-  z-index:3;
+
+  border-radius: 50% 50% 50% 50%;
 }
+.heart::before,
+.heart::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: #ff77aa;
+  border-radius: 50%;
+}
+.heart::before { top: -10px; left: 0; }
+.heart::after { top: 0; left: 10px; }
+
 @keyframes floatUp {
-  0% { transform: translateY(0) scale(0.8); opacity:0.7; }
-  100% { transform: translateY(-800px) scale(1.2); opacity:0; }
+  0% { transform: translateY(0) scale(0.8) rotate(-45deg); opacity:0.8; }
+  100% { transform: translateY(-800px) scale(1.2) rotate(-45deg); opacity:0; }
 }
 
 /* Stars */
@@ -244,43 +258,29 @@ function createHearts(count){
     const h=document.createElement('div'); h.className='heart';
     h.style.left=Math.random()*100+'vw';
     h.style.animationDuration=(5+Math.random()*5)+'s';
-    // tap-to-pop
-    h.addEventListener('click', ()=> {
-      h.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
-      h.style.transform = 'scale(2) rotate(20deg)';
-      h.style.opacity = '0';
-      setTimeout(()=>h.remove(),300);
-    });
     document.body.appendChild(h);
   }
 }
 
-/* Heart trail on touch */
-document.addEventListener('touchmove', e=>{
-  const touch = e.touches[0];
-  createTrailHeart(touch.clientX, touch.clientY);
-});
-document.addEventListener('mousemove', e=>{
-  createTrailHeart(e.clientX, e.clientY);
+// Tap-to-pop hearts
+document.addEventListener('click', e => createHeartTrail(e.clientX, e.clientY));
+document.addEventListener('touchmove', e => { 
+  for(const touch of e.touches) createHeartTrail(touch.clientX, touch.clientY);
 });
 
-function createTrailHeart(x,y){
-  const h=document.createElement('div');
+function createHeartTrail(x, y){
+  const h = document.createElement('div');
   h.className='heart';
-  h.style.left = x - 10 + 'px';
-  h.style.top = y - 10 + 'px';
-  h.style.width = '15px';
-  h.style.height = '15px';
-  h.style.opacity = '0.9';
+  h.style.left=x+'px';
+  h.style.top=y+'px';
+  h.style.width='15px';
+  h.style.height='15px';
+  h.style.animation='floatUp 2s ease-out forwards';
   document.body.appendChild(h);
-  // float up and fade
-  let posY = y - 10;
-  let opacity = 0.9;
-  function animate(){posY-=1; opacity-=0.02; h.style.top=posY+'px'; h.style.opacity=opacity; if(opacity>0) requestAnimationFrame(animate); else h.remove();}
-  animate();
+  setTimeout(()=>h.remove(),2000);
 }
 
-// Shooting stars
+/* Shooting stars */
 function shootingStar() {
   const star = document.createElement('div');
   star.className = 'shooting-star';
@@ -294,26 +294,35 @@ function shootingStar() {
   head.style.left = '-4px';
   head.style.filter = 'blur(2px)';
   star.appendChild(head);
-  const startX = 80 + Math.random() * 20;
+
+  const startX = 80 + Math.random() * 20; 
   const startY = Math.random() * 30;
   star.style.left = startX + 'vw';
   star.style.top = startY + 'vh';
   star.style.width = '2px';
   star.style.height = 120 + Math.random()*60 + 'px';
+  star.style.background = 'linear-gradient(to bottom, white, rgba(255,255,255,0))';
+  star.style.opacity = '0';
+  star.style.zIndex = 3;
   document.body.appendChild(star);
+
   const distanceX = - (window.innerWidth * (0.8 + Math.random() * 0.2));
   const distanceY = window.innerHeight * (0.5 + Math.random() * 0.3);
   star.style.transition = 'transform 1.2s linear, opacity 1.2s linear';
-  requestAnimationFrame(() => {
-    star.style.transform = `translate(${distanceX}px, ${distanceY}px) rotate(45deg)`;
-    star.style.opacity = '1';
-  });
-  setTimeout(() => { star.style.transition = 'opacity 0.4s linear'; star.style.opacity='0'; }, 800);
-  setTimeout(() => star.remove(), 1600);
+  requestAnimationFrame(()=>{ star.style.transform=`translate(${distanceX}px, ${distanceY}px) rotate(45deg)`; star.style.opacity='1'; });
+  setTimeout(()=>{ star.style.transition='opacity 400ms linear'; star.style.opacity='0'; },800);
+  setTimeout(()=>star.remove(),1600);
 }
-(function spawnStars(){setTimeout(()=>{shootingStar(); if(Math.random()<0.5) shootingStar(); spawnStars();}, 2000 + Math.random()*2000);})();
 
-// Background gradient
+(function spawnStars(){
+  setTimeout(()=>{
+    shootingStar();
+    if(Math.random()<0.5) shootingStar();
+    spawnStars();
+  },2000+Math.random()*2000);
+})();
+
+/* Background gradient */
 const sectionGradients = [
   ['#ffd6e0','#ffe7ba'],
   ['#ffe0d6','#ffd1ba'],
@@ -321,6 +330,7 @@ const sectionGradients = [
   ['#e3c1ff','#c1b0ff'],
   ['#0d1b2a','#1b263b']
 ];
+
 function interpolateColor(c1,c2,f){
   const n1=parseInt(c1.slice(1),16), n2=parseInt(c2.slice(1),16);
   const r=Math.round(((n2>>16)&255)*f + ((n1>>16)&255)*(1-f));
@@ -328,18 +338,18 @@ function interpolateColor(c1,c2,f){
   const b=Math.round((n2&255)*f + (n1&255)*(1-f));
   return `rgb(${r},${g},${b})`;
 }
+
 window.addEventListener('scroll',()=>{
   const scroll = window.scrollY;
   const totalHeight = document.body.scrollHeight - window.innerHeight;
   const normScroll = scroll / totalHeight;
   let sectionIndex = 0;
   for(let i=0;i<sectionGradients.length-1;i++){
-    if(normScroll>=i/(sectionGradients.length-1) && normScroll<=(i+1)/(sectionGradients.length-1)){ sectionIndex=i; break;}
+    if(normScroll >= i/(sectionGradients.length-1) && normScroll <= (i+1)/(sectionGradients.length-1)) sectionIndex=i;
   }
-  const frac = (normScroll - sectionIndex/(sectionGradients.length-1)) * (sectionGradients.length-1);
-  const start = sectionGradients[sectionIndex];
-  const end = sectionGradients[sectionIndex+1];
-  document.body.style.background = `linear-gradient(120deg, ${interpolateColor(start[0],end[0],frac)}, ${interpolateColor(start[1],end[1],frac)})`;
+  const frac = (normScroll - sectionIndex/(sectionGradients.length-1))*(sectionGradients.length-1);
+  const start = sectionGradients[sectionIndex], end = sectionGradients[sectionIndex+1];
+  document.body.style.background=`linear-gradient(120deg, ${interpolateColor(start[0],end[0],frac)}, ${interpolateColor(start[1],end[1],frac)})`;
 });
 </script>
 </body>
