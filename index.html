@@ -6,7 +6,6 @@
 <title>Happy Birthday Ishita 💖</title>
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
 <style>
-/* --- BASE --- */
 body, html {
   margin:0; padding:0;
   font-family:'Quicksand',sans-serif;
@@ -16,6 +15,7 @@ body, html {
   background: linear-gradient(120deg,#ffd6e0,#ffe7ba);
   color:#333;
 }
+
 .section {
   min-height:100vh;
   display:flex;
@@ -28,6 +28,7 @@ body, html {
   z-index:5;
   transition: background 1s linear;
 }
+
 .text-bubble {
   display:inline-block;
   padding:25px 35px;
@@ -44,9 +45,12 @@ body, html {
   position:relative;
   z-index:5;
 }
+
 .fade-in { opacity:1 !important; transform:translateY(0px) !important; }
+
 h1 { font-family:'Great Vibes', cursive; font-size:4em; margin-bottom:0.5em; color:#ff77aa; }
 p { font-size:1.3em; max-width:700px; }
+
 .interactive-btn {
   padding:12px 24px;
   background:#ff8fab;
@@ -62,7 +66,6 @@ p { font-size:1.3em; max-width:700px; }
 }
 .interactive-btn:hover { transform: scale(1.1); }
 
-/* --- MOBILE RESPONSIVE --- */
 @media(max-width:900px){
   .text-bubble{max-width:85%; font-size:1.1em; padding:20px 25px; margin:20px auto;}
   h1{font-size:3em;}
@@ -73,10 +76,11 @@ p { font-size:1.3em; max-width:700px; }
   h1{font-size:2.5em; margin-top:20px;}
 }
 
-/* --- HEARTS --- */
+/* Floating hearts */
 .heart {
   position:fixed;
-  width:16px; height:16px;
+  width:20px;
+  height:20px;
   background:#ff77aa;
   clip-path: polygon(50% 0%,61% 11%,75% 11%,88% 25%,100% 44%,88% 62%,75% 75%,50% 100%,25% 75%,12% 62%,0% 44%,12% 25%,25% 11%,39% 11%);
   opacity:0.7;
@@ -86,35 +90,37 @@ p { font-size:1.3em; max-width:700px; }
 }
 @keyframes floatUp {
   0% { transform: translateY(0) scale(0.8); opacity:0.7; }
-  100% { transform: translateY(-600px) scale(1.2); opacity:0; }
+  100% { transform: translateY(-800px) scale(1.2); opacity:0; }
 }
 
-/* --- STARS --- */
+/* Stars */
 .twinkle-star {
   position: fixed;
-  width: 2px; height: 2px;
+  width: 2px;
+  height: 2px;
   background: white;
   border-radius: 50%;
   opacity: 0.5;
   pointer-events: none;
   z-index: 2;
-  box-shadow: 0 0 8px white;
+  box-shadow: 0 0 10px white;
 }
 
-/* --- CLOUDS --- */
+/* Clouds */
 .cloud {
   position: fixed;
   border-radius: 50%;
   background: rgba(255,255,255,0.4);
   z-index: 1;
   pointer-events: none;
-  filter: blur(8px);
+  filter: blur(10px);
 }
 
-/* --- SHOOTING STAR --- */
+/* Shooting star */
 .shooting-star {
   position: fixed;
-  width: 2px; height: 100px;
+  width: 2px;
+  height: 100px;
   background: linear-gradient(to bottom, white, rgba(255,255,255,0));
   opacity: 1;
   border-radius: 50px;
@@ -123,34 +129,18 @@ p { font-size:1.3em; max-width:700px; }
   z-index: 2;
 }
 
-/* --- FIREFLY / CONFETTI --- */
-.firefly {
-  position: fixed;
-  width: 6px; height: 6px;
-  background: rgba(255,255,200,0.8);
-  border-radius:50%;
-  pointer-events:none;
-  z-index:3;
-  filter: blur(2px);
-  animation: fireflyMove linear infinite;
-}
-@keyframes fireflyMove {
-  0% { transform: translate(0,0) scale(0.5); opacity:0.5; }
-  50% { transform: translate(30px,-30px) scale(1); opacity:1; }
-  100% { transform: translate(-20px,20px) scale(0.5); opacity:0.5; }
-}
-
-/* --- CAROUSEL --- */
+/* Carousel placeholder */
 .carousel {
-  width: 80%; max-width:400px;
-  height:200px;
+  width: 80%;
+  max-width:500px;
+  height:250px;
   margin:30px auto;
   background: rgba(255,255,255,0.5);
   border-radius:20px;
   display:flex;
   justify-content:center;
   align-items:center;
-  font-size:1.1em;
+  font-size:1.2em;
   color:#333;
 }
 </style>
@@ -163,23 +153,30 @@ p { font-size:1.3em; max-width:700px; }
 </div>
 
 <div class="section" id="intro">
-  <div class="text-bubble">Let's take a little journey through our memories together 💖</div>
+  <div class="text-bubble">
+    Let's take a little journey through our memories together 💖
+  </div>
 </div>
 
 <div class="section" id="snapchat">
   <div class="text-bubble">Snapchat days: Our first talks, little snaps, discovering each other slowly...</div>
   <div class="text-bubble">Thanks to Yogita we got closer earlier and I got your number...</div>
   <div class="text-bubble">Maybe I would’ve gotten your number later too, but I don’t know when—or how long I would’ve waited.</div>
+  <div class="text-bubble">Because of Yogita's job search, we connected on WhatsApp and got to know each other more...</div>
 </div>
 
 <div class="section" id="whatsapp">
   <div class="text-bubble">WhatsApp chats: Long movie nights, deep talks, sending each other our favorite rom-coms 🎬💖</div>
   <div class="text-bubble">Whenever I see reels about How to Lose a Guy in 10 Days or 10 Things I Hate About You, it reminds me of you 😅💓</div>
+  <div class="text-bubble">Any rom-com movie reminds me of youuuuuu 🎥💕 but these 2 are special and unforgettable 😍</div>
+  <div class="text-bubble">Our first movie together was Saltburn 🎞️ Your reactions were hilarious 🤭🤣</div>
+  <div class="text-bubble">And remember our horror movie together - IT Chapter 1 👻😱</div>
 </div>
 
 <div class="section" id="interactive">
   <div class="text-bubble">
-    Do you want to see your birthday surprise?<br>
+    Do you want to see your birthday surprise?
+    <br>
     <button class="interactive-btn" onclick="revealMessage(true)">Yes</button>
     <button class="interactive-btn" onclick="revealMessage(false)">No</button>
   </div>
@@ -196,22 +193,19 @@ p { font-size:1.3em; max-width:700px; }
 </audio>
 
 <script>
-/* --- START SITE --- */
+// Start site
 function startSite(){
   try { document.getElementById('bg-music').play(); } catch(e){}
-  createStars(60);
-  createClouds(4);
-  createHearts(8);
-  createFireflies(8);
+  createStars(100);
+  createClouds(5);
+  createHearts(15);
   fadeInSections();
 }
 
-/* --- FADE IN --- */
-function fadeInSections(){
-  document.querySelectorAll('.text-bubble').forEach(b=>b.classList.add('fade-in'));
-}
+// Fade-in
+function fadeInSections(){document.querySelectorAll('.text-bubble').forEach(b=>b.classList.add('fade-in'));}
 
-/* --- REVEAL MESSAGE --- */
+// Reveal birthday
 function revealMessage(choice){
   if(choice){
     document.getElementById('interactive').style.display='none';
@@ -220,109 +214,107 @@ function revealMessage(choice){
   } else alert('You can scroll and see the memories anyway!');
 }
 
-/* --- STARS --- */
+// Stars
 function createStars(count){
   for(let i=0;i<count;i++){
     const star=document.createElement('div');
     star.className='twinkle-star';
     star.style.left=Math.random()*100+'vw';
     star.style.top=Math.random()*100+'vh';
-    const size=1+Math.random()*2;
-    star.style.width=size+'px';
-    star.style.height=size+'px';
-    animateStar(star);
-    document.body.appendChild(star);
+    const size=1+Math.random()*3; star.style.width=size+'px'; star.style.height=size+'px';
+    animateStar(star); document.body.appendChild(star);
   }
 }
-function animateStar(star){
-  let opacity=Math.random()*0.5+0.5; let increasing=true;
-  function twinkle(){
-    if(increasing) opacity+=0.01; else opacity-=0.01;
-    if(opacity>=1) increasing=false;
-    if(opacity<=0.3) increasing=true;
-    star.style.opacity=opacity;
-    requestAnimationFrame(twinkle);
-  } twinkle();
-}
+function animateStar(star){let opacity=Math.random()*0.5+0.5; let increasing=true; function twinkle(){if(increasing)opacity+=0.01;else opacity-=0.01;if(opacity>=1)increasing=false;if(opacity<=0.3)increasing=true;star.style.opacity=opacity;requestAnimationFrame(twinkle);} twinkle();}
 
-/* --- CLOUDS --- */
+// Clouds
 function createClouds(count){
   for(let i=0;i<count;i++){
     const c=document.createElement('div'); c.className='cloud';
-    const size=100+Math.random()*100;
-    c.style.width=size+'px'; c.style.height=(size/2)+'px';
-    c.style.left=Math.random()*100+'vw'; c.style.top=Math.random()*40+'vh';
-    document.body.appendChild(c); animateCloud(c,0.01+Math.random()*0.02);
+    const size=150+Math.random()*150; c.style.width=size+'px'; c.style.height=(size/2)+'px';
+    c.style.left=Math.random()*100+'vw'; c.style.top=Math.random()*50+'vh';
+    document.body.appendChild(c); animateCloud(c, 0.01+Math.random()*0.02);
   }
 }
-function animateCloud(c,speed){
-  let pos=parseFloat(c.style.left);let dir=Math.random()<0.5?-1:1;
-  function move(){pos+=dir*speed;if(pos>100)pos=-20;if(pos<-20)pos=100;c.style.left=pos+'vw';requestAnimationFrame(move);}
-  move();
-}
+function animateCloud(c,speed){let pos=parseFloat(c.style.left);let dir=Math.random()<0.5?-1:1;function move(){pos+=dir*speed;if(pos>100)pos=-20;if(pos<-20)pos=100;c.style.left=pos+'vw';requestAnimationFrame(move);} move();}
 
-/* --- HEARTS --- */
+// Floating hearts
 function createHearts(count){
   for(let i=0;i<count;i++){
     const h=document.createElement('div'); h.className='heart';
     h.style.left=Math.random()*100+'vw';
-    h.style.animationDuration=(5+Math.random()*3)+'s';
+    h.style.animationDuration=(5+Math.random()*5)+'s';
+    // tap-to-pop
+    h.addEventListener('click', ()=> {
+      h.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+      h.style.transform = 'scale(2) rotate(20deg)';
+      h.style.opacity = '0';
+      setTimeout(()=>h.remove(),300);
+    });
     document.body.appendChild(h);
   }
 }
 
-/* --- FIREFLIES --- */
-function createFireflies(count){
-  for(let i=0;i<count;i++){
-    const f=document.createElement('div'); f.className='firefly';
-    f.style.left=Math.random()*100+'vw';
-    f.style.top=Math.random()*100+'vh';
-    const dur = 4+Math.random()*3;
-    f.style.animationDuration=dur+'s';
-    document.body.appendChild(f);
-  }
+/* Heart trail on touch */
+document.addEventListener('touchmove', e=>{
+  const touch = e.touches[0];
+  createTrailHeart(touch.clientX, touch.clientY);
+});
+document.addEventListener('mousemove', e=>{
+  createTrailHeart(e.clientX, e.clientY);
+});
+
+function createTrailHeart(x,y){
+  const h=document.createElement('div');
+  h.className='heart';
+  h.style.left = x - 10 + 'px';
+  h.style.top = y - 10 + 'px';
+  h.style.width = '15px';
+  h.style.height = '15px';
+  h.style.opacity = '0.9';
+  document.body.appendChild(h);
+  // float up and fade
+  let posY = y - 10;
+  let opacity = 0.9;
+  function animate(){posY-=1; opacity-=0.02; h.style.top=posY+'px'; h.style.opacity=opacity; if(opacity>0) requestAnimationFrame(animate); else h.remove();}
+  animate();
 }
 
-/* --- SHOOTING STAR --- */
-function shootingStar(){
-  const star=document.createElement('div'); star.className='shooting-star';
-  const head=document.createElement('div');
-  head.style.position='absolute';
-  head.style.width='8px'; head.style.height='8px';
-  head.style.background='radial-gradient(circle, white 0%, rgba(255,255,255,0) 60%)';
-  head.style.borderRadius='50%'; head.style.top='-4px'; head.style.left='-4px'; head.style.filter='blur(2px)';
+// Shooting stars
+function shootingStar() {
+  const star = document.createElement('div');
+  star.className = 'shooting-star';
+  const head = document.createElement('div');
+  head.style.position = 'absolute';
+  head.style.width = '8px';
+  head.style.height = '8px';
+  head.style.background = 'radial-gradient(circle, white 0%, rgba(255,255,255,0) 60%)';
+  head.style.borderRadius = '50%';
+  head.style.top = '-4px';
+  head.style.left = '-4px';
+  head.style.filter = 'blur(2px)';
   star.appendChild(head);
-
-  const startX=80+Math.random()*20; const startY=Math.random()*30;
-  star.style.left=startX+'vw'; star.style.top=startY+'vh';
-  star.style.height=80+Math.random()*60+'px';
-  star.style.transition='transform 1.2s linear, opacity 1.2s linear';
-  star.style.opacity='0';
+  const startX = 80 + Math.random() * 20;
+  const startY = Math.random() * 30;
+  star.style.left = startX + 'vw';
+  star.style.top = startY + 'vh';
+  star.style.width = '2px';
+  star.style.height = 120 + Math.random()*60 + 'px';
   document.body.appendChild(star);
-
-  const distanceX=-(window.innerWidth*(0.7+Math.random()*0.2));
-  const distanceY=window.innerHeight*(0.5+Math.random()*0.3);
-
-  requestAnimationFrame(()=>{
-    star.style.transform=`translate(${distanceX}px, ${distanceY}px) rotate(45deg)`;
-    star.style.opacity='1';
+  const distanceX = - (window.innerWidth * (0.8 + Math.random() * 0.2));
+  const distanceY = window.innerHeight * (0.5 + Math.random() * 0.3);
+  star.style.transition = 'transform 1.2s linear, opacity 1.2s linear';
+  requestAnimationFrame(() => {
+    star.style.transform = `translate(${distanceX}px, ${distanceY}px) rotate(45deg)`;
+    star.style.opacity = '1';
   });
-
-  setTimeout(()=>{ star.style.transition='opacity 400ms linear'; star.style.opacity='0'; },800);
-  setTimeout(()=>star.remove(),1600);
+  setTimeout(() => { star.style.transition = 'opacity 0.4s linear'; star.style.opacity='0'; }, 800);
+  setTimeout(() => star.remove(), 1600);
 }
+(function spawnStars(){setTimeout(()=>{shootingStar(); if(Math.random()<0.5) shootingStar(); spawnStars();}, 2000 + Math.random()*2000);})();
 
-/* Spawn shooting stars randomly */
-(function spawnStars(){
-  setTimeout(()=>{
-    shootingStar();
-    if(Math.random()<0.5) shootingStar();
-    spawnStars();
-  },2000+Math.random()*2000);
-})();
-
-/* --- BACKGROUND GRADIENT --- */
-const sectionGradients=[
+// Background gradient
+const sectionGradients = [
   ['#ffd6e0','#ffe7ba'],
   ['#ffe0d6','#ffd1ba'],
   ['#ffdde1','#ffc1e3'],
@@ -337,16 +329,17 @@ function interpolateColor(c1,c2,f){
   return `rgb(${r},${g},${b})`;
 }
 window.addEventListener('scroll',()=>{
-  const scroll=window.scrollY;
-  const totalHeight=document.body.scrollHeight-window.innerHeight;
-  const normScroll=scroll/totalHeight;
-  let sectionIndex=0;
+  const scroll = window.scrollY;
+  const totalHeight = document.body.scrollHeight - window.innerHeight;
+  const normScroll = scroll / totalHeight;
+  let sectionIndex = 0;
   for(let i=0;i<sectionGradients.length-1;i++){
-    if(normScroll>=i/(sectionGradients.length-1)&&normScroll<=(i+1)/(sectionGradients.length-1)){ sectionIndex=i; break;}
+    if(normScroll>=i/(sectionGradients.length-1) && normScroll<=(i+1)/(sectionGradients.length-1)){ sectionIndex=i; break;}
   }
-  const frac=(normScroll-sectionIndex/(sectionGradients.length-1))*(sectionGradients.length-1);
-  const start=sectionGradients[sectionIndex]; const end=sectionGradients[sectionIndex+1];
-  document.body.style.background=`linear-gradient(120deg, ${interpolateColor(start[0],end[0],frac)}, ${interpolateColor(start[1],end[1],frac)})`;
+  const frac = (normScroll - sectionIndex/(sectionGradients.length-1)) * (sectionGradients.length-1);
+  const start = sectionGradients[sectionIndex];
+  const end = sectionGradients[sectionIndex+1];
+  document.body.style.background = `linear-gradient(120deg, ${interpolateColor(start[0],end[0],frac)}, ${interpolateColor(start[1],end[1],frac)})`;
 });
 </script>
 </body>
