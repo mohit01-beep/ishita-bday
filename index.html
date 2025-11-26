@@ -116,21 +116,29 @@ p { font-size:1.3em; max-width:700px; }
   filter: blur(10px);
 }
 
-/* Shooting stars */
+/* REALISTIC SHOOTING STAR (UPDATED) */
 .shooting-star {
   position: fixed;
-  width: 5px;
-  height: 200px;
-  background: linear-gradient(to bottom, rgba(255,255,255,0.9), rgba(255,255,255,0));
+  width: 3px;
+  height: 120px;
+  background: linear-gradient(to bottom, rgba(255,255,255,1), rgba(255,255,255,0));
   opacity: 1;
   transform: rotate(45deg);
-  animation: shoot 1.5s linear forwards;
+  border-radius: 50px;
   pointer-events: none;
   z-index: 2;
+  animation: realisticShoot 1.2s linear forwards;
 }
-@keyframes shoot {
-  0% { transform: translateY(0) translateX(0) rotate(45deg); opacity: 1; }
-  100% { transform: translateY(400px) translateX(400px) rotate(45deg); opacity: 0; }
+
+@keyframes realisticShoot {
+  0% {
+    transform: translate(-20vw, -20vh) rotate(45deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(120vw, 120vh) rotate(45deg);
+    opacity: 0;
+  }
 }
 
 /* Carousel placeholder */
@@ -252,18 +260,37 @@ function createHearts(count){
   }
 }
 
-// Shooting stars
-function shootingStar(){const s=document.createElement('div'); s.className='shooting-star'; s.style.left=Math.random()*80+'vw'; s.style.top=Math.random()*50+'vh'; document.body.appendChild(s); setTimeout(()=>s.remove(),1500);}
-function randomShooting(){setTimeout(()=>{shootingStar();randomShooting();},Math.random()*2000+1500);} randomShooting();
+// REALISTIC SHOOTING STAR
+function shootingStar(){
+  const s=document.createElement('div');
+  s.className='shooting-star';
+
+  const startX = Math.random()*20 - 10;
+  const startY = Math.random()*20 - 10;
+
+  s.style.left=startX+'vw';
+  s.style.top=startY+'vh';
+
+  document.body.appendChild(s);
+  setTimeout(()=>s.remove(),1500);
+}
+
+function randomShooting(){
+  setTimeout(()=>{
+    shootingStar();
+    randomShooting();
+  },Math.random()*3000+2500);
+}
+randomShooting();
 
 // Smooth background gradient
 const sectionGradients = [
-  ['#ffd6e0','#ffe7ba'], // landing
-  ['#ffe0d6','#ffd1ba'], // intro
-  ['#ffdde1','#ffc1e3'], // snapchat
-  ['#e3c1ff','#c1b0ff'], // whatsapp
-  ['#ffc1d6','#ff9ec3'], // interactive
-  ['#0d1b2a','#1b263b']  // final
+  ['#ffd6e0','#ffe7ba'], 
+  ['#ffe0d6','#ffd1ba'], 
+  ['#ffdde1','#ffc1e3'], 
+  ['#e3c1ff','#c1b0ff'], 
+  ['#ffc1d6','#ff9ec3'], 
+  ['#0d1b2a','#1b263b']
 ];
 
 function interpolateColor(c1,c2,f){
@@ -291,5 +318,6 @@ window.addEventListener('scroll',()=>{
   document.body.style.background = `linear-gradient(120deg, ${interpolateColor(start[0], end[0], frac)}, ${interpolateColor(start[1], end[1], frac)})`;
 });
 </script>
+
 </body>
 </html>
