@@ -116,30 +116,17 @@ p { font-size:1.3em; max-width:700px; }
   filter: blur(10px);
 }
 
-/* METEOR / REALISTIC SHOOTING STAR (new) */
-.meteor {
+/* REALISTIC SHOOTING STAR */
+.shooting-star {
   position: fixed;
-  width: 3px;
+  width: 2px;
   height: 100px;
-  pointer-events: none;
-  z-index: 3;
-  transform: rotate(-45deg); /* -45deg to move down-left when translated */
-  filter: blur(1px);
-  background: linear-gradient(to bottom, rgba(255,255,255,1), rgba(255,255,255,0.0));
+  background: linear-gradient(to bottom, white, rgba(255,255,255,0));
+  opacity: 1;
   border-radius: 50px;
-  will-change: transform, opacity;
-}
-
-/* short spark at meteor head for glow */
-.meteor-head {
-  position: absolute;
-  right: -6px;
-  top: -6px;
-  width: 12px;
-  height: 12px;
-  background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0.2) 40%, rgba(255,255,255,0) 60%);
-  border-radius: 50%;
-  filter: blur(2px);
+  transform: rotate(45deg);
+  pointer-events: none;
+  z-index: 2;
 }
 
 /* Carousel placeholder */
@@ -208,7 +195,6 @@ p { font-size:1.3em; max-width:700px; }
 <script>
 // Start site
 function startSite(){
-  // play music if available
   try { document.getElementById('bg-music').play(); } catch(e){}
   createStars(100);
   createClouds(5);
@@ -262,70 +248,37 @@ function createHearts(count){
   }
 }
 
-/* NEW: METEOR (realistic shooting star) */
+/* SHOOTING STARS */
+function shootingStar() {
+  const star = document.createElement('div');
+  star.className = 'shooting-star';
 
-// Create one meteor and animate it diagonally (top-right -> bottom-left)
-function createMeteor() {
-  const m = document.createElement('div');
-  m.className = 'meteor';
+  const startX = Math.random() * 80; // 0-80vw
+  const startY = Math.random() * 40; // 0-40vh
+  star.style.left = startX + 'vw';
+  star.style.top = startY + 'vh';
 
-  const head = document.createElement('div');
-  head.className = 'meteor-head';
-  m.appendChild(head);
+  document.body.appendChild(star);
 
-  // Start somewhere in the upper-right quadrant (random)
-  const startLeft = (Math.random() * 40) + 60; // 60vw .. 100vw
-  const startTop = Math.random() * 25; // 0vh .. 25vh
+  const distanceX = 120 + Math.random() * 50;
+  const distanceY = 120 + Math.random() * 50;
 
-  // Randomize length/speed a bit
-  const length = 80 + Math.random() * 80; // px height of meteor element (CSS height)
-  const speed = 1000 + Math.random() * 1200; // duration in ms
-
-  m.style.left = startLeft + 'vw';
-  m.style.top = startTop + 'vh';
-  m.style.height = length + 'px';
-  m.style.opacity = '0';
-
-  document.body.appendChild(m);
-
-  // Force layout then animate
+  star.style.transition = 'transform 1s linear, opacity 1s linear';
   requestAnimationFrame(() => {
-    // fade in head, then translate diagonally down-left
-    m.style.transition = `transform ${speed}ms cubic-bezier(.2,.8,.2,1), opacity ${Math.min(500, speed/3)}ms linear`;
-    // translate by negative X (to left) and positive Y (down)
-    const translateX = -(window.innerWidth * (0.9 + Math.random() * 0.4)); // move far left
-    const translateY = (window.innerHeight * (0.8 + Math.random() * 0.4));  // move down
-    m.style.transform = `translate(${translateX}px, ${translateY}px) rotate(-45deg)`;
-    m.style.opacity = '1';
+    star.style.transform = `translate(${distanceX}px, ${distanceY}px) rotate(45deg)`;
+    star.style.opacity = '0';
   });
 
-  // fade out a bit before removing
-  setTimeout(() => {
-    m.style.transition = `opacity 400ms linear`;
-    m.style.opacity = '0';
-  }, Math.max(200, speed - 400));
-
-  // remove after animation
-  setTimeout(() => {
-    m.remove();
-  }, speed + 500);
+  setTimeout(() => star.remove(), 1000);
 }
 
-// Spawn meteors at random intervals
-function startMeteorShower() {
-  (function loop(){
-    const delay = 2000 + Math.random() * 4000; // 2s - 6s
-    setTimeout(() => {
-      // occasionally create 1-2 meteors close together for variation
-      createMeteor();
-      if (Math.random() < 0.4) setTimeout(createMeteor, 200 + Math.random() * 400);
-      loop();
-    }, delay);
-  })();
-}
-
-// Start meteor shower once page loads (but after startSite if you prefer)
-startMeteorShower();
+(function spawnStars() {
+  setTimeout(() => {
+    shootingStar();
+    if (Math.random() < 0.5) shootingStar();
+    spawnStars();
+  }, 1500 + Math.random() * 2000);
+})();
 
 // Smooth background gradient
 const sectionGradients = [
