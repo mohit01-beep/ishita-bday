@@ -116,7 +116,7 @@ p { font-size:1.3em; max-width:700px; }
   filter: blur(10px);
 }
 
-/* REALISTIC SHOOTING STAR */
+/* SHOOTING STAR */
 .shooting-star {
   position: fixed;
   width: 2px;
@@ -248,73 +248,38 @@ function createHearts(count){
   }
 }
 
-/* SHOOTING STARS */
+/* REALISTIC FALLING SHOOTING STAR */
 function shootingStar() {
   const star = document.createElement('div');
   star.className = 'shooting-star';
 
-  const startX = Math.random() * 80; // 0-80vw
-  const startY = Math.random() * 40; // 0-40vh
+  const startX = 80 + Math.random() * 20; // start from right 80-100vw
+  const startY = Math.random() * 30;      // top 0-30vh
   star.style.left = startX + 'vw';
   star.style.top = startY + 'vh';
 
   document.body.appendChild(star);
 
-  const distanceX = 120 + Math.random() * 50;
-  const distanceY = 120 + Math.random() * 50;
+  const distanceX = - (window.innerWidth * (0.8 + Math.random() * 0.2)); // move left
+  const distanceY = window.innerHeight * (0.5 + Math.random() * 0.3);    // move down
 
-  star.style.transition = 'transform 1s linear, opacity 1s linear';
+  star.style.transition = 'transform 1.2s linear, opacity 1.2s linear';
   requestAnimationFrame(() => {
     star.style.transform = `translate(${distanceX}px, ${distanceY}px) rotate(45deg)`;
     star.style.opacity = '0';
   });
 
-  setTimeout(() => star.remove(), 1000);
+  setTimeout(() => star.remove(), 1500);
 }
 
+// Spawn shooting stars
 (function spawnStars() {
   setTimeout(() => {
     shootingStar();
-    if (Math.random() < 0.5) shootingStar();
+    if (Math.random() < 0.5) shootingStar(); // sometimes double
     spawnStars();
-  }, 1500 + Math.random() * 2000);
+  }, 2000 + Math.random() * 2000);
 })();
-
-// Smooth background gradient
-const sectionGradients = [
-  ['#ffd6e0','#ffe7ba'], 
-  ['#ffe0d6','#ffd1ba'], 
-  ['#ffdde1','#ffc1e3'], 
-  ['#e3c1ff','#c1b0ff'], 
-  ['#ffc1d6','#ff9ec3'], 
-  ['#0d1b2a','#1b263b']
-];
-
-function interpolateColor(c1,c2,f){
-  const n1=parseInt(c1.slice(1),16), n2=parseInt(c2.slice(1),16);
-  const r=Math.round(((n2>>16)&255)*f + ((n1>>16)&255)*(1-f));
-  const g=Math.round(((n2>>8)&255)*f + ((n1>>8)&255)*(1-f));
-  const b=Math.round((n2&255)*f + (n1&255)*(1-f));
-  return `rgb(${r},${g},${b})`;
-}
-
-window.addEventListener('scroll',()=>{
-  const scroll = window.scrollY;
-  const totalHeight = document.body.scrollHeight - window.innerHeight;
-  const normScroll = scroll / totalHeight;
-  let sectionIndex = 0;
-  for(let i=0; i<sectionGradients.length-1; i++){
-    if(normScroll >= i/(sectionGradients.length-1) && normScroll <= (i+1)/(sectionGradients.length-1)){
-      sectionIndex = i;
-      break;
-    }
-  }
-  const frac = (normScroll - sectionIndex/(sectionGradients.length-1)) * (sectionGradients.length-1);
-  const start = sectionGradients[sectionIndex];
-  const end = sectionGradients[sectionIndex+1];
-  document.body.style.background = `linear-gradient(120deg, ${interpolateColor(start[0], end[0], frac)}, ${interpolateColor(start[1], end[1], frac)})`;
-});
 </script>
-
 </body>
 </html>
