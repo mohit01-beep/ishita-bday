@@ -91,39 +91,61 @@ p { font-size:1.3em; max-width:700px; }
 }
 
 /* Perfect heart shape */
+/* Perfect smooth heart */
+.heart {
+  position: fixed;
+  width: 22px;
+  height: 22px;
+  background: #ff77aa;
+  transform: rotate(-45deg);
+  pointer-events: none;
+  z-index: 3;
+  animation: floatUp linear infinite;
+}
+
+/* Two perfect circular lobes */
 .heart::before,
 .heart::after {
-  content: '';
+  content: "";
   position: absolute;
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   background: #ff77aa;
   border-radius: 50%;
 }
-.heart::before { top: -10px; left: 0; }
-.heart::after { top: 0; left: 10px; }
 
-/* Float up */
-@keyframes floatUp {
-  0% { transform: translateY(0) scale(0.8) rotate(-45deg); opacity:0.8; }
-  100% { transform: translateY(-800px) scale(1.2) rotate(-45deg); opacity:0; }
+/* Left lobe */
+.heart::before {
+  top: -11px;
+  left: 0;
 }
 
-/* Pulse animation */
-@keyframes pulse {
-  0% { transform: rotate(-45deg) scale(0.9); }
-  100% { transform: rotate(-45deg) scale(1.1); }
+/* Right lobe */
+.heart::after {
+  top: 0;
+  left: 11px;
 }
 
-/* Glow */
-.heart-glow {
-  box-shadow: 0 0 15px rgba(255,119,170,0.5), 0 0 30px rgba(255,182,193,0.3);
+/* Small heart for tap trail */
+.heart.small {
+  width: 14px;
+  height: 14px;
+  animation: floatUp 1.8s ease-out forwards;
 }
 
-@keyframes floatUp {
-  0% { transform: translateY(0) scale(0.8) rotate(-45deg); opacity:0.8; }
-  100% { transform: translateY(-800px) scale(1.2) rotate(-45deg); opacity:0; }
+.heart.small::before,
+.heart.small::after {
+  width: 14px;
+  height: 14px;
 }
+
+.heart.small::before {
+  top: -7px;
+}
+
+.heart.small::after {
+  left: 7px;
+} 
 
 /* Stars */
 .twinkle-star {
@@ -271,30 +293,15 @@ function createClouds(count){
 function animateCloud(c,speed){let pos=parseFloat(c.style.left);let dir=Math.random()<0.5?-1:1;function move(){pos+=dir*speed;if(pos>100)pos=-20;if(pos<-20)pos=100;c.style.left=pos+'vw';requestAnimationFrame(move);} move();}
 
 // Floating hearts
-const heartColors = ['#ff77aa','#ffb6c1','#ffc1e3','#ff9fdb','#ffd1ea'];
-
-document.addEventListener('click', e => createHeartTrail(e.clientX, e.clientY));
-document.addEventListener('touchmove', e => {
-  for(const touch of e.touches) createHeartTrail(touch.clientX, touch.clientY);
-});
-
-function createHeartTrail(x, y){
+cfunction createHeartTrail(x, y) {
   const h = document.createElement('div');
-  h.className = 'heart heart-glow';
-  h.style.left = x - 10 + 'px';
-  h.style.top = y - 10 + 'px';
-  
-  // Random pastel color
-  const color = heartColors[Math.floor(Math.random()*heartColors.length)];
-  h.style.background = color;
-  h.style.setProperty('--heart-color', color);
-  h.querySelectorAll('::before,::after'); // ensure pseudo-elements use same color
-  h.style.setProperty('--before-after-color', color);
-  
+  h.className = 'heart small';
+  h.style.left = x + 'px';
+  h.style.top = y + 'px';
+
   document.body.appendChild(h);
-  
-  // Remove after animation
-  setTimeout(() => h.remove(), 2000);
+
+  setTimeout(() => h.remove(), 1800);
 }
 
 /* Shooting stars */
