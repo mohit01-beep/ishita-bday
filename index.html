@@ -299,16 +299,15 @@ document.addEventListener('touchmove', e => {
   for(const touch of e.touches) createHeartTrail(touch.clientX, touch.clientY);
 });
 
-function createHeartTrail(x, y){
+function createHeartTrail(x, y) {
   const h = document.createElement('div');
-  h.className='heart';
-  h.style.left=x+'px';
-  h.style.top=y+'px';
-  h.style.width='15px';
-  h.style.height='15px';
-  h.style.animation='floatUp 2s ease-out forwards';
+  h.className = 'heart small';
+  h.style.left = x + 'px';
+  h.style.top = y + 'px';
+
   document.body.appendChild(h);
-  setTimeout(()=>h.remove(),2000);
+
+  setTimeout(() => h.remove(), 1800);
 }
 
 /* Shooting stars */
