@@ -76,7 +76,7 @@ p { font-size:1.3em; max-width:700px; }
   h1{font-size:2.5em; margin-top:20px;}
 }
 
-/* Floating hearts with glow */
+/* Perfect heart shape */
 .heart {
   position: fixed;
   width: 22px;
@@ -86,10 +86,10 @@ p { font-size:1.3em; max-width:700px; }
   pointer-events: none;
   z-index: 3;
   animation: floatUp linear infinite;
-  box-shadow: 0 0 10px #ff77aa, 0 0 20px #ff77aa, 0 0 30px #ff77aa;
+  border-radius: 50%;
 }
 
-/* Two circular lobes for heart */
+/* Heart lobes */
 .heart::before,
 .heart::after {
   content: "";
@@ -102,26 +102,16 @@ p { font-size:1.3em; max-width:700px; }
 .heart::before { top: -11px; left: 0; }
 .heart::after { top: 0; left: 11px; }
 
-/* Small hearts for tap trail */
+/* Small hearts for trail */
 .heart.small {
   width: 14px;
   height: 14px;
   animation: floatUp 1.8s ease-out forwards;
-  box-shadow: 0 0 5px #ff77aa, 0 0 10px #ff77aa;
 }
 .heart.small::before,
-.heart.small::after {
-  width: 14px;
-  height: 14px;
-}
+.heart.small::after { width: 14px; height: 14px; }
 .heart.small::before { top: -7px; }
 .heart.small::after { left: 7px; }
-
-/* Heart float animation */
-@keyframes floatUp {
-  0% { transform: translateY(0) scale(0.8) rotate(-45deg); opacity:0.8; }
-  100% { transform: translateY(-800px) scale(1.2) rotate(-45deg); opacity:0; }
-}
 
 /* Stars */
 .twinkle-star {
@@ -173,6 +163,23 @@ p { font-size:1.3em; max-width:700px; }
   font-size:1.2em;
   color:#333;
 }
+
+/* Heart float animation */
+@keyframes floatUp {
+  0% { transform: translateY(0) rotate(-45deg); opacity:0.8; }
+  100% { transform: translateY(-800px) rotate(-45deg); opacity:0; }
+}
+
+/* Heart rainbow color cycle */
+@keyframes rainbowColor {
+  0%{background:#ff77aa;}
+  20%{background:#ffb347;}
+  40%{background:#ffd700;}
+  60%{background:#90ee90;}
+  80%{background:#87cefa;}
+  100%{background:#ff77aa;}
+}
+.heart { animation: floatUp linear infinite, rainbowColor 6s infinite; }
 </style>
 </head>
 <body>
@@ -279,16 +286,16 @@ function createFloatingHearts(count){
   }
 }
 
-// Tap-to-pop hearts
+// Tap-to-pop heart trail
 document.addEventListener('click', e => createHeartTrail(e.clientX, e.clientY));
 document.addEventListener('touchmove', e => { 
   for(const touch of e.touches) createHeartTrail(touch.clientX, touch.clientY);
 });
 function createHeartTrail(x, y){
-  const h = document.createElement('div');
-  h.className = 'heart small';
-  h.style.left = x + 'px';
-  h.style.top = y + 'px';
+  const h=document.createElement('div');
+  h.className='heart small';
+  h.style.left=x+'px';
+  h.style.top=y+'px';
   document.body.appendChild(h);
   setTimeout(()=>h.remove(),1800);
 }
@@ -297,28 +304,11 @@ function createHeartTrail(x, y){
 function shootingStar() {
   const star = document.createElement('div');
   star.className = 'shooting-star';
-  const head = document.createElement('div');
-  head.style.position = 'absolute';
-  head.style.width = '8px';
-  head.style.height = '8px';
-  head.style.background = 'radial-gradient(circle, white 0%, rgba(255,255,255,0) 60%)';
-  head.style.borderRadius = '50%';
-  head.style.top = '-4px';
-  head.style.left = '-4px';
-  head.style.filter = 'blur(2px)';
-  star.appendChild(head);
-
+  document.body.appendChild(star);
   const startX = 80 + Math.random() * 20; 
   const startY = Math.random() * 30;
   star.style.left = startX + 'vw';
   star.style.top = startY + 'vh';
-  star.style.width = '2px';
-  star.style.height = 120 + Math.random()*60 + 'px';
-  star.style.background = 'linear-gradient(to bottom, white, rgba(255,255,255,0))';
-  star.style.opacity = '0';
-  star.style.zIndex = 3;
-  document.body.appendChild(star);
-
   const distanceX = - (window.innerWidth * (0.8 + Math.random() * 0.2));
   const distanceY = window.innerHeight * (0.5 + Math.random() * 0.3);
   star.style.transition = 'transform 1.2s linear, opacity 1.2s linear';
@@ -335,7 +325,7 @@ function shootingStar() {
   },2000+Math.random()*2000);
 })();
 
-/* Background gradient */
+// Background gradient interpolation fix
 const sectionGradients = [
   ['#ffd6e0','#ffe7ba'],
   ['#ffe0d6','#ffd1ba'],
@@ -343,7 +333,6 @@ const sectionGradients = [
   ['#e3c1ff','#c1b0ff'],
   ['#0d1b2a','#1b263b']
 ];
-
 function interpolateColor(c1,c2,f){
   const n1=parseInt(c1.slice(1),16), n2=parseInt(c2.slice(1),16);
   const r=Math.round(((n2>>16)&255)*f + ((n1>>16)&255)*(1-f));
@@ -355,14 +344,16 @@ function interpolateColor(c1,c2,f){
 window.addEventListener('scroll',()=>{
   const scroll = window.scrollY;
   const totalHeight = document.body.scrollHeight - window.innerHeight;
-  const normScroll = scroll / totalHeight;
-  let sectionIndex = 0;
-  for(let i=0;i<sectionGradients.length-1;i++){
-    if(normScroll >= i/(sectionGradients.length-1) && normScroll <= (i+1)/(sectionGradients.length-1)) sectionIndex=i;
-  }
-  const frac = (normScroll - sectionIndex/(sectionGradients.length-1))*(sectionGradients.length-1);
+  let normScroll = scroll / totalHeight;
+  normScroll = Math.max(0, Math.min(1, normScroll)); // clamp 0-1
+
+  let sectionIndex = Math.floor(normScroll * (sectionGradients.length-1));
+  if(sectionIndex >= sectionGradients.length-1) sectionIndex = sectionGradients.length-2;
+
+  const frac = (normScroll - sectionIndex/(sectionGradients.length-1)) * (sectionGradients.length-1);
   const start = sectionGradients[sectionIndex], end = sectionGradients[sectionIndex+1];
-  document.body.style.background=`linear-gradient(120deg, ${interpolateColor(start[0],end[0],frac)}, ${interpolateColor(start[1],end[1],frac)})`;
+
+  document.body.style.background = `linear-gradient(120deg, ${interpolateColor(start[0],end[0],frac)}, ${interpolateColor(start[1],end[1],frac)})`;
 });
 </script>
 </body>
