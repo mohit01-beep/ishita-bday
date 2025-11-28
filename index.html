@@ -82,13 +82,12 @@ p { font-size:1.3em; max-width:700px; }
   width: 22px;
   height: 22px;
   background: #ff77aa;
-  transform: rotate(0deg); /* upright */
+  transform: rotate(0deg);
   pointer-events: none;
   z-index: 3;
   animation: floatUp linear infinite;
   box-shadow: 0 0 10px #ff77aa, 0 0 20px #ff77aa, 0 0 30px #ff77aa;
 }
-
 .heart::before,
 .heart::after {
   content: "";
@@ -100,7 +99,6 @@ p { font-size:1.3em; max-width:700px; }
 }
 .heart::before { top: -11px; left: 0; }
 .heart::after { top: 0; left: 11px; }
-
 .heart.small {
   width: 14px;
   height: 14px;
@@ -224,23 +222,14 @@ p { font-size:1.3em; max-width:700px; }
 </audio>
 
 <script>
-// Start site
 function startSite(){
   try { document.getElementById('bg-music').play(); } catch(e){}
   createStars(100);
   createClouds(5);
   createFloatingHearts(15);
-  fadeInSections();
+  observeSections();
 }
 
-// Fade-in animation
-function fadeInSections(){
-  document.querySelectorAll('.text-bubble').forEach((b, i)=>{
-    setTimeout(()=>b.classList.add('fade-in'), i*300);
-  });
-}
-
-// Reveal birthday
 function revealMessage(choice){
   if(choice){
     document.getElementById('interactive').style.display='none';
@@ -249,125 +238,32 @@ function revealMessage(choice){
   } else alert('You can scroll and see the memories anyway!');
 }
 
-// Stars
-function createStars(count){
-  for(let i=0;i<count;i++){
-    const star=document.createElement('div');
-    star.className='twinkle-star';
-    star.style.left=Math.random()*100+'vw';
-    star.style.top=Math.random()*100+'vh';
-    const size=1+Math.random()*3; star.style.width=size+'px'; star.style.height=size+'px';
-    animateStar(star); document.body.appendChild(star);
-  }
-}
-function animateStar(star){let opacity=Math.random()*0.5+0.5; let increasing=true; function twinkle(){if(increasing)opacity+=0.01;else opacity-=0.01;if(opacity>=1)increasing=false;if(opacity<=0.3)increasing=true;star.style.opacity=opacity;requestAnimationFrame(twinkle);} twinkle();}
+// Scroll-triggered fade-in
+function observeSections(){
+  const options = { threshold:0.25 };
+  const observer = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        const bubbles = entry.target.querySelectorAll('.text-bubble');
+        bubbles.forEach((b,i)=>setTimeout(()=>b.classList.add('fade-in'), i*300));
+      }
+    });
+  }, options);
 
-// Clouds
-function createClouds(count){
-  for(let i=0;i<count;i++){
-    const c=document.createElement('div'); c.className='cloud';
-    const size=150+Math.random()*150; c.style.width=size+'px'; c.style.height=(size/2)+'px';
-    c.style.left=Math.random()*100+'vw'; c.style.top=Math.random()*50+'vh';
-    document.body.appendChild(c); animateCloud(c, 0.01+Math.random()*0.02);
-  }
-}
-function animateCloud(c,speed){let pos=parseFloat(c.style.left);let dir=Math.random()<0.5?-1:1;function move(){pos+=dir*speed;if(pos>100)pos=-20;if(pos<-20)pos=100;c.style.left=pos+'vw';requestAnimationFrame(move);} move();}
-
-// Floating hearts
-function createFloatingHearts(count){
-  for(let i=0;i<count;i++){
-    const h=document.createElement('div');
-    h.className='heart';
-    h.style.left=Math.random()*100+'vw';
-    h.style.animationDuration=(5+Math.random()*5)+'s';
-    document.body.appendChild(h);
-  }
+  document.querySelectorAll('.section').forEach(section=>{
+    observer.observe(section);
+  });
 }
 
-// Tap-to-pop hearts
-document.addEventListener('click', e => createHeartTrail(e.clientX, e.clientY));
-document.addEventListener('touchmove', e => { 
-  for(const touch of e.touches) createHeartTrail(touch.clientX, touch.clientY);
-});
-function createHeartTrail(x, y){
-  const h = document.createElement('div');
-  h.className = 'heart small';
-  h.style.left = x + 'px';
-  h.style.top = y + 'px';
-  document.body.appendChild(h);
-  setTimeout(()=>h.remove(),1800);
-}
-
-// Shooting stars
-function shootingStar() {
-  const star = document.createElement('div');
-  star.className = 'shooting-star';
-  const head = document.createElement('div');
-  head.style.position = 'absolute';
-  head.style.width = '8px';
-  head.style.height = '8px';
-  head.style.background = 'radial-gradient(circle, white 0%, rgba(255,255,255,0) 60%)';
-  head.style.borderRadius = '50%';
-  head.style.top = '-4px';
-  head.style.left = '-4px';
-  head.style.filter = 'blur(2px)';
-  star.appendChild(head);
-
-  const startX = 80 + Math.random() * 20; 
-  const startY = Math.random() * 30;
-  star.style.left = startX + 'vw';
-  star.style.top = startY + 'vh';
-  star.style.width = '2px';
-  star.style.height = 120 + Math.random()*60 + 'px';
-  star.style.background = 'linear-gradient(to bottom, white, rgba(255,255,255,0))';
-  star.style.opacity = '0';
-  star.style.zIndex = 3;
-  document.body.appendChild(star);
-
-  const distanceX = - (window.innerWidth * (0.8 + Math.random() * 0.2));
-  const distanceY = window.innerHeight * (0.5 + Math.random() * 0.3);
-  star.style.transition = 'transform 1.2s linear, opacity 1.2s linear';
-  requestAnimationFrame(()=>{ star.style.transform=`translate(${distanceX}px, ${distanceY}px) rotate(45deg)`; star.style.opacity='1'; });
-  setTimeout(()=>{ star.style.transition='opacity 400ms linear'; star.style.opacity='0'; },800);
-  setTimeout(()=>star.remove(),1600);
-}
-
-(function spawnStars(){
-  setTimeout(()=>{
-    shootingStar();
-    if(Math.random()<0.5) shootingStar();
-    spawnStars();
-  },2000+Math.random()*2000);
-})();
-
-/* Section gradients for smooth blending */
-const sectionGradients = [
-  ['#FFD1DC','#FFB3C1'],  // Snapchat
-  ['#E4C7FF','#C8A4FF'],  // WhatsApp
-  ['#B5CCFF','#99B4FF'],  // Instagram
-  ['#1E1E3F','#0B0B1A']   // Real meet
-];
-
-function interpolateColor(c1,c2,f){
-  const n1=parseInt(c1.slice(1),16), n2=parseInt(c2.slice(1),16);
-  const r=Math.round(((n2>>16)&255)*f + ((n1>>16)&255)*(1-f));
-  const g=Math.round(((n2>>8)&255)*f + ((n1>>8)&255)*(1-f));
-  const b=Math.round((n2&255)*f + (n1&255)*(1-f));
-  return `rgb(${r},${g},${b})`;
-}
-
-window.addEventListener('scroll',()=>{
-  const scroll = window.scrollY;
-  const totalHeight = document.body.scrollHeight - window.innerHeight;
-  const normScroll = scroll / totalHeight;
-  let sectionIndex = 0;
-  for(let i=0;i<sectionGradients.length-1;i++){
-    if(normScroll >= i/(sectionGradients.length-1) && normScroll <= (i+1)/(sectionGradients.length-1)) sectionIndex=i;
-  }
-  const frac = (normScroll - sectionIndex/(sectionGradients.length-1))*(sectionGradients.length-1);
-  const start = sectionGradients[sectionIndex], end = sectionGradients[sectionIndex+1];
-  document.body.style.background=`linear-gradient(120deg, ${interpolateColor(start[0],end[0],frac)}, ${interpolateColor(start[1],end[1],frac)})`;
-});
+// Hearts, stars, clouds same as previous code
+function createStars(count){for(let i=0;i<count;i++){const s=document.createElement('div');s.className='twinkle-star';s.style.left=Math.random()*100+'vw';s.style.top=Math.random()*100+'vh';const sz=1+Math.random()*3;s.style.width=sz+'px';s.style.height=sz+'px';animateStar(s);document.body.appendChild(s);}}
+function animateStar(s){let o=Math.random()*0.5+0.5;let inc=true;function tw(){if(inc)o+=0.01;else o-=0.01;if(o>=1)inc=false;if(o<=0.3)inc=true;s.style.opacity=o;requestAnimationFrame(tw);}tw();}
+function createClouds(c){for(let i=0;i<c;i++){const cl=document.createElement('div');cl.className='cloud';const sz=150+Math.random()*150;cl.style.width=sz+'px';cl.style.height=(sz/2)+'px';cl.style.left=Math.random()*100+'vw';cl.style.top=Math.random()*50+'vh';document.body.appendChild(cl);animateCloud(cl,0.01+Math.random()*0.02);}}
+function animateCloud(cl,s){let pos=parseFloat(cl.style.left);let dir=Math.random()<0.5?-1:1;function move(){pos+=dir*s;if(pos>100)pos=-20;if(pos<-20)pos=100;cl.style.left=pos+'vw';requestAnimationFrame(move);}move();}
+function createFloatingHearts(count){for(let i=0;i<count;i++){const h=document.createElement('div');h.className='heart';h.style.left=Math.random()*100+'vw';h.style.animationDuration=(5+Math.random()*5)+'s';document.body.appendChild(h);}}
+document.addEventListener('click', e=>createHeartTrail(e.clientX,e.clientY));
+document.addEventListener('touchmove', e=>{for(const t of e.touches) createHeartTrail(t.clientX,t.clientY);});
+function createHeartTrail(x,y){const h=document.createElement('div');h.className='heart small';h.style.left=x+'px';h.style.top=y+'px';document.body.appendChild(h);setTimeout(()=>h.remove(),1800);}
 </script>
 </body>
 </html>
