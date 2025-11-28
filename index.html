@@ -4,7 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Happy Birthday Ishita 💖</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+
 <style>
 body, html {
   margin:0; padding:0;
@@ -16,6 +18,18 @@ body, html {
   color:#333;
 }
 
+/* NEW background layer */
+#bg-layer {
+  position: fixed;
+  top:0; left:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  z-index:0 !important;
+  pointer-events:none;
+}
+
+/* Main content */
 .section {
   min-height:100vh;
   display:flex;
@@ -25,10 +39,11 @@ body, html {
   text-align:center;
   flex-direction:column;
   position:relative;
-  z-index:5;
+  z-index:10 !important;
   transition: background 1s linear;
 }
 
+/* Text bubble */
 .text-bubble {
   display:inline-block;
   padding:25px 35px;
@@ -43,7 +58,7 @@ body, html {
   transform:translateY(30px);
   transition: all 1s ease;
   position:relative;
-  z-index:5;
+  z-index:10;
 }
 
 .fade-in { opacity:1 !important; transform:translateY(0px) !important; }
@@ -61,35 +76,33 @@ p { font-size:1.3em; max-width:700px; }
   font-size:1.2em;
   margin:10px;
   transition: transform 0.2s;
-  z-index:5;
+  z-index:10;
   position:relative;
 }
 .interactive-btn:hover { transform: scale(1.1); }
 
 @media(max-width:900px){
-  .text-bubble{max-width:85%; font-size:1.1em; padding:20px 25px; margin:20px auto;}
+  .text-bubble{max-width:85%; font-size:1.1em; padding:20px 25px;}
   h1{font-size:3em;}
 }
 @media(max-width:600px){
   .section{padding:40px 15px;}
-  .text-bubble{max-width:95%; font-size:1em; padding:18px 22px; margin:15px 0;}
+  .text-bubble{max-width:95%; font-size:1em; padding:18px 22px;}
   h1{font-size:2.5em; margin-top:20px;}
 }
 
-/* Perfect heart shape */
+/* Hearts */
 .heart {
-  position: fixed;
+  position: absolute;
   width: 22px;
   height: 22px;
   background: #ff77aa;
   transform: rotate(-45deg);
   pointer-events: none;
-  z-index: 3;
-  animation: floatUp linear infinite;
+  z-index:3;
+  animation: floatUp linear infinite, rainbowColor 6s infinite;
   border-radius: 50%;
 }
-
-/* Heart lobes */
 .heart::before,
 .heart::after {
   content: "";
@@ -102,75 +115,64 @@ p { font-size:1.3em; max-width:700px; }
 .heart::before { top: -11px; left: 0; }
 .heart::after { top: 0; left: 11px; }
 
-/* Small hearts for trail */
 .heart.small {
-  width: 14px;
-  height: 14px;
+  width: 14px; height:14px;
   animation: floatUp 1.8s ease-out forwards;
 }
 .heart.small::before,
-.heart.small::after { width: 14px; height: 14px; }
-.heart.small::before { top: -7px; }
-.heart.small::after { left: 7px; }
+.heart.small::after { width:14px; height:14px; }
 
 /* Stars */
 .twinkle-star {
-  position: fixed;
-  width: 2px;
-  height: 2px;
+  position: absolute;
   background: white;
   border-radius: 50%;
-  opacity: 0.5;
-  pointer-events: none;
-  z-index: 2;
+  pointer-events:none;
   box-shadow: 0 0 10px white;
+  z-index:1;
 }
 
 /* Clouds */
 .cloud {
-  position: fixed;
-  border-radius: 50%;
+  position: absolute;
+  border-radius:50%;
   background: rgba(255,255,255,0.4);
-  z-index: 1;
-  pointer-events: none;
   filter: blur(10px);
+  pointer-events:none;
+  z-index:1;
 }
 
 /* Shooting star */
 .shooting-star {
-  position: fixed;
+  position: absolute;
   width: 2px;
   height: 100px;
-  background: linear-gradient(to bottom, white, rgba(255,255,255,0));
+  background: linear-gradient(to bottom, white, transparent);
   opacity: 1;
-  border-radius: 50px;
   transform: rotate(45deg);
-  pointer-events: none;
-  z-index: 2;
+  pointer-events:none;
+  z-index:2;
 }
 
-/* Carousel placeholder */
+/* Carousel */
 .carousel {
-  width: 80%;
+  width:80%;
   max-width:500px;
   height:250px;
   margin:30px auto;
-  background: rgba(255,255,255,0.5);
+  background:rgba(255,255,255,0.5);
   border-radius:20px;
   display:flex;
   justify-content:center;
   align-items:center;
-  font-size:1.2em;
-  color:#333;
 }
 
-/* Heart float animation */
+/* Heart float */
 @keyframes floatUp {
   0% { transform: translateY(0) rotate(-45deg); opacity:0.8; }
   100% { transform: translateY(-800px) rotate(-45deg); opacity:0; }
 }
 
-/* Heart rainbow color cycle */
 @keyframes rainbowColor {
   0%{background:#ff77aa;}
   20%{background:#ffb347;}
@@ -179,41 +181,43 @@ p { font-size:1.3em; max-width:700px; }
   80%{background:#87cefa;}
   100%{background:#ff77aa;}
 }
-.heart { animation: floatUp linear infinite, rainbowColor 6s infinite; }
+
 </style>
 </head>
+
 <body>
 
+<!-- NEW background layer -->
+<div id="bg-layer"></div>
+
+<!-- CONTENT SECTIONS (unchanged) -->
 <div class="section" id="landing">
   <h1>Happy Birthday Ishita 💖</h1>
   <button class="interactive-btn" onclick="startSite()">Click to Start</button>
 </div>
 
 <div class="section" id="intro">
-  <div class="text-bubble">
-    Let's take a little journey through our memories together 💖
-  </div>
+  <div class="text-bubble">Let's take a little journey through our memories together 💖</div>
 </div>
 
 <div class="section" id="snapchat">
-  <div class="text-bubble">Snapchat days: Our first talks, little snaps, discovering each other slowly...</div>
+  <div class="text-bubble">Snapchat days: Our first talks, little snaps...</div>
   <div class="text-bubble">Thanks to Yogita we got closer earlier and I got your number...</div>
-  <div class="text-bubble">Maybe I would’ve gotten your number later too, but I don’t know when—or how long I would’ve waited.</div>
-  <div class="text-bubble">Because of Yogita's job search, we connected on WhatsApp and got to know each other more...</div>
+  <div class="text-bubble">Maybe I would’ve gotten your number later too...</div>
+  <div class="text-bubble">Because of Yogita's job search, we connected on WhatsApp...</div>
 </div>
 
 <div class="section" id="whatsapp">
-  <div class="text-bubble">WhatsApp chats: Long movie nights, deep talks, sending each other our favorite rom-coms 🎬💖</div>
-  <div class="text-bubble">Whenever I see reels about How to Lose a Guy in 10 Days or 10 Things I Hate About You, it reminds me of you 😅💓</div>
-  <div class="text-bubble">Any rom-com movie reminds me of youuuuuu 🎥💕 but these 2 are special and unforgettable 😍</div>
-  <div class="text-bubble">Our first movie together was Saltburn 🎞️ Your reactions were hilarious 🤭🤣</div>
+  <div class="text-bubble">WhatsApp chats: Long movie nights...</div>
+  <div class="text-bubble">Whenever I see reels about How to Lose a Guy in 10 Days...</div>
+  <div class="text-bubble">Any rom-com movie reminds me of youuuuuu...</div>
+  <div class="text-bubble">Our first movie together was Saltburn 🎞️...</div>
   <div class="text-bubble">And remember our horror movie together - IT Chapter 1 👻😱</div>
 </div>
 
 <div class="section" id="interactive">
   <div class="text-bubble">
-    Do you want to see your birthday surprise?
-    <br>
+    Do you want to see your birthday surprise?<br>
     <button class="interactive-btn" onclick="revealMessage(true)">Yes</button>
     <button class="interactive-btn" onclick="revealMessage(false)">No</button>
   </div>
@@ -230,6 +234,9 @@ p { font-size:1.3em; max-width:700px; }
 </audio>
 
 <script>
+// Background container
+const bg = document.getElementById("bg-layer");
+
 // Start site
 function startSite(){
   try { document.getElementById('bg-music').play(); } catch(e){}
@@ -240,9 +247,11 @@ function startSite(){
 }
 
 // Fade-in
-function fadeInSections(){document.querySelectorAll('.text-bubble').forEach(b=>b.classList.add('fade-in'));}
+function fadeInSections(){
+  document.querySelectorAll('.text-bubble').forEach(b => b.classList.add('fade-in'));
+}
 
-// Reveal birthday
+// Reveal message
 function revealMessage(choice){
   if(choice){
     document.getElementById('interactive').style.display='none';
@@ -258,22 +267,52 @@ function createStars(count){
     star.className='twinkle-star';
     star.style.left=Math.random()*100+'vw';
     star.style.top=Math.random()*100+'vh';
-    const size=1+Math.random()*3; star.style.width=size+'px'; star.style.height=size+'px';
-    animateStar(star); document.body.appendChild(star);
+    const size=1+Math.random()*3;
+    star.style.width=size+'px';
+    star.style.height=size+'px';
+    animateStar(star);
+    bg.appendChild(star);
   }
 }
-function animateStar(star){let opacity=Math.random()*0.5+0.5; let increasing=true; function twinkle(){if(increasing)opacity+=0.01;else opacity-=0.01;if(opacity>=1)increasing=false;if(opacity<=0.3)increasing=true;star.style.opacity=opacity;requestAnimationFrame(twinkle);} twinkle();}
+function animateStar(star){
+  let opacity=Math.random()*0.5+0.5;
+  let increasing=true;
+  function twinkle(){
+    if(increasing) opacity+=0.01; else opacity-=0.01;
+    if(opacity>=1) increasing=false;
+    if(opacity<=0.3) increasing=true;
+    star.style.opacity=opacity;
+    requestAnimationFrame(twinkle);
+  }
+  twinkle();
+}
 
 // Clouds
 function createClouds(count){
   for(let i=0;i<count;i++){
-    const c=document.createElement('div'); c.className='cloud';
-    const size=150+Math.random()*150; c.style.width=size+'px'; c.style.height=(size/2)+'px';
-    c.style.left=Math.random()*100+'vw'; c.style.top=Math.random()*50+'vh';
-    document.body.appendChild(c); animateCloud(c, 0.01+Math.random()*0.02);
+    const c=document.createElement('div');
+    c.className='cloud';
+    const size=150+Math.random()*150;
+    c.style.width=size+'px';
+    c.style.height=(size/2)+'px';
+    c.style.left=Math.random()*100+'vw';
+    c.style.top=Math.random()*50+'vh';
+    bg.appendChild(c);
+    animateCloud(c, 0.01+Math.random()*0.02);
   }
 }
-function animateCloud(c,speed){let pos=parseFloat(c.style.left);let dir=Math.random()<0.5?-1:1;function move(){pos+=dir*speed;if(pos>100)pos=-20;if(pos<-20)pos=100;c.style.left=pos+'vw';requestAnimationFrame(move);} move();}
+function animateCloud(c,speed){
+  let pos=parseFloat(c.style.left);
+  let dir=Math.random()<0.5?-1:1;
+  function move(){
+    pos+=dir*speed;
+    if(pos>100) pos=-20;
+    if(pos<-20) pos=100;
+    c.style.left=pos+'vw';
+    requestAnimationFrame(move);
+  }
+  move();
+}
 
 // Floating hearts
 function createFloatingHearts(count){
@@ -282,39 +321,42 @@ function createFloatingHearts(count){
     h.className='heart';
     h.style.left=Math.random()*100+'vw';
     h.style.animationDuration=(5+Math.random()*5)+'s';
-    document.body.appendChild(h);
+    bg.appendChild(h);
   }
 }
 
-// Tap-to-pop heart trail
+// Tap hearts
 document.addEventListener('click', e => createHeartTrail(e.clientX, e.clientY));
-document.addEventListener('touchmove', e => { 
-  for(const touch of e.touches) createHeartTrail(touch.clientX, touch.clientY);
+document.addEventListener('touchmove', e => {
+  for(const t of e.touches) createHeartTrail(t.clientX, t.clientY);
 });
-function createHeartTrail(x, y){
+function createHeartTrail(x,y){
   const h=document.createElement('div');
   h.className='heart small';
   h.style.left=x+'px';
   h.style.top=y+'px';
-  document.body.appendChild(h);
+  bg.appendChild(h);
   setTimeout(()=>h.remove(),1800);
 }
 
 // Shooting stars
-function shootingStar() {
-  const star = document.createElement('div');
-  star.className = 'shooting-star';
-  document.body.appendChild(star);
-  const startX = 80 + Math.random() * 20; 
-  const startY = Math.random() * 30;
-  star.style.left = startX + 'vw';
-  star.style.top = startY + 'vh';
-  const distanceX = - (window.innerWidth * (0.8 + Math.random() * 0.2));
-  const distanceY = window.innerHeight * (0.5 + Math.random() * 0.3);
-  star.style.transition = 'transform 1.2s linear, opacity 1.2s linear';
-  requestAnimationFrame(()=>{ star.style.transform=`translate(${distanceX}px, ${distanceY}px) rotate(45deg)`; star.style.opacity='1'; });
-  setTimeout(()=>{ star.style.transition='opacity 400ms linear'; star.style.opacity='0'; },800);
-  setTimeout(()=>star.remove(),1600);
+function shootingStar(){
+  const star=document.createElement('div');
+  star.className='shooting-star';
+  bg.appendChild(star);
+  const startX=80+Math.random()*20;
+  const startY=Math.random()*30;
+  star.style.left=startX+'vw';
+  star.style.top=startY+'vh';
+  const distX = -(window.innerWidth*(0.8+Math.random()*0.2));
+  const distY = window.innerHeight*(0.5+Math.random()*0.3);
+  star.style.transition='transform 1.2s linear, opacity 1.2s linear';
+  requestAnimationFrame(()=>{
+    star.style.transform=`translate(${distX}px, ${distY}px) rotate(45deg)`;
+    star.style.opacity='1';
+  });
+  setTimeout(()=>{ star.style.opacity='0'; },900);
+  setTimeout(()=>star.remove(),1700);
 }
 
 (function spawnStars(){
@@ -325,8 +367,8 @@ function shootingStar() {
   },2000+Math.random()*2000);
 })();
 
-// Background gradient interpolation fix
-const sectionGradients = [
+// Gradient fix
+const sectionGradients=[
   ['#ffd6e0','#ffe7ba'],
   ['#ffe0d6','#ffd1ba'],
   ['#ffdde1','#ffc1e3'],
@@ -340,21 +382,18 @@ function interpolateColor(c1,c2,f){
   const b=Math.round((n2&255)*f + (n1&255)*(1-f));
   return `rgb(${r},${g},${b})`;
 }
-
 window.addEventListener('scroll',()=>{
-  const scroll = window.scrollY;
-  const totalHeight = document.body.scrollHeight - window.innerHeight;
-  let normScroll = scroll / totalHeight;
-  normScroll = Math.max(0, Math.min(1, normScroll)); // clamp 0-1
-
-  let sectionIndex = Math.floor(normScroll * (sectionGradients.length-1));
-  if(sectionIndex >= sectionGradients.length-1) sectionIndex = sectionGradients.length-2;
-
-  const frac = (normScroll - sectionIndex/(sectionGradients.length-1)) * (sectionGradients.length-1);
-  const start = sectionGradients[sectionIndex], end = sectionGradients[sectionIndex+1];
-
-  document.body.style.background = `linear-gradient(120deg, ${interpolateColor(start[0],end[0],frac)}, ${interpolateColor(start[1],end[1],frac)})`;
+  const scroll=window.scrollY;
+  const total=document.body.scrollHeight-window.innerHeight;
+  let norm=scroll/total;
+  norm=Math.max(0,Math.min(1,norm));
+  let idx=Math.floor(norm*(sectionGradients.length-1));
+  if(idx>=sectionGradients.length-1) idx=sectionGradients.length-2;
+  const frac=(norm - idx/(sectionGradients.length-1))*(sectionGradients.length-1);
+  const start=sectionGradients[idx], end=sectionGradients[idx+1];
+  document.body.style.background=`linear-gradient(120deg, ${interpolateColor(start[0],end[0],frac)}, ${interpolateColor(start[1],end[1],frac)})`;
 });
 </script>
+
 </body>
 </html>
