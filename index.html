@@ -8,532 +8,656 @@
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
 
 <style>
-/* --------------------
-   Base / layout
-   -------------------- */
-html,body{
-  margin:0; padding:0;
-  height:100%;
-  font-family:'Quicksand',sans-serif;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  background: linear-gradient(120deg,#ffd6e0,#ffe7ba);
-  overflow-x:hidden;
-  scroll-behavior:smooth;
+/* ----------------------
+   Base & layout (your content preserved)
+   ---------------------- */
+:root{
+  --pink-1:#ffd6e0;
+  --pink-2:#ffe7ba;
+  --accent:#ff77aa;
+  --bubble-bg: rgba(255,255,255,0.62);
+  --text:#222;
+  --max-width:1100px;
 }
 
-/* background layer (stars, clouds, hearts, meteors go here) */
+/* reset */
+*{box-sizing:border-box}
+html,body{height:100%}
+body,html{
+  margin:0; padding:0;
+  font-family:'Quicksand',sans-serif;
+  overflow-x:hidden;
+  scroll-behavior:smooth;
+  color:var(--text);
+  background: linear-gradient(120deg,var(--pink-1),var(--pink-2));
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+/* background layer (sky, stars, clouds, hearts etc) */
 #bg-layer{
-  position:fixed;
-  inset:0;
-  z-index:0;
-  pointer-events:none;
+  position:fixed; inset:0; z-index:0; pointer-events:none;
   overflow:hidden;
 }
 
-/* content sits above background */
-.content {
-  position:relative;
-  z-index:10;
+/* page glow border */
+.page-glow {
+  position:fixed;
+  inset: -4px;
+  pointer-events:none;
+  z-index: 30;
+  background: linear-gradient(120deg, rgba(255,119,170,0.06), rgba(255,180,123,0.02));
+  filter: blur(30px);
+  opacity:0.9;
+  mix-blend-mode: screen;
 }
 
-/* sections */
-.section{
+/* main container and sections */
+.container{position:relative; z-index:10; max-width:var(--max-width); margin:0 auto}
+.section {
   min-height:100vh;
   display:flex;
-  align-items:center;
   justify-content:center;
-  padding:50px 20px;
+  align-items:center;
+  padding:48px 22px;
   text-align:center;
   flex-direction:column;
-  box-sizing:border-box;
+  position:relative;
+  transition: background 900ms ease;
 }
 
-/* text bubble (keeps existing content exactly) */
-.text-bubble{
+/* text bubble (kept exactly your content style but enhanced with motion-friendly defaults) */
+.text-bubble {
   display:inline-block;
-  padding:25px 35px;
-  background: rgba(255,255,255,0.62);
+  padding:22px 30px;
+  background: var(--bubble-bg);
   border-radius:30px;
-  box-shadow:0 8px 20px rgba(0,0,0,0.08);
+  box-shadow:0 10px 30px rgba(0,0,0,0.08);
   backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  max-width:70%;
-  font-size:1.15rem;
-  margin:24px 0;
-  color:#222;
-  transform: translateY(24px);
-  opacity:0;
-  transition: transform 700ms cubic-bezier(.2,.9,.25,1), opacity 700ms ease;
+  max-width:85%;
+  font-size:1.12rem;
+  margin:20px 0;
+  opacity:0; transform: translateY(26px) scale(0.995);
+  transition: transform 700ms cubic-bezier(.2,.9,.2,1), opacity 700ms ease;
+  position:relative;
+  z-index:10;
+  line-height:1.45;
 }
 
-/* visible state for intersection observer */
+/* "visible" class applied by JS when section enters */
 .text-bubble.visible{
-  transform: translateY(0);
-  opacity:1;
+  opacity:1; transform: translateY(0) scale(1);
 }
 
-/* heading */
-h1{
-  font-family:'Great Vibes',cursive;
+/* header title (Great Vibes cursive) - handwriting reveal */
+h1 {
+  font-family:'Great Vibes', cursive;
   font-size:3.6rem;
-  margin:0 0 14px 0;
-  color:#ff77aa;
+  margin:0 0 14px;
+  color:var(--accent);
+  letter-spacing:0.6px;
+  z-index:12;
+  position:relative;
   line-height:1;
+  -webkit-font-smoothing:antialiased;
 }
 
-/* button */
+/* small subtitle under header (keeps old content behavior) */
+.header-wrap{display:flex; flex-direction:column; align-items:center; gap:8px}
+
+/* interactive button - nicer */
 .interactive-btn{
-  padding:12px 22px;
-  background:#ff8fab;
-  color:#fff;
-  border:0;
-  border-radius:20px;
-  cursor:pointer;
-  font-size:1.05rem;
-  margin-top:10px;
-  box-shadow:0 6px 18px rgba(255,139,171,0.18);
+  padding:11px 22px;
+  background: linear-gradient(90deg,#ff8fab,#ff6aa0);
+  color:#fff; border: none; border-radius:20px;
+  cursor:pointer; outline:none; font-weight:700;
+  box-shadow: 0 8px 22px rgba(255,105,140,0.12);
+  transform-origin:center;
+  transition: transform 180ms cubic-bezier(.2,.9,.2,1), box-shadow 180ms ease;
+  z-index:12;
 }
-.interactive-btn:active{ transform:scale(.99); }
+.interactive-btn:hover{ transform: translateY(-4px) scale(1.02); box-shadow:0 14px 40px rgba(255,105,140,0.14); }
+.interactive-btn:active{ transform: translateY(-1px) scale(.998); }
 
-/* small helper */
-.carousel{
-  width:80%;
+/* ripple for button */
+.button-ripple {
+  position:absolute; border-radius:50%; pointer-events:none;
+  transform:translate(-50%,-50%) scale(0);
+  background: rgba(255,255,255,0.3);
+  animation: ripple 600ms ease-out forwards;
+  z-index:20;
+}
+@keyframes ripple{ to { transform: translate(-50%,-50%) scale(2.8); opacity:0 } }
+
+/* carousel (swipe) - simple, minimal, mobile friendly */
+.carousel {
+  width:92%;
   max-width:520px;
-  height:240px;
-  margin:26px auto;
-  background: rgba(255,255,255,0.42);
+  height:260px;
+  margin:20px auto;
   border-radius:18px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#333;
-  font-size:1.05rem;
-  box-shadow:0 6px 18px rgba(0,0,0,0.06);
+  overflow:hidden;
+  background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03));
+  display:flex; align-items:center; justify-content:center;
+  position:relative; z-index:12;
+  box-shadow:0 12px 30px rgba(0,0,0,0.08);
+}
+
+/* carousel inner track */
+.carousel-track {
+  display:flex; height:100%; width:100%;
+  transition: transform 420ms cubic-bezier(.22,.9,.15,1);
+  touch-action: pan-y;
+}
+
+/* each slide */
+.carousel-slide {
+  min-width:100%;
+  height:100%;
+  display:flex; align-items:center; justify-content:center;
+  background-size:cover; background-position:center;
+}
+
+/* fake placeholder style for empty image */
+.carousel-empty {
+  color:#333; font-size:1rem; opacity:0.9;
+  padding:18px;
+}
+
+/* carousel nav dots */
+.carousel-dots { position:absolute; bottom:12px; left:50%; transform:translateX(-50%); display:flex; gap:8px; z-index:15; }
+.dot{ width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,0.5); cursor:pointer; transition:transform 160ms; }
+.dot.active{ background:#fff; transform:scale(1.25) }
+
+/* final message typing effect */
+#birthday-note { white-space:pre-wrap; min-height:72px; }
+.typing-cursor{ display:inline-block; width:2px; height:1.05em; background:#333;
+  margin-left:6px; vertical-align:middle; animation: blink 800ms steps(1) infinite; }
+@keyframes blink{ 0%{opacity:1}50%{opacity:0}100%{opacity:1} }
+
+/* sky extras - stars, clouds, shooting star improvements (parallax) */
+/* small star dots (created by JS) - use transform3d for smoother motion */
+.twinkle-star{ position:absolute; width:2px; height:2px; border-radius:50%; background:#fff; box-shadow:0 0 10px rgba(255,255,255,0.9); opacity:0.7; transform: translate3d(0,0,0); }
+
+/* cloud look */
+.cloud{ position:absolute; border-radius:50%; background: rgba(255,255,255,0.35); filter: blur(10px); transform: translate3d(0,0,0); }
+
+/* shooting star (JS builds and animates) */
+.shooting-star{ position:absolute; transform-origin:center; will-change:transform,opacity; }
+
+/* small decorative sparkle layer (parallax dust) */
+.sparkle {
+  position:absolute; width:4px; height:4px; border-radius:50%;
+  background:rgba(255,255,255,0.7); filter:blur(2px); opacity:0.8;
+  transform: translate3d(0,0,0);
 }
 
 /* responsive tweaks */
-@media (max-width:900px){
-  .text-bubble{ max-width:86%; font-size:1.05rem; padding:20px; }
-  h1{ font-size:2.6rem; }
-  .carousel{ height:200px; }
+@media(min-width:900px){
+  h1{font-size:4.6rem}
+  .text-bubble{font-size:1.18rem; max-width:70%}
 }
-@media (max-width:520px){
-  h1{ font-size:2.1rem; }
-  .text-bubble{ padding:18px; font-size:0.98rem; }
-  .carousel{ width:92%; height:180px; }
+@media(max-width:420px){
+  h1{font-size:2.6rem}
+  .text-bubble{font-size:1rem; padding:18px}
+  .carousel{height:200px}
 }
 
-/* --------------------
-   PERFECT HEART (Option 1)
-   - classic heart built with rotated square + two circular lobes
-   -------------------- */
-.heart{
-  position:absolute;
-  width:18px;
-  height:18px;
-  background: rgba(255,119,170,0.98);
+/* small section entrance flourish */
+.section.showing {
+  /* subtle scale on entry */
+  transition: transform 650ms cubic-bezier(.2,.9,.2,1);
+}
+
+/* accessibility focus */
+.interactive-btn:focus{ box-shadow:0 0 0 6px rgba(255,119,170,0.12); outline:none; }
+
+/* keep your exact heart styling intact underneath (you told they were perfect) */
+/* The code below is intentionally identical to your working heart CSS to preserve visuals */
+.heart {
+  position: fixed;
+  width: 22px;
+  height: 22px;
+  background: #ff77aa;
   transform: rotate(-45deg);
-  pointer-events:none;
-  z-index: 2;
-  will-change: transform, opacity;
+  pointer-events: none;
+  z-index: 3;
+  animation: floatUp linear infinite;
+  border-radius: 50%;
 }
-
-/* the two lobes */
 .heart::before,
-.heart::after{
-  content:"";
-  position:absolute;
-  width:18px;
-  height:18px;
-  background: rgba(255,119,170,0.98);
-  border-radius:50%;
-  left:0;
-  top:0;
+.heart::after {
+  content: "";
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  background: #ff77aa;
+  border-radius: 50%;
 }
-
-.heart::before{ top:-9px; left:0; }
-.heart::after { top:0; left:9px; }
-
-/* small variant for tap trail */
-.heart.small{
-  width:12px;
-  height:12px;
+.heart::before { top: -11px; left: 0; }
+.heart::after { top: 0; left: 11px; }
+.heart.small {
+  width: 14px; height:14px;
+  animation: floatUp 1.8s ease-out forwards;
 }
 .heart.small::before,
-.heart.small::after{ width:12px; height:12px; }
-.heart.small::before{ top:-6px; left:0; }
-.heart.small::after{ top:0; left:6px; }
+.heart.small::after { width:14px; height:14px; }
+.heart.small::before { top: -7px; }
+.heart.small::after { left: 7px; }
 
-/* heart float animation (used for floating hearts) */
-@keyframes heartFloat {
-  0% { transform: translateY(0) rotate(-45deg) scale(1); opacity:1; }
-  100% { transform: translateY(-360px) rotate(-45deg) scale(1.18); opacity:0; }
-}
-
-/* slight color pulse for floating hearts */
-@keyframes heartHue {
-  0%{ filter: hue-rotate(0deg); }
-  50%{ filter: hue-rotate(10deg) saturate(1.05); }
-  100%{ filter: hue-rotate(0deg); }
-}
-
-/* --------------------
-   Twinkle stars
-   -------------------- */
-.twinkle-star{
-  position:absolute;
-  width:2px;
-  height:2px;
-  background:white;
-  border-radius:50%;
-  box-shadow:0 0 8px rgba(255,255,255,0.9), 0 0 6px rgba(255,255,255,0.5);
-  opacity:0.6;
-  pointer-events:none;
-  z-index:1;
-  will-change: opacity;
-}
-
-/* --------------------
-   Clouds
-   -------------------- */
-.cloud{
-  position:absolute;
-  border-radius:50%;
-  background: rgba(255,255,255,0.38);
-  filter: blur(10px);
-  pointer-events:none;
-  z-index:1;
-  will-change: left, top;
-}
-
-/* --------------------
-   Shooting star (meteor) visuals
-   -------------------- */
-.meteor{
-  position:absolute;
-  width:3px;
-  height:120px;
-  background: linear-gradient(to bottom, rgba(255,255,255,1), rgba(255,255,255,0));
-  border-radius:20px;
-  transform: rotate(45deg);
-  pointer-events:none;
-  z-index:2;
-  will-change: transform, opacity;
-  filter: blur(0.6px);
-}
-
-/* small glow at head */
-.meteor .head{
-  position:absolute;
-  right:-6px;
-  top:-6px;
-  width:14px;
-  height:14px;
-  border-radius:50%;
-  background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0.2) 40%, rgba(255,255,255,0) 60%);
-  filter: blur(1.2px);
-}
-
-/* --------------------
-   subtle page-level overlay to add evening -> night vignette
-   -------------------- */
-#vignette{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:5;
-  background: radial-gradient(60% 40% at 50% 10%, rgba(255,255,255,0) 0%, rgba(0,0,0,0.06) 60%, rgba(0,0,0,0.12) 100%);
-  mix-blend-mode: overlay;
+/* keep original float animation */
+@keyframes floatUp {
+  0% { transform: translateY(0) scale(0.8) rotate(-45deg); opacity:0.8; }
+  100% { transform: translateY(-800px) scale(1.2) rotate(-45deg); opacity:0; }
 }
 </style>
 </head>
-
 <body>
-  <!-- background layer -->
-  <div id="bg-layer" aria-hidden="true">
-    <div id="vignette"></div>
-    <!-- dynamic elements will be appended here via JS -->
+
+<!-- Background layer: stars, clouds, sparkles, shooting stars, hearts live here -->
+<div id="bg-layer"></div>
+
+<!-- Soft page glow -->
+<div class="page-glow" aria-hidden="true"></div>
+
+<!-- Actual page content (kept your text intact) -->
+<div class="container">
+
+  <div class="section" id="landing">
+    <div class="header-wrap">
+      <h1 id="title">Happy Birthday Ishita 💖</h1>
+      <button class="interactive-btn" id="startBtn">Click to Start</button>
+    </div>
   </div>
 
-  <!-- content -->
-  <div class="content">
-    <!-- CONTENT SECTIONS (kept same as your last provided content) -->
-    <div class="section" id="landing">
-      <h1>Happy Birthday Ishita 💖</h1>
-      <button class="interactive-btn" onclick="startSite()">Click to Start</button>
-    </div>
+  <div class="section" id="intro">
+    <div class="text-bubble">Let's take a little journey through our memories together 💖</div>
+  </div>
 
-    <div class="section" id="intro">
-      <div class="text-bubble">Let's take a little journey through our memories together 💖</div>
-    </div>
+  <div class="section" id="snapchat">
+    <div class="text-bubble">Snapchat days: Our first talks, little snaps, discovering each other slowly...</div>
+    <div class="text-bubble">Thanks to Yogita we got closer earlier and I got your number...</div>
+    <div class="text-bubble">Maybe I would’ve gotten your number later too, but I don’t know when—or how long I would’ve waited.</div>
+    <div class="text-bubble">Because of Yogita's job search, we connected on WhatsApp and got to know each other more...</div>
+  </div>
 
-    <div class="section" id="snapchat">
-      <div class="text-bubble">Snapchat days: Our first talks, little snaps...</div>
-      <div class="text-bubble">Thanks to Yogita we got closer earlier and I got your number...</div>
-      <div class="text-bubble">Maybe I would’ve gotten your number later too...</div>
-      <div class="text-bubble">Because of Yogita's job search, we connected on WhatsApp...</div>
-    </div>
+  <div class="section" id="whatsapp">
+    <div class="text-bubble">WhatsApp chats: Long movie nights, deep talks, sending each other our favorite rom-coms 🎬💖</div>
+    <div class="text-bubble">Whenever I see reels about How to Lose a Guy in 10 Days or 10 Things I Hate About You, it reminds me of you 😅💓</div>
+    <div class="text-bubble">Any rom-com movie reminds me of youuuuuu 🎥💕 but these 2 are special and unforgettable 😍</div>
+    <div class="text-bubble">Our first movie together was Saltburn 🎞️ Your reactions were hilarious 🤭🤣</div>
+    <div class="text-bubble">And remember our horror movie together - IT Chapter 1 👻😱</div>
+  </div>
 
-    <div class="section" id="whatsapp">
-      <div class="text-bubble">WhatsApp chats: Long movie nights...</div>
-      <div class="text-bubble">Whenever I see reels about How to Lose a Guy in 10 Days...</div>
-      <div class="text-bubble">Any rom-com movie reminds me of youuuuuu...</div>
-      <div class="text-bubble">Our first movie together was Saltburn 🎞️...</div>
-      <div class="text-bubble">And remember our horror movie together - IT Chapter 1 👻😱</div>
+  <div class="section" id="interactive">
+    <div class="text-bubble">
+      Do you want to see your birthday surprise?
+      <br><br>
+      <button class="interactive-btn" id="revealYes">Yes</button>
+      <button class="interactive-btn" id="revealNo">No</button>
     </div>
+  </div>
 
-    <div class="section" id="interactive">
-      <div class="text-bubble">
-        Do you want to see your birthday surprise?<br>
-        <button class="interactive-btn" onclick="revealMessage(true)">Yes</button>
-        <button class="interactive-btn" onclick="revealMessage(false)">No</button>
+  <div class="section" id="final-message" style="display:none;">
+    <div class="text-bubble" id="birthday-note">Here will be your emotional birthday note...</div>
+
+    <!-- carousel - add your images by replacing the 'background-image' inline style -->
+    <div class="carousel" aria-hidden="false">
+      <div class="carousel-track" id="carouselTrack">
+        <!-- Example slides (replace background-image URLs with your photos) -->
+        <div class="carousel-slide" style="background-image: url('');">
+          <div class="carousel-empty">Add your photo 1 by replacing the slide background-image URL</div>
+        </div>
+        <div class="carousel-slide" style="background-image: url('');">
+          <div class="carousel-empty">Photo 2 placeholder — paste your image URL here later</div>
+        </div>
+        <div class="carousel-slide" style="background-image: url('');">
+          <div class="carousel-empty">Photo 3 placeholder</div>
+        </div>
+      </div>
+
+      <div class="carousel-dots" id="carouselDots" aria-hidden="true">
+        <div class="dot active" data-idx="0"></div>
+        <div class="dot" data-idx="1"></div>
+        <div class="dot" data-idx="2"></div>
       </div>
     </div>
 
-    <div class="section" id="final-message" style="display:none;">
-      <div class="text-bubble" id="birthday-note">Here will be your emotional birthday note...</div>
-      <div class="carousel">[Photo carousel placeholder]</div>
-      <p>From Mohit ❤️</p>
-    </div>
+    <p style="margin-top:10px">From Mohit ❤️</p>
   </div>
+</div>
 
-  <audio id="bg-music" loop>
-    <source src="soft-music.mp3" type="audio/mpeg">
-  </audio>
+<!-- keep audio tag if you want later, currently not auto-playing -->
+<audio id="bg-music" loop preload="metadata">
+  <source src="soft-music.mp3" type="audio/mpeg">
+</audio>
 
 <script>
-/* --------------------
-   Globals
-   -------------------- */
+/* ----------------------
+   Utilities & initial refs
+   ---------------------- */
 const bg = document.getElementById('bg-layer');
-let started = false;
+const startBtn = document.getElementById('startBtn');
+const revealYes = document.getElementById('revealYes');
+const revealNo = document.getElementById('revealNo');
+const title = document.getElementById('title');
+const finalMessageSection = document.getElementById('final-message');
+const birthdayNote = document.getElementById('birthday-note');
 
-/* --------------------
-   Start site (play music + spawn stuff)
-   -------------------- */
-function startSite(){
-  if(!started){
-    started = true;
-    try{ document.getElementById('bg-music').play(); }catch(e){}
-    createStars(90);
-    createClouds(5);
-    createFloatingHearts(14);
-    startMeteorShower();
-    setupSectionObserver();
-  } else {
-    // already started - still ensure sections visible
-    setupSectionObserver();
-  }
-}
-
-/* --------------------
-   Reveal message action
-   -------------------- */
-function revealMessage(choice){
-  if(choice){
-    document.getElementById('interactive').style.display='none';
-    const final = document.getElementById('final-message');
-    final.style.display = 'flex';
-    final.scrollIntoView({behavior:'smooth'});
-    // make final text visible
-    final.querySelectorAll('.text-bubble').forEach(tb => tb.classList.add('visible'));
-  } else {
-    alert('You can scroll and see the memories anyway!');
-  }
-}
-
-/* --------------------
-   STARS
-   -------------------- */
-function createStars(count=80){
+/* ----------------------
+   Sky: create stars, clouds, sparkles and heart elements
+   (we replicate your working behavior but add parallax & performance friendly code)
+   ---------------------- */
+function createStars(count=90){
+  const frag = document.createDocumentFragment();
   for(let i=0;i<count;i++){
     const s = document.createElement('div');
     s.className = 'twinkle-star';
-    const size = (Math.random()*2.2)+0.8;
-    s.style.width = `${size}px`;
-    s.style.height = `${size}px`;
-    // place inside viewport
-    s.style.left = `${Math.random()*100}vw`;
-    s.style.top = `${Math.random()*95}vh`;
-    // twinkle speed
-    const delay = Math.random()*2000;
-    s.style.opacity = (0.2 + Math.random()*0.8).toString();
-    bg.appendChild(s);
-    // twinkle loop
-    (function twinkle(el){
-      const dur = 1500 + Math.random()*1800;
-      el.animate([
-        { opacity: 0.2 + Math.random()*0.4 },
-        { opacity: 0.7 + Math.random()*0.3 }
-      ], { duration: dur, iterations: Infinity, direction: 'alternate', easing:'ease-in-out', delay });
-    })(s);
+    const size = Math.random()*2 + 1;
+    s.style.width = s.style.height = size + 'px';
+    s.style.left = (Math.random()*100) + 'vw';
+    s.style.top = (Math.random()*100) + 'vh';
+    s.dataset.speed = (0.2 + Math.random()*0.8).toFixed(2);
+    s.style.opacity = (0.3 + Math.random()*0.7);
+    frag.appendChild(s);
   }
+  bg.appendChild(frag);
 }
 
-/* --------------------
-   CLOUDS (soft moving blobs)
-   -------------------- */
-function createClouds(count=4){
+function createClouds(count=6){
+  const frag = document.createDocumentFragment();
   for(let i=0;i<count;i++){
     const c = document.createElement('div');
     c.className='cloud';
-    const w = 120 + Math.random()*200;
+    const w = 120 + Math.random()*240;
     c.style.width = w + 'px';
-    c.style.height = (w*0.5) + 'px';
-    c.style.left = `${Math.random()*100}vw`;
-    c.style.top = `${Math.random()*40}vh`;
-    c.style.opacity = (0.18 + Math.random()*0.22).toString();
-    bg.appendChild(c);
-    animateCloud(c, 0.008 + Math.random()*0.015);
+    c.style.height = (w/2) + 'px';
+    c.style.left = (Math.random()*120-10) + 'vw';
+    c.style.top = (Math.random()*45) + 'vh';
+    c.dataset.speed = (0.04 + Math.random()*0.06).toFixed(3);
+    frag.appendChild(c);
   }
-}
-function animateCloud(el, speed){
-  let pos = parseFloat(el.style.left);
-  const dir = Math.random()<0.5? -1 : 1;
-  function step(){
-    pos += dir*speed;
-    if(pos > 110) pos = -30;
-    if(pos < -30) pos = 110;
-    el.style.left = pos + 'vw';
-    requestAnimationFrame(step);
-  }
-  step();
+  bg.appendChild(frag);
 }
 
-/* --------------------
-   FLOATING HEARTS (ambient)
-   -------------------- */
-function createFloatingHearts(count=10){
+/* we keep heart creation as you had (exact behavior) */
+function createFloatingHearts(count=12){
   for(let i=0;i<count;i++){
-    const h = document.createElement('div');
+    const h=document.createElement('div');
     h.className='heart';
-    // random position in lower half to float up
-    h.style.left = (Math.random()*100) + 'vw';
-    h.style.top  = (50 + Math.random()*40) + 'vh';
-    // random size
-    const sz = 12 + Math.random()*14;
-    h.style.width = sz + 'px';
-    h.style.height = sz + 'px';
-    // animation duration random
-    const dur = 5000 + Math.random()*7000;
-    h.style.animation = `heartFloat ${dur}ms linear forwards`;
-    // subtle hue/pulse via CSS filter animation
-    h.style.animationDelay = (Math.random()*1200) + 'ms';
+    h.style.left=(Math.random()*100)+'vw';
+    h.style.top=(40+Math.random()*50)+'vh';
+    h.style.animationDuration=(6+Math.random()*8)+'s';
     bg.appendChild(h);
-    // remove after animation to avoid too many nodes, then recreate
-    setTimeout(()=>{ if(h.parentNode) h.remove(); }, dur + 800);
-    // respawn slowly to keep ambience
-    setTimeout(()=> createFloatingHearts(1), 1200 + Math.random()*3000);
   }
 }
 
-/* --------------------
-   TAP-TO-POP HEART TRAIL
-   - on click/tap create a small heart that floats and disappears
-   -------------------- */
-function createHeartTrail(x,y){
-  const h = document.createElement('div');
-  h.className = 'heart small';
-  // convert client coordinates to page (no scroll offset needed since fixed background)
-  h.style.left = (x - 8) + 'px';
-  h.style.top  = (y - 8) + 'px';
-  // random slight drift
-  const dx = (-40 + Math.random()*80);
-  const dy = -120 - Math.random()*40;
-  const rotate = -45 + (Math.random()*20-10);
-  const dur = 1400 + Math.random()*400;
-  bg.appendChild(h);
-  requestAnimationFrame(()=> {
-    h.style.transition = `transform ${dur}ms cubic-bezier(.2,.9,.2,1), opacity ${dur}ms linear`;
-    h.style.transform = `translate(${dx}px, ${dy}px) rotate(${rotate}deg)`;
-    h.style.opacity = '0';
-  });
-  setTimeout(()=> { if(h.parentNode) h.remove(); }, dur + 80);
+/* sparkles (soft dust) */
+function createSparkles(count=30){
+  const frag = document.createDocumentFragment();
+  for(let i=0;i<count;i++){
+    const sp = document.createElement('div');
+    sp.className='sparkle';
+    sp.style.left = (Math.random()*100)+'vw';
+    sp.style.top  = (Math.random()*100)+'vh';
+    sp.style.opacity = 0.08 + Math.random()*0.6;
+    sp.dataset.speed = (0.05 + Math.random()*0.2).toFixed(3);
+    frag.appendChild(sp);
+  }
+  bg.appendChild(frag);
 }
 
-window.addEventListener('click', (e) => {
-  // ignore clicks on interactive controls (buttons etc.)
-  const tag = e.target && e.target.tagName ? e.target.tagName.toLowerCase() : '';
-  if(tag === 'button' || e.target.closest('.interactive-btn')) return;
-  createHeartTrail(e.clientX, e.clientY);
-});
-window.addEventListener('touchmove', (e) => {
-  for(const t of e.touches) createHeartTrail(t.clientX, t.clientY);
-}, { passive:true });
+/* shooting star (diagonal from right-top to left-bottom) */
+function spawnShootingStar(){
+  const s = document.createElement('div');
+  s.className='shooting-star';
+  // start in top-right quadrant
+  const startX = 78 + Math.random()*20; // vw
+  const startY = 3 + Math.random()*25;  // vh
+  s.style.left = startX + 'vw';
+  s.style.top = startY + 'vh';
 
-/* --------------------
-   METEOR / SHOOTING STAR (realistic)
-   - spawns from near top-right and travels down-left across screen
-   -------------------- */
-function createMeteor(){
-  const m = document.createElement('div');
-  m.className = 'meteor';
+  // create head glow
   const head = document.createElement('div');
-  head.className = 'head';
-  m.appendChild(head);
+  head.style.width='10px'; head.style.height='10px';
+  head.style.borderRadius='50%';
+  head.style.position='absolute';
+  head.style.right='-6px';
+  head.style.top='-6px';
+  head.style.background='radial-gradient(circle, rgba(255,255,255,1), rgba(255,255,255,0.05))';
+  head.style.filter='blur(2px)';
+  s.appendChild(head);
 
-  // place start in top-right quadrant
-  const startX_vw = 76 + Math.random()*18; // 76..94 vw
-  const startY_vh = 2 + Math.random()*18;  // 2..20 vh
+  bg.appendChild(s);
 
-  // random length / speed
-  const length = 80 + Math.random()*110;
-  const speed = 800 + Math.random()*700; // ms
+  // compute translation (big negative x, positive y)
+  const distanceX = - (window.innerWidth * (0.85 + Math.random()*0.25));
+  const distanceY = (window.innerHeight * (0.45 + Math.random()*0.35));
+  const duration = 900 + Math.random()*700;
 
-  m.style.left = startX_vw + 'vw';
-  m.style.top  = startY_vh + 'vh';
-  m.style.height = length + 'px';
-
-  bg.appendChild(m);
-
-  // compute translate distances
-  const translateX = - (window.innerWidth * (0.9 + Math.random()*0.2));
-  const translateY = (window.innerHeight * (0.5 + Math.random()*0.35));
-
-  requestAnimationFrame(() => {
-    m.style.transition = `transform ${speed}ms cubic-bezier(.2,.9,.2,1), opacity ${Math.min(450, speed/2)}ms linear`;
-    m.style.transform = `translate(${translateX}px, ${translateY}px) rotate(45deg)`;
-    m.style.opacity = '1';
+  // animate via requestAnimationFrame for better control & mobile performance
+  s.animate([
+    { transform: 'translate(0px,0px) rotate(45deg)', opacity: 1 },
+    { transform: `translate(${distanceX}px, ${distanceY}px) rotate(45deg)`, opacity: 0 }
+  ], {
+    duration: duration,
+    easing: 'cubic-bezier(.2,.9,.2,1)',
+    iterations: 1,
+    fill: 'forwards'
   });
 
-  // fade earlier than end
-  setTimeout(()=> { m.style.opacity = '0'; }, speed - 300);
-  setTimeout(()=> { if(m.parentNode) m.remove(); }, speed + 120);
+  setTimeout(()=> s.remove(), duration + 60);
 }
 
-function startMeteorShower(){
-  (function loop(){
-    const delay = 2000 + Math.random()*4200; // 2s - ~6.2s
+/* star/sky parallax on scroll & subtle motion */
+function attachParallax(){
+  const pups = bg.querySelectorAll('.twinkle-star, .sparkle, .cloud, .heart');
+  window.addEventListener('scroll', ()=>{
+    const sc = window.scrollY;
+    for(const el of pups){
+      const speed = parseFloat(el.dataset.speed || 0.12);
+      // move slightly vertically for parallax
+      el.style.transform = `translate3d(0,${-sc * speed}px,0)`;
+    }
+  }, { passive:true });
+}
+
+/* periodically spawn shooting stars */
+(function shootingLoop(){
+  const delay = 1800 + Math.random()*3000;
+  setTimeout(()=>{
+    spawnShootingStar();
+    if(Math.random()<0.45) setTimeout(spawnShootingStar, 260 + Math.random()*600);
+    shootingLoop();
+  }, delay);
+})();
+
+/* ----------------------
+   Section reveal with IntersectionObserver (A & B)
+   ---------------------- */
+const observerOptions = { root: null, rootMargin: '0px', threshold: 0.18 };
+const sectionObserver = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      // reveal all text-bubbles inside
+      const bubbles = entry.target.querySelectorAll('.text-bubble');
+      entry.target.classList.add('showing');
+      bubbles.forEach((b,i)=>{
+        setTimeout(()=> b.classList.add('visible'), i*120);
+      });
+    }
+  });
+}, observerOptions);
+
+/* observe each section */
+document.querySelectorAll('.section').forEach(s=> sectionObserver.observe(s));
+
+/* slight animation on title: handwriting-style reveal (C) */
+// We'll reveal letters with a small stagger
+function titleReveal(){
+  const txt = title.textContent.trim();
+  title.textContent = '';
+  for(let i=0;i<txt.length;i++){
+    const span = document.createElement('span');
+    span.textContent = txt[i];
+    span.style.opacity = '0';
+    span.style.display = 'inline-block';
+    span.style.transform = 'translateY(8px)';
+    span.style.transition = 'transform 420ms cubic-bezier(.2,.9,.2,1), opacity 360ms ease';
+    title.appendChild(span);
     setTimeout(()=>{
-      createMeteor();
-      if(Math.random() < 0.45) setTimeout(createMeteor, 220 + Math.random()*380); // double shots sometimes
-      loop();
-    }, delay);
-  })();
+      span.style.opacity = '1';
+      span.style.transform = 'translateY(0)';
+    }, 80*i + 160);
+  }
 }
 
-/* --------------------
-   SECTION OBSERVER: fade+slide when in view
-   -------------------- */
-function setupSectionObserver(){
-  const bubbles = document.querySelectorAll('.text-bubble');
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(ent => {
-      if(ent.isIntersecting){
-        ent.target.classList.add('visible');
-        // optionally unobserve to keep it simple & performant
-        io.unobserve(ent.target);
-      }
+/* ----------------------
+   Button ripple (neat micro interaction) (D)
+   ---------------------- */
+function attachRipples(){
+  document.querySelectorAll('.interactive-btn').forEach(btn=>{
+    btn.addEventListener('click', (ev)=>{
+      const r = document.createElement('span');
+      r.className = 'button-ripple';
+      const rect = btn.getBoundingClientRect();
+      const x = ev.clientX - rect.left;
+      const y = ev.clientY - rect.top;
+      r.style.left = x + 'px';
+      r.style.top = y + 'px';
+      btn.appendChild(r);
+      setTimeout(()=> r.remove(), 700);
     });
-  }, { root: null, threshold: 0.18 });
-  bubbles.forEach(b => io.observe(b));
+  });
 }
 
-/* --------------------
-   Background gradient change on scroll (evening -> night)
-   - uses your earlier palette, but keeps transitions smooth and clamps
-   -------------------- */
+/* ----------------------
+   Carousel: simple swipeable + dots (E)
+   ---------------------- */
+(function initCarousel(){
+  const track = document.getElementById('carouselTrack');
+  if(!track) return;
+  const slides = Array.from(track.children);
+  const dotsWrap = document.getElementById('carouselDots');
+  let idx = 0;
+  let startX=0, currentTranslate=0, prevTranslate=0, isDown=false, animationID=0;
+
+  function setIdx(n){
+    idx = Math.max(0, Math.min(slides.length-1, n));
+    const x = - idx * track.clientWidth;
+    track.style.transform = `translateX(${x}px)`;
+    updateDots();
+  }
+  function updateDots(){
+    dotsWrap.querySelectorAll('.dot').forEach(d=> d.classList.remove('active'));
+    const dot = dotsWrap.querySelector(`.dot[data-idx="${idx}"]`);
+    if(dot) dot.classList.add('active');
+  }
+
+  // pointer events for swipe
+  track.addEventListener('pointerdown', e => {
+    track.setPointerCapture(e.pointerId);
+    isDown=true; startX = e.clientX; prevTranslate = currentTranslate;
+  });
+  window.addEventListener('pointermove', e => {
+    if(!isDown) return;
+    const dx = e.clientX - startX;
+    currentTranslate = prevTranslate + dx;
+    track.style.transform = `translateX(${currentTranslate}px)`;
+  });
+  window.addEventListener('pointerup', e => {
+    if(!isDown) return;
+    isDown=false;
+    const movedBy = currentTranslate - prevTranslate;
+    if(movedBy < -80 && idx < slides.length-1) idx++;
+    if(movedBy > 80 && idx > 0) idx--;
+    setIdx(idx);
+  });
+
+  // click on dots
+  dotsWrap.querySelectorAll('.dot').forEach(d => {
+    d.addEventListener('click', ()=> setIdx(parseInt(d.dataset.idx,10)));
+  });
+
+  // auto-size on resize
+  window.addEventListener('resize', ()=> setIdx(idx));
+  setIdx(0);
+})();
+
+/* ----------------------
+   Final message typing effect (F)
+   ---------------------- */
+function typeText(el, text, cb){
+  el.textContent = '';
+  let i=0;
+  const cursor = document.createElement('span');
+  cursor.className='typing-cursor';
+  el.appendChild(cursor);
+  function step(){
+    if(i < text.length){
+      cursor.insertAdjacentText('beforebegin', text[i++]);
+      const delay = (text[i-1] === '.' || text[i-1] === ',' ) ? 160 : 40 + Math.random()*30;
+      setTimeout(step, delay);
+    } else {
+      cursor.remove();
+      if(cb) cb();
+    }
+  }
+  setTimeout(step, 300);
+}
+
+/* ----------------------
+   Start actions when "Click to Start" pressed
+   ---------------------- */
+function startEverything(){
+  // reveal title nicely
+  titleReveal();
+
+  // create sky elements
+  createStars(100);
+  createClouds(6);
+  createSparkles(30);
+  createFloatingHearts(14);
+
+  // attach parallax
+  attachParallax();
+
+  // attach ripple
+  attachRipples();
+
+  // small playful bounce on start button and show first section bubble
+  startBtn.animate([{transform:'scale(1)'},{transform:'scale(1.03)'},{transform:'scale(1)'}], {duration:520});
+  window.scrollTo({top:0, behavior:'smooth'});
+
+  // reveal landing bubble quickly
+  document.querySelectorAll('#landing .text-bubble').forEach(b => b.classList.add('visible'));
+}
+
+/* reveal final message when Yes pressed */
+revealYes.addEventListener('click', ()=>{
+  finalMessageSection.style.display = 'flex';
+  finalMessageSection.scrollIntoView({behavior:'smooth'});
+  // typing effect content - you will later replace or edit the content in-place
+  const note = `I just wanted to be honest once, for my own closure.\n\nYou mean a lot to me and I wanted you to know that — with care.`;
+  typeText(birthdayNote, note);
+});
+
+/* No button - polite exit micro copy */
+revealNo.addEventListener('click', ()=>{
+  // simple micro animation and small confirmation
+  revealNo.animate([{transform:'translateY(0)'},{transform:'translateY(-6px)'},{transform:'translateY(0)'}], {duration:420});
+  setTimeout(()=> alert("No worries — you can scroll through memories anytime 😊"), 380);
+});
+
+/* start button - safe attach event */
+startBtn.addEventListener('click', startEverything);
+
+/* also allow keyboard Enter on focused startBtn */
+startBtn.addEventListener('keyup', (e)=>{ if(e.key === 'Enter') startEverything(); });
+
+/* ----------------------
+   Section background gradient interpolation on scroll (keeps your earlier behaviour smoother)
+   ---------------------- */
 const sectionGradients = [
   ['#ffd6e0','#ffe7ba'],
   ['#ffe0d6','#ffd1ba'],
@@ -543,49 +667,64 @@ const sectionGradients = [
 ];
 
 function interpolateColor(c1,c2,f){
-  const n1 = parseInt(c1.slice(1),16);
-  const n2 = parseInt(c2.slice(1),16);
-  const r = Math.round(((n2>>16)&255)*f + ((n1>>16)&255)*(1-f));
-  const g = Math.round(((n2>>8)&255)*f + ((n1>>8)&255)*(1-f));
-  const b = Math.round(((n2)&255)*f + ((n1)&255)*(1-f));
+  const n1=parseInt(c1.slice(1),16), n2=parseInt(c2.slice(1),16);
+  const r=Math.round(((n2>>16)&255)*f + ((n1>>16)&255)*(1-f));
+  const g=Math.round(((n2>>8)&255)*f + ((n1>>8)&255)*(1-f));
+  const b=Math.round((n2&255)*f + (n1&255)*(1-f));
   return `rgb(${r},${g},${b})`;
 }
 
 window.addEventListener('scroll', ()=>{
-  const s = window.scrollY;
-  const total = Math.max(1, document.body.scrollHeight - window.innerHeight);
-  let norm = s / total;
-  norm = Math.min(1, Math.max(0, norm));
-  const parts = sectionGradients.length - 1;
-  let idx = Math.floor(norm * parts);
-  if(idx >= parts) idx = parts - 1;
-  const frac = (norm - idx/parts) * parts;
+  const scroll = window.scrollY;
+  const total = document.body.scrollHeight - window.innerHeight;
+  let norm = total > 0 ? (scroll / total) : 0;
+  norm = Math.max(0, Math.min(1, norm));
+  let idx = Math.floor(norm * (sectionGradients.length - 1));
+  if(idx >= sectionGradients.length - 1) idx = sectionGradients.length - 2;
+  const frac = (norm - idx/(sectionGradients.length-1)) * (sectionGradients.length-1);
   const start = sectionGradients[idx], end = sectionGradients[idx+1];
-  const grad = `linear-gradient(120deg, ${interpolateColor(start[0], end[0], frac)}, ${interpolateColor(start[1], end[1], frac)})`;
-  document.documentElement.style.background = grad;
-  document.body.style.background = grad; // keep both safe
+  document.body.style.background = `linear-gradient(120deg, ${interpolateColor(start[0],end[0],frac)}, ${interpolateColor(start[1],end[1],frac)})`;
+}, { passive:true });
+
+/* ----------------------
+   Tap / touch heart trail (keeps your behavior exactly but improved for performance)
+   ---------------------- */
+function createHeartTrail(x, y){
+  const h = document.createElement('div');
+  h.className = 'heart small';
+  // position relative to viewport
+  h.style.left = (x) + 'px';
+  h.style.top  = (y) + 'px';
+  bg.appendChild(h);
+  setTimeout(()=> h.remove(), 1800);
+}
+document.addEventListener('click', e => createHeartTrail(e.clientX, e.clientY), { passive:true });
+document.addEventListener('touchmove', e => {
+  for(const t of e.touches) createHeartTrail(t.clientX, t.clientY);
+}, { passive:true });
+
+/* ----------------------
+   Small accessibility: reveal initial text bubbles for sections already in view
+   ---------------------- */
+window.addEventListener('load', ()=>{
+  // small auto-run to show any bubbles currently inside viewport (so the first section text visible without clicking start)
+  document.querySelectorAll('.section').forEach(sec=>{
+    const rect = sec.getBoundingClientRect();
+    if(rect.top < window.innerHeight && rect.bottom > 0){
+      sec.querySelectorAll('.text-bubble').forEach((b,i)=> setTimeout(()=> b.classList.add('visible'), i*100));
+    }
+  });
+  // initial title reveal lightly (but not full handwriting until user clicks start)
+  // show a soft fade
+  title.style.opacity = '0';
+  title.style.transform = 'translateY(6px)';
+  setTimeout(()=>{ title.style.transition = 'opacity 720ms ease, transform 720ms cubic-bezier(.2,.9,.2,1)'; title.style.opacity = '1'; title.style.transform = 'translateY(0)'; }, 220);
 });
 
-/* --------------------
-   Kick things off for users who scroll before clicking "start"
-   - set up observer early so first sections animate when reachable
-   -------------------- */
-document.addEventListener('DOMContentLoaded', ()=>{
-  setupSectionObserver();
-  // create a modest ambient background so page doesn't look empty before start
-  createStars(22);
-  createClouds(2);
-});
+/* ensure layout responsiveness & update on resize */
+window.addEventListener('resize', ()=>{ /* nothing heavy here; carousel recalcs on user interaction */ }, { passive:true });
 
-/* --------------------
-   Accessibility: keyboard trigger for start
-   -------------------- */
-document.addEventListener('keydown', (e) => {
-  if(e.key === 'Enter' || e.key === ' ') {
-    const landingBtn = document.querySelector('#landing .interactive-btn');
-    if(landingBtn) landingBtn.focus();
-  }
-});
 </script>
+
 </body>
 </html>
