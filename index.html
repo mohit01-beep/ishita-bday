@@ -1,399 +1,591 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Happy Birthday Ishita 💖</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
 
 <style>
-body, html {
+/* --------------------
+   Base / layout
+   -------------------- */
+html,body{
   margin:0; padding:0;
+  height:100%;
   font-family:'Quicksand',sans-serif;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  background: linear-gradient(120deg,#ffd6e0,#ffe7ba);
   overflow-x:hidden;
   scroll-behavior:smooth;
-  transition: background 1s linear;
-  background: linear-gradient(120deg,#ffd6e0,#ffe7ba);
-  color:#333;
 }
 
-/* NEW background layer */
-#bg-layer {
-  position: fixed;
-  top:0; left:0;
-  width:100%;
-  height:100%;
-  overflow:hidden;
-  z-index:0 !important;
+/* background layer (stars, clouds, hearts, meteors go here) */
+#bg-layer{
+  position:fixed;
+  inset:0;
+  z-index:0;
   pointer-events:none;
+  overflow:hidden;
 }
 
-/* Main content */
-.section {
+/* content sits above background */
+.content {
+  position:relative;
+  z-index:10;
+}
+
+/* sections */
+.section{
   min-height:100vh;
   display:flex;
-  justify-content:center;
   align-items:center;
+  justify-content:center;
   padding:50px 20px;
   text-align:center;
   flex-direction:column;
-  position:relative;
-  z-index:10 !important;
-  transition: background 1s linear;
+  box-sizing:border-box;
 }
 
-/* Text bubble */
-.text-bubble {
+/* text bubble (keeps existing content exactly) */
+.text-bubble{
   display:inline-block;
   padding:25px 35px;
-  background: rgba(255,255,255,0.6);
+  background: rgba(255,255,255,0.62);
   border-radius:30px;
-  box-shadow:0 8px 20px rgba(0,0,0,0.1);
-  backdrop-filter:blur(5px);
+  box-shadow:0 8px 20px rgba(0,0,0,0.08);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   max-width:70%;
-  font-size:1.2em;
-  margin:30px 0;
+  font-size:1.15rem;
+  margin:24px 0;
+  color:#222;
+  transform: translateY(24px);
   opacity:0;
-  transform:translateY(30px);
-  transition: all 1s ease;
-  position:relative;
-  z-index:10;
+  transition: transform 700ms cubic-bezier(.2,.9,.25,1), opacity 700ms ease;
 }
 
-.fade-in { opacity:1 !important; transform:translateY(0px) !important; }
+/* visible state for intersection observer */
+.text-bubble.visible{
+  transform: translateY(0);
+  opacity:1;
+}
 
-h1 { font-family:'Great Vibes', cursive; font-size:4em; margin-bottom:0.5em; color:#ff77aa; }
-p { font-size:1.3em; max-width:700px; }
+/* heading */
+h1{
+  font-family:'Great Vibes',cursive;
+  font-size:3.6rem;
+  margin:0 0 14px 0;
+  color:#ff77aa;
+  line-height:1;
+}
 
-.interactive-btn {
-  padding:12px 24px;
+/* button */
+.interactive-btn{
+  padding:12px 22px;
   background:#ff8fab;
   color:#fff;
-  border:none;
+  border:0;
   border-radius:20px;
   cursor:pointer;
-  font-size:1.2em;
-  margin:10px;
-  transition: transform 0.2s;
-  z-index:10;
-  position:relative;
+  font-size:1.05rem;
+  margin-top:10px;
+  box-shadow:0 6px 18px rgba(255,139,171,0.18);
 }
-.interactive-btn:hover { transform: scale(1.1); }
+.interactive-btn:active{ transform:scale(.99); }
 
-@media(max-width:900px){
-  .text-bubble{max-width:85%; font-size:1.1em; padding:20px 25px;}
-  h1{font-size:3em;}
-}
-@media(max-width:600px){
-  .section{padding:40px 15px;}
-  .text-bubble{max-width:95%; font-size:1em; padding:18px 22px;}
-  h1{font-size:2.5em; margin-top:20px;}
+/* small helper */
+.carousel{
+  width:80%;
+  max-width:520px;
+  height:240px;
+  margin:26px auto;
+  background: rgba(255,255,255,0.42);
+  border-radius:18px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#333;
+  font-size:1.05rem;
+  box-shadow:0 6px 18px rgba(0,0,0,0.06);
 }
 
-/* Hearts */
-.heart {
-  position: absolute;
-  width: 22px;
-  height: 22px;
-  background: #ff77aa;
+/* responsive tweaks */
+@media (max-width:900px){
+  .text-bubble{ max-width:86%; font-size:1.05rem; padding:20px; }
+  h1{ font-size:2.6rem; }
+  .carousel{ height:200px; }
+}
+@media (max-width:520px){
+  h1{ font-size:2.1rem; }
+  .text-bubble{ padding:18px; font-size:0.98rem; }
+  .carousel{ width:92%; height:180px; }
+}
+
+/* --------------------
+   PERFECT HEART (Option 1)
+   - classic heart built with rotated square + two circular lobes
+   -------------------- */
+.heart{
+  position:absolute;
+  width:18px;
+  height:18px;
+  background: rgba(255,119,170,0.98);
   transform: rotate(-45deg);
-  pointer-events: none;
-  z-index:3;
-  animation: floatUp linear infinite, rainbowColor 6s infinite;
-  border-radius: 50%;
+  pointer-events:none;
+  z-index: 2;
+  will-change: transform, opacity;
 }
-.heart::before,
-.heart::after {
-  content: "";
-  position: absolute;
-  width: 22px;
-  height: 22px;
-  background: #ff77aa;
-  border-radius: 50%;
-}
-.heart::before { top: -11px; left: 0; }
-.heart::after { top: 0; left: 11px; }
 
-.heart.small {
-  width: 14px; height:14px;
-  animation: floatUp 1.8s ease-out forwards;
+/* the two lobes */
+.heart::before,
+.heart::after{
+  content:"";
+  position:absolute;
+  width:18px;
+  height:18px;
+  background: rgba(255,119,170,0.98);
+  border-radius:50%;
+  left:0;
+  top:0;
+}
+
+.heart::before{ top:-9px; left:0; }
+.heart::after { top:0; left:9px; }
+
+/* small variant for tap trail */
+.heart.small{
+  width:12px;
+  height:12px;
 }
 .heart.small::before,
-.heart.small::after { width:14px; height:14px; }
+.heart.small::after{ width:12px; height:12px; }
+.heart.small::before{ top:-6px; left:0; }
+.heart.small::after{ top:0; left:6px; }
 
-/* Stars */
-.twinkle-star {
-  position: absolute;
-  background: white;
-  border-radius: 50%;
-  pointer-events:none;
-  box-shadow: 0 0 10px white;
-  z-index:1;
+/* heart float animation (used for floating hearts) */
+@keyframes heartFloat {
+  0% { transform: translateY(0) rotate(-45deg) scale(1); opacity:1; }
+  100% { transform: translateY(-360px) rotate(-45deg) scale(1.18); opacity:0; }
 }
 
-/* Clouds */
-.cloud {
-  position: absolute;
+/* slight color pulse for floating hearts */
+@keyframes heartHue {
+  0%{ filter: hue-rotate(0deg); }
+  50%{ filter: hue-rotate(10deg) saturate(1.05); }
+  100%{ filter: hue-rotate(0deg); }
+}
+
+/* --------------------
+   Twinkle stars
+   -------------------- */
+.twinkle-star{
+  position:absolute;
+  width:2px;
+  height:2px;
+  background:white;
   border-radius:50%;
-  background: rgba(255,255,255,0.4);
+  box-shadow:0 0 8px rgba(255,255,255,0.9), 0 0 6px rgba(255,255,255,0.5);
+  opacity:0.6;
+  pointer-events:none;
+  z-index:1;
+  will-change: opacity;
+}
+
+/* --------------------
+   Clouds
+   -------------------- */
+.cloud{
+  position:absolute;
+  border-radius:50%;
+  background: rgba(255,255,255,0.38);
   filter: blur(10px);
   pointer-events:none;
   z-index:1;
+  will-change: left, top;
 }
 
-/* Shooting star */
-.shooting-star {
-  position: absolute;
-  width: 2px;
-  height: 100px;
-  background: linear-gradient(to bottom, white, transparent);
-  opacity: 1;
+/* --------------------
+   Shooting star (meteor) visuals
+   -------------------- */
+.meteor{
+  position:absolute;
+  width:3px;
+  height:120px;
+  background: linear-gradient(to bottom, rgba(255,255,255,1), rgba(255,255,255,0));
+  border-radius:20px;
   transform: rotate(45deg);
   pointer-events:none;
   z-index:2;
+  will-change: transform, opacity;
+  filter: blur(0.6px);
 }
 
-/* Carousel */
-.carousel {
-  width:80%;
-  max-width:500px;
-  height:250px;
-  margin:30px auto;
-  background:rgba(255,255,255,0.5);
-  border-radius:20px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+/* small glow at head */
+.meteor .head{
+  position:absolute;
+  right:-6px;
+  top:-6px;
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0.2) 40%, rgba(255,255,255,0) 60%);
+  filter: blur(1.2px);
 }
 
-/* Heart float */
-@keyframes floatUp {
-  0% { transform: translateY(0) rotate(-45deg); opacity:0.8; }
-  100% { transform: translateY(-800px) rotate(-45deg); opacity:0; }
+/* --------------------
+   subtle page-level overlay to add evening -> night vignette
+   -------------------- */
+#vignette{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:5;
+  background: radial-gradient(60% 40% at 50% 10%, rgba(255,255,255,0) 0%, rgba(0,0,0,0.06) 60%, rgba(0,0,0,0.12) 100%);
+  mix-blend-mode: overlay;
 }
-
-@keyframes rainbowColor {
-  0%{background:#ff77aa;}
-  20%{background:#ffb347;}
-  40%{background:#ffd700;}
-  60%{background:#90ee90;}
-  80%{background:#87cefa;}
-  100%{background:#ff77aa;}
-}
-
 </style>
 </head>
 
 <body>
-
-<!-- NEW background layer -->
-<div id="bg-layer"></div>
-
-<!-- CONTENT SECTIONS (unchanged) -->
-<div class="section" id="landing">
-  <h1>Happy Birthday Ishita 💖</h1>
-  <button class="interactive-btn" onclick="startSite()">Click to Start</button>
-</div>
-
-<div class="section" id="intro">
-  <div class="text-bubble">Let's take a little journey through our memories together 💖</div>
-</div>
-
-<div class="section" id="snapchat">
-  <div class="text-bubble">Snapchat days: Our first talks, little snaps...</div>
-  <div class="text-bubble">Thanks to Yogita we got closer earlier and I got your number...</div>
-  <div class="text-bubble">Maybe I would’ve gotten your number later too...</div>
-  <div class="text-bubble">Because of Yogita's job search, we connected on WhatsApp...</div>
-</div>
-
-<div class="section" id="whatsapp">
-  <div class="text-bubble">WhatsApp chats: Long movie nights...</div>
-  <div class="text-bubble">Whenever I see reels about How to Lose a Guy in 10 Days...</div>
-  <div class="text-bubble">Any rom-com movie reminds me of youuuuuu...</div>
-  <div class="text-bubble">Our first movie together was Saltburn 🎞️...</div>
-  <div class="text-bubble">And remember our horror movie together - IT Chapter 1 👻😱</div>
-</div>
-
-<div class="section" id="interactive">
-  <div class="text-bubble">
-    Do you want to see your birthday surprise?<br>
-    <button class="interactive-btn" onclick="revealMessage(true)">Yes</button>
-    <button class="interactive-btn" onclick="revealMessage(false)">No</button>
+  <!-- background layer -->
+  <div id="bg-layer" aria-hidden="true">
+    <div id="vignette"></div>
+    <!-- dynamic elements will be appended here via JS -->
   </div>
-</div>
 
-<div class="section" id="final-message" style="display:none;">
-  <div class="text-bubble" id="birthday-note">Here will be your emotional birthday note...</div>
-  <div class="carousel">[Photo carousel placeholder]</div>
-  <p>From Mohit ❤️</p>
-</div>
+  <!-- content -->
+  <div class="content">
+    <!-- CONTENT SECTIONS (kept same as your last provided content) -->
+    <div class="section" id="landing">
+      <h1>Happy Birthday Ishita 💖</h1>
+      <button class="interactive-btn" onclick="startSite()">Click to Start</button>
+    </div>
 
-<audio id="bg-music" loop>
-  <source src="soft-music.mp3" type="audio/mpeg">
-</audio>
+    <div class="section" id="intro">
+      <div class="text-bubble">Let's take a little journey through our memories together 💖</div>
+    </div>
+
+    <div class="section" id="snapchat">
+      <div class="text-bubble">Snapchat days: Our first talks, little snaps...</div>
+      <div class="text-bubble">Thanks to Yogita we got closer earlier and I got your number...</div>
+      <div class="text-bubble">Maybe I would’ve gotten your number later too...</div>
+      <div class="text-bubble">Because of Yogita's job search, we connected on WhatsApp...</div>
+    </div>
+
+    <div class="section" id="whatsapp">
+      <div class="text-bubble">WhatsApp chats: Long movie nights...</div>
+      <div class="text-bubble">Whenever I see reels about How to Lose a Guy in 10 Days...</div>
+      <div class="text-bubble">Any rom-com movie reminds me of youuuuuu...</div>
+      <div class="text-bubble">Our first movie together was Saltburn 🎞️...</div>
+      <div class="text-bubble">And remember our horror movie together - IT Chapter 1 👻😱</div>
+    </div>
+
+    <div class="section" id="interactive">
+      <div class="text-bubble">
+        Do you want to see your birthday surprise?<br>
+        <button class="interactive-btn" onclick="revealMessage(true)">Yes</button>
+        <button class="interactive-btn" onclick="revealMessage(false)">No</button>
+      </div>
+    </div>
+
+    <div class="section" id="final-message" style="display:none;">
+      <div class="text-bubble" id="birthday-note">Here will be your emotional birthday note...</div>
+      <div class="carousel">[Photo carousel placeholder]</div>
+      <p>From Mohit ❤️</p>
+    </div>
+  </div>
+
+  <audio id="bg-music" loop>
+    <source src="soft-music.mp3" type="audio/mpeg">
+  </audio>
 
 <script>
-// Background container
-const bg = document.getElementById("bg-layer");
+/* --------------------
+   Globals
+   -------------------- */
+const bg = document.getElementById('bg-layer');
+let started = false;
 
-// Start site
+/* --------------------
+   Start site (play music + spawn stuff)
+   -------------------- */
 function startSite(){
-  try { document.getElementById('bg-music').play(); } catch(e){}
-  createStars(100);
-  createClouds(5);
-  createFloatingHearts(15);
-  fadeInSections();
+  if(!started){
+    started = true;
+    try{ document.getElementById('bg-music').play(); }catch(e){}
+    createStars(90);
+    createClouds(5);
+    createFloatingHearts(14);
+    startMeteorShower();
+    setupSectionObserver();
+  } else {
+    // already started - still ensure sections visible
+    setupSectionObserver();
+  }
 }
 
-// Fade-in
-function fadeInSections(){
-  document.querySelectorAll('.text-bubble').forEach(b => b.classList.add('fade-in'));
-}
-
-// Reveal message
+/* --------------------
+   Reveal message action
+   -------------------- */
 function revealMessage(choice){
   if(choice){
     document.getElementById('interactive').style.display='none';
-    document.getElementById('final-message').style.display='flex';
-    document.getElementById('final-message').scrollIntoView({behavior:'smooth'});
-  } else alert('You can scroll and see the memories anyway!');
-}
-
-// Stars
-function createStars(count){
-  for(let i=0;i<count;i++){
-    const star=document.createElement('div');
-    star.className='twinkle-star';
-    star.style.left=Math.random()*100+'vw';
-    star.style.top=Math.random()*100+'vh';
-    const size=1+Math.random()*3;
-    star.style.width=size+'px';
-    star.style.height=size+'px';
-    animateStar(star);
-    bg.appendChild(star);
+    const final = document.getElementById('final-message');
+    final.style.display = 'flex';
+    final.scrollIntoView({behavior:'smooth'});
+    // make final text visible
+    final.querySelectorAll('.text-bubble').forEach(tb => tb.classList.add('visible'));
+  } else {
+    alert('You can scroll and see the memories anyway!');
   }
 }
-function animateStar(star){
-  let opacity=Math.random()*0.5+0.5;
-  let increasing=true;
-  function twinkle(){
-    if(increasing) opacity+=0.01; else opacity-=0.01;
-    if(opacity>=1) increasing=false;
-    if(opacity<=0.3) increasing=true;
-    star.style.opacity=opacity;
-    requestAnimationFrame(twinkle);
+
+/* --------------------
+   STARS
+   -------------------- */
+function createStars(count=80){
+  for(let i=0;i<count;i++){
+    const s = document.createElement('div');
+    s.className = 'twinkle-star';
+    const size = (Math.random()*2.2)+0.8;
+    s.style.width = `${size}px`;
+    s.style.height = `${size}px`;
+    // place inside viewport
+    s.style.left = `${Math.random()*100}vw`;
+    s.style.top = `${Math.random()*95}vh`;
+    // twinkle speed
+    const delay = Math.random()*2000;
+    s.style.opacity = (0.2 + Math.random()*0.8).toString();
+    bg.appendChild(s);
+    // twinkle loop
+    (function twinkle(el){
+      const dur = 1500 + Math.random()*1800;
+      el.animate([
+        { opacity: 0.2 + Math.random()*0.4 },
+        { opacity: 0.7 + Math.random()*0.3 }
+      ], { duration: dur, iterations: Infinity, direction: 'alternate', easing:'ease-in-out', delay });
+    })(s);
   }
-  twinkle();
 }
 
-// Clouds
-function createClouds(count){
+/* --------------------
+   CLOUDS (soft moving blobs)
+   -------------------- */
+function createClouds(count=4){
   for(let i=0;i<count;i++){
-    const c=document.createElement('div');
+    const c = document.createElement('div');
     c.className='cloud';
-    const size=150+Math.random()*150;
-    c.style.width=size+'px';
-    c.style.height=(size/2)+'px';
-    c.style.left=Math.random()*100+'vw';
-    c.style.top=Math.random()*50+'vh';
+    const w = 120 + Math.random()*200;
+    c.style.width = w + 'px';
+    c.style.height = (w*0.5) + 'px';
+    c.style.left = `${Math.random()*100}vw`;
+    c.style.top = `${Math.random()*40}vh`;
+    c.style.opacity = (0.18 + Math.random()*0.22).toString();
     bg.appendChild(c);
-    animateCloud(c, 0.01+Math.random()*0.02);
+    animateCloud(c, 0.008 + Math.random()*0.015);
   }
 }
-function animateCloud(c,speed){
-  let pos=parseFloat(c.style.left);
-  let dir=Math.random()<0.5?-1:1;
-  function move(){
-    pos+=dir*speed;
-    if(pos>100) pos=-20;
-    if(pos<-20) pos=100;
-    c.style.left=pos+'vw';
-    requestAnimationFrame(move);
+function animateCloud(el, speed){
+  let pos = parseFloat(el.style.left);
+  const dir = Math.random()<0.5? -1 : 1;
+  function step(){
+    pos += dir*speed;
+    if(pos > 110) pos = -30;
+    if(pos < -30) pos = 110;
+    el.style.left = pos + 'vw';
+    requestAnimationFrame(step);
   }
-  move();
+  step();
 }
 
-// Floating hearts
-function createFloatingHearts(count){
+/* --------------------
+   FLOATING HEARTS (ambient)
+   -------------------- */
+function createFloatingHearts(count=10){
   for(let i=0;i<count;i++){
-    const h=document.createElement('div');
+    const h = document.createElement('div');
     h.className='heart';
-    h.style.left=Math.random()*100+'vw';
-    h.style.animationDuration=(5+Math.random()*5)+'s';
+    // random position in lower half to float up
+    h.style.left = (Math.random()*100) + 'vw';
+    h.style.top  = (50 + Math.random()*40) + 'vh';
+    // random size
+    const sz = 12 + Math.random()*14;
+    h.style.width = sz + 'px';
+    h.style.height = sz + 'px';
+    // animation duration random
+    const dur = 5000 + Math.random()*7000;
+    h.style.animation = `heartFloat ${dur}ms linear forwards`;
+    // subtle hue/pulse via CSS filter animation
+    h.style.animationDelay = (Math.random()*1200) + 'ms';
     bg.appendChild(h);
+    // remove after animation to avoid too many nodes, then recreate
+    setTimeout(()=>{ if(h.parentNode) h.remove(); }, dur + 800);
+    // respawn slowly to keep ambience
+    setTimeout(()=> createFloatingHearts(1), 1200 + Math.random()*3000);
   }
 }
 
-// Tap hearts
-document.addEventListener('click', e => createHeartTrail(e.clientX, e.clientY));
-document.addEventListener('touchmove', e => {
-  for(const t of e.touches) createHeartTrail(t.clientX, t.clientY);
-});
+/* --------------------
+   TAP-TO-POP HEART TRAIL
+   - on click/tap create a small heart that floats and disappears
+   -------------------- */
 function createHeartTrail(x,y){
-  const h=document.createElement('div');
-  h.className='heart small';
-  h.style.left=x+'px';
-  h.style.top=y+'px';
+  const h = document.createElement('div');
+  h.className = 'heart small';
+  // convert client coordinates to page (no scroll offset needed since fixed background)
+  h.style.left = (x - 8) + 'px';
+  h.style.top  = (y - 8) + 'px';
+  // random slight drift
+  const dx = (-40 + Math.random()*80);
+  const dy = -120 - Math.random()*40;
+  const rotate = -45 + (Math.random()*20-10);
+  const dur = 1400 + Math.random()*400;
   bg.appendChild(h);
-  setTimeout(()=>h.remove(),1800);
-}
-
-// Shooting stars
-function shootingStar(){
-  const star=document.createElement('div');
-  star.className='shooting-star';
-  bg.appendChild(star);
-  const startX=80+Math.random()*20;
-  const startY=Math.random()*30;
-  star.style.left=startX+'vw';
-  star.style.top=startY+'vh';
-  const distX = -(window.innerWidth*(0.8+Math.random()*0.2));
-  const distY = window.innerHeight*(0.5+Math.random()*0.3);
-  star.style.transition='transform 1.2s linear, opacity 1.2s linear';
-  requestAnimationFrame(()=>{
-    star.style.transform=`translate(${distX}px, ${distY}px) rotate(45deg)`;
-    star.style.opacity='1';
+  requestAnimationFrame(()=> {
+    h.style.transition = `transform ${dur}ms cubic-bezier(.2,.9,.2,1), opacity ${dur}ms linear`;
+    h.style.transform = `translate(${dx}px, ${dy}px) rotate(${rotate}deg)`;
+    h.style.opacity = '0';
   });
-  setTimeout(()=>{ star.style.opacity='0'; },900);
-  setTimeout(()=>star.remove(),1700);
+  setTimeout(()=> { if(h.parentNode) h.remove(); }, dur + 80);
 }
 
-(function spawnStars(){
-  setTimeout(()=>{
-    shootingStar();
-    if(Math.random()<0.5) shootingStar();
-    spawnStars();
-  },2000+Math.random()*2000);
-})();
+window.addEventListener('click', (e) => {
+  // ignore clicks on interactive controls (buttons etc.)
+  const tag = e.target && e.target.tagName ? e.target.tagName.toLowerCase() : '';
+  if(tag === 'button' || e.target.closest('.interactive-btn')) return;
+  createHeartTrail(e.clientX, e.clientY);
+});
+window.addEventListener('touchmove', (e) => {
+  for(const t of e.touches) createHeartTrail(t.clientX, t.clientY);
+}, { passive:true });
 
-// Gradient fix
-const sectionGradients=[
+/* --------------------
+   METEOR / SHOOTING STAR (realistic)
+   - spawns from near top-right and travels down-left across screen
+   -------------------- */
+function createMeteor(){
+  const m = document.createElement('div');
+  m.className = 'meteor';
+  const head = document.createElement('div');
+  head.className = 'head';
+  m.appendChild(head);
+
+  // place start in top-right quadrant
+  const startX_vw = 76 + Math.random()*18; // 76..94 vw
+  const startY_vh = 2 + Math.random()*18;  // 2..20 vh
+
+  // random length / speed
+  const length = 80 + Math.random()*110;
+  const speed = 800 + Math.random()*700; // ms
+
+  m.style.left = startX_vw + 'vw';
+  m.style.top  = startY_vh + 'vh';
+  m.style.height = length + 'px';
+
+  bg.appendChild(m);
+
+  // compute translate distances
+  const translateX = - (window.innerWidth * (0.9 + Math.random()*0.2));
+  const translateY = (window.innerHeight * (0.5 + Math.random()*0.35));
+
+  requestAnimationFrame(() => {
+    m.style.transition = `transform ${speed}ms cubic-bezier(.2,.9,.2,1), opacity ${Math.min(450, speed/2)}ms linear`;
+    m.style.transform = `translate(${translateX}px, ${translateY}px) rotate(45deg)`;
+    m.style.opacity = '1';
+  });
+
+  // fade earlier than end
+  setTimeout(()=> { m.style.opacity = '0'; }, speed - 300);
+  setTimeout(()=> { if(m.parentNode) m.remove(); }, speed + 120);
+}
+
+function startMeteorShower(){
+  (function loop(){
+    const delay = 2000 + Math.random()*4200; // 2s - ~6.2s
+    setTimeout(()=>{
+      createMeteor();
+      if(Math.random() < 0.45) setTimeout(createMeteor, 220 + Math.random()*380); // double shots sometimes
+      loop();
+    }, delay);
+  })();
+}
+
+/* --------------------
+   SECTION OBSERVER: fade+slide when in view
+   -------------------- */
+function setupSectionObserver(){
+  const bubbles = document.querySelectorAll('.text-bubble');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(ent => {
+      if(ent.isIntersecting){
+        ent.target.classList.add('visible');
+        // optionally unobserve to keep it simple & performant
+        io.unobserve(ent.target);
+      }
+    });
+  }, { root: null, threshold: 0.18 });
+  bubbles.forEach(b => io.observe(b));
+}
+
+/* --------------------
+   Background gradient change on scroll (evening -> night)
+   - uses your earlier palette, but keeps transitions smooth and clamps
+   -------------------- */
+const sectionGradients = [
   ['#ffd6e0','#ffe7ba'],
   ['#ffe0d6','#ffd1ba'],
   ['#ffdde1','#ffc1e3'],
   ['#e3c1ff','#c1b0ff'],
   ['#0d1b2a','#1b263b']
 ];
+
 function interpolateColor(c1,c2,f){
-  const n1=parseInt(c1.slice(1),16), n2=parseInt(c2.slice(1),16);
-  const r=Math.round(((n2>>16)&255)*f + ((n1>>16)&255)*(1-f));
-  const g=Math.round(((n2>>8)&255)*f + ((n1>>8)&255)*(1-f));
-  const b=Math.round((n2&255)*f + (n1&255)*(1-f));
+  const n1 = parseInt(c1.slice(1),16);
+  const n2 = parseInt(c2.slice(1),16);
+  const r = Math.round(((n2>>16)&255)*f + ((n1>>16)&255)*(1-f));
+  const g = Math.round(((n2>>8)&255)*f + ((n1>>8)&255)*(1-f));
+  const b = Math.round(((n2)&255)*f + ((n1)&255)*(1-f));
   return `rgb(${r},${g},${b})`;
 }
-window.addEventListener('scroll',()=>{
-  const scroll=window.scrollY;
-  const total=document.body.scrollHeight-window.innerHeight;
-  let norm=scroll/total;
-  norm=Math.max(0,Math.min(1,norm));
-  let idx=Math.floor(norm*(sectionGradients.length-1));
-  if(idx>=sectionGradients.length-1) idx=sectionGradients.length-2;
-  const frac=(norm - idx/(sectionGradients.length-1))*(sectionGradients.length-1);
-  const start=sectionGradients[idx], end=sectionGradients[idx+1];
-  document.body.style.background=`linear-gradient(120deg, ${interpolateColor(start[0],end[0],frac)}, ${interpolateColor(start[1],end[1],frac)})`;
+
+window.addEventListener('scroll', ()=>{
+  const s = window.scrollY;
+  const total = Math.max(1, document.body.scrollHeight - window.innerHeight);
+  let norm = s / total;
+  norm = Math.min(1, Math.max(0, norm));
+  const parts = sectionGradients.length - 1;
+  let idx = Math.floor(norm * parts);
+  if(idx >= parts) idx = parts - 1;
+  const frac = (norm - idx/parts) * parts;
+  const start = sectionGradients[idx], end = sectionGradients[idx+1];
+  const grad = `linear-gradient(120deg, ${interpolateColor(start[0], end[0], frac)}, ${interpolateColor(start[1], end[1], frac)})`;
+  document.documentElement.style.background = grad;
+  document.body.style.background = grad; // keep both safe
+});
+
+/* --------------------
+   Kick things off for users who scroll before clicking "start"
+   - set up observer early so first sections animate when reachable
+   -------------------- */
+document.addEventListener('DOMContentLoaded', ()=>{
+  setupSectionObserver();
+  // create a modest ambient background so page doesn't look empty before start
+  createStars(22);
+  createClouds(2);
+});
+
+/* --------------------
+   Accessibility: keyboard trigger for start
+   -------------------- */
+document.addEventListener('keydown', (e) => {
+  if(e.key === 'Enter' || e.key === ' ') {
+    const landingBtn = document.querySelector('#landing .interactive-btn');
+    if(landingBtn) landingBtn.focus();
+  }
 });
 </script>
-
 </body>
 </html>
