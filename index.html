@@ -9,28 +9,36 @@
 html, body {
   margin:0; padding:0; height:100%; font-family:'Quicksand',sans-serif; overflow-x:hidden;
   scroll-behavior: smooth;
+  position: relative;
+  background: linear-gradient(120deg,#EAC9F5,#BDB1FF);
 }
 
-/* ---------- Section Bubbles ---------- */
-.section { min-height:100vh; display:flex; justify-content:center; align-items:center; flex-direction:column; padding:50px 20px; text-align:center; }
+/* ---------- Layered Background ---------- */
+#background-layer {
+  position: fixed; inset:0; z-index:0; pointer-events:none;
+  overflow:hidden;
+}
+
+/* Stars */
+.star { position:absolute; width:2px; height:2px; border-radius:50%; background:#fff; opacity:0; transition:opacity 1s ease; pointer-events:none; z-index:1; }
+
+/* Moon */
+.moon { position:fixed; width:80px; height:80px; border-radius:50%; background: radial-gradient(circle at 30% 30%, #fff 0%, #dcd8ff 60%); top:8vh; right:6vw; opacity:0; transition:opacity 1s ease; z-index:2; }
+
+/* ---------- Content ---------- */
+.section { min-height:100vh; display:flex; justify-content:center; align-items:center; flex-direction:column; padding:50px 20px; text-align:center; position:relative; z-index:5; }
 .text-bubble{ display:inline-block; padding:22px 30px; background: rgba(255,255,255,0.64); border-radius:28px; box-shadow:0 8px 22px rgba(0,0,0,0.09); backdrop-filter: blur(4px); max-width:76%; margin:18px 0; opacity:0; transform:translateY(26px); transition: opacity 700ms ease, transform 700ms ease; }
 .text-bubble.fade-in{ opacity:1; transform:translateY(0); }
 h1{ font-family:'Great Vibes',cursive; font-size:3.6rem; margin:10px 0 6px; color:#ff77aa; }
 p{ font-size:1.05rem; }
 
 /* ---------- Hearts ---------- */
-.heart { position:fixed; width:20px; height:20px; transform: rotate(-45deg); pointer-events:none; }
+.heart { position:fixed; width:20px; height:20px; transform: rotate(-45deg); pointer-events:none; z-index:10; }
 .heart::before, .heart::after{
   content:""; position:absolute; width:20px; height:20px; background:#ff77aa; border-radius:50%; left:0; top:0;
 }
 .heart::before{ transform: translate(-10px,-10px); }
 .heart::after { transform: translate(10px,-10px); }
-
-/* ---------- Moon ---------- */
-.moon { position:fixed; width:80px; height:80px; border-radius:50%; background: radial-gradient(circle at 30% 30%, #fff 0%, #dcd8ff 60%); top:8vh; right:6vw; opacity:0; transition:opacity 1s ease; }
-
-/* ---------- Stars ---------- */
-.star { position:fixed; width:2px; height:2px; border-radius:50%; background:#fff; opacity:0; transition:opacity 1s ease; pointer-events:none; }
 
 /* ---------- Buttons ---------- */
 .interactive-btn{ padding:10px 22px; background:#ff7ba1; color:#fff; border:none; border-radius:18px; cursor:pointer; font-size:1rem; margin-top:10px; }
@@ -38,6 +46,12 @@ p{ font-size:1.05rem; }
 </style>
 </head>
 <body>
+
+<!-- Background layer -->
+<div id="background-layer">
+  <div id="stars-layer"></div>
+  <div class="moon" id="moon"></div>
+</div>
 
 <!-- Sections -->
 <div class="section" id="landing">
@@ -64,11 +78,8 @@ p{ font-size:1.05rem; }
   <p>From Mohit ❤️</p>
 </div>
 
-<!-- Moon -->
-<div class="moon" id="moon"></div>
-
 <script>
-/* ---------- Scroll-based gradient and night ---------- */
+/* ---------- Gradient Background by Scroll ---------- */
 const GRADIENTS = [
   ['#EAC9F5','#BDB1FF'], // sunset
   ['#D8B3FF','#A38BFF'],
@@ -76,7 +87,6 @@ const GRADIENTS = [
   ['#8061DD','#5A3FBD'],
   ['#1B1B3A','#0B132B']  // night
 ];
-
 const moonEl=document.getElementById('moon');
 function hexToRgb(hex){ const n=parseInt(hex.replace('#',''),16); return [(n>>16)&255,(n>>8)&255,n&255]; }
 function rgbToCss([r,g,b]){ return `rgb(${r},${g},${b})`; }
@@ -90,18 +100,15 @@ function updateBackground(){
   const segments=GRADIENTS.length-1;
   let idx=Math.floor(norm*segments); if(idx>=segments) idx=segments-1;
   const t=(norm-(idx/segments))*segments;
-  const [s0,s1]=GRADIENTS[idx];
-  const [e0,e1]=GRADIENTS[idx+1];
-  const c0=interpHex(s0,e0,t);
-  const c1=interpHex(s1,e1,t);
+  const [s0,s1]=GRADIENTS[idx]; const [e0,e1]=GRADIENTS[idx+1];
+  const c0=interpHex(s0,e0,t); const c1=interpHex(s1,e1,t);
   document.body.style.background=`linear-gradient(120deg, ${c0}, ${c1})`;
-  // moon & stars appear at night
   if(norm>0.65){ moonEl.style.opacity=1; showStars(true); } else { moonEl.style.opacity=0; showStars(false); }
 }
 window.addEventListener('scroll', ()=>requestAnimationFrame(updateBackground));
 updateBackground();
 
-/* ---------- IntersectionObserver for bubbles ---------- */
+/* ---------- Bubbles ---------- */
 function initBubbles(){ 
   const obs=new IntersectionObserver((entries)=>{
     entries.forEach(entry=>{
@@ -114,7 +121,7 @@ function initBubbles(){
 }
 initBubbles();
 
-/* ---------- Hearts ---------- */
+/* ---------- Hearts on click ---------- */
 function createHeart(x,y){
   const h=document.createElement('div'); h.className='heart';
   h.style.left=(x-10)+'px'; h.style.top=(y-10)+'px';
@@ -127,13 +134,13 @@ document.addEventListener('click', e=>createHeart(e.clientX,e.clientY));
 document.addEventListener('touchstart', e=>{ for(const t of e.touches) createHeart(t.clientX,t.clientY); });
 
 /* ---------- Stars ---------- */
-const starCount=80;
-const stars=[];
+const starCount=80; const stars=[];
+const starsLayer=document.getElementById('stars-layer');
 function initStars(){
   for(let i=0;i<starCount;i++){
     const s=document.createElement('div'); s.className='star';
     s.style.left=Math.random()*100+'vw'; s.style.top=Math.random()*100+'vh';
-    document.body.appendChild(s); stars.push(s);
+    starsLayer.appendChild(s); stars.push(s);
   }
 }
 function showStars(show){ stars.forEach(s=>s.style.opacity=show?1:0);}
