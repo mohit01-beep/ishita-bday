@@ -1,538 +1,240 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Happy Birthday Ishita 💖</title>
-<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<title>Happy Birthday Ishita 🎂💗</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <style>
-  /* ---------- Base ---------- */
-  :root{
-    --pink-1: #FFD1DC;
-    --pink-2: #FFB3C1;
-    --accent: #ff77aa;
-    --glass: rgba(255,255,255,0.62);
-  }
-  html,body{
-    margin:0; padding:0;
-    height:100%;
-    font-family:"Quicksand",sans-serif;
-    -webkit-font-smoothing:antialiased;
-    -moz-osx-font-smoothing:grayscale;
-    overflow-x:hidden;
-    scroll-behavior:smooth;
-    background: linear-gradient(120deg,var(--pink-1),var(--pink-2));
-    transition: background 700ms linear;
-    color:#333;
-  }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-  /* ---------- Background layer (moon / clouds / sparkles) ---------- */
-  #bg-layer{
-    position:fixed;
-    inset:0;
-    z-index:0;
-    pointer-events:none;
-    overflow:hidden;
-  }
+body {
+    font-family: "Poppins", sans-serif;
+    overflow-x: hidden;
+    background: #0a0a1a;
+}
 
-  /* soft moon */
-  .moon{
-    position:fixed;
-    right:8%;
-    top:8%;
-    width:110px;
-    height:110px;
-    background: radial-gradient(circle at 30% 30%, #fff 0%, #fff0 40%), linear-gradient(#fff6d9,#fff0);
-    border-radius:50%;
-    opacity:0.14;
-    filter: blur(6px) saturate(1.1);
-    transform: translateZ(0);
-  }
+/* ------------------ SKY BACKGROUND ------------------ */
+.sky {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(#0a0a1a, #1a1440, #251a60);
+    z-index: -5;
+    top: 0;
+    left: 0;
+}
 
-  /* clouds (subtle, repeatable elements) */
-  .bg-cloud{
-    position:absolute;
-    background: rgba(255,255,255,0.18);
-    filter: blur(14px);
+/* Stars */
+.star {
+    position: fixed;
+    width: 2px;
+    height: 2px;
+    background: white;
     border-radius: 50%;
-    pointer-events:none;
-  }
+    opacity: 0.8;
+    z-index: -4;
+}
 
-  /* sparkles: tiny twinkling dots */
-  .sparkle{
-    position:absolute;
-    width:2px; height:2px;
-    background: #fff;
-    border-radius:50%;
-    opacity:0;
-    box-shadow:0 0 8px rgba(255,255,255,0.9);
-    animation: sparkleAnim 3s linear infinite;
-  }
-  @keyframes sparkleAnim{
-    0%{opacity:0; transform:scale(0.5);}
-    40%{opacity:1; transform:scale(1.2);}
-    100%{opacity:0; transform:scale(0.6);}
-  }
+/* Moon */
+.moon {
+    position: fixed;
+    top: 40px;
+    right: 40px;
+    width: 90px;
+    height: 90px;
+    background: #fff8dd;
+    border-radius: 50%;
+    box-shadow: 0 0 25px #fff3c4;
+    z-index: -3;
+}
 
-  /* ---------- Content ---------- */
-  .section{
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:50px 20px;
-    text-align:center;
-    flex-direction:column;
-    position:relative;
-    z-index:10;
-    transition: background 700ms linear;
-  }
+/* Clouds */
+.cloud {
+    position: fixed;
+    top: 120px;
+    left: 10%;
+    width: 180px;
+    height: 60px;
+    background: #ffffff25;
+    border-radius: 50px;
+    filter: blur(10px);
+    z-index: -3;
+    animation: cloudMove 25s linear infinite;
+}
 
-  .text-bubble{
-    display:inline-block;
-    padding:22px 30px;
-    background: var(--glass);
-    border-radius:28px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.08);
-    backdrop-filter: blur(5px);
-    max-width:86%;
-    font-size:1.12rem;
-    margin:18px 0;
-    opacity:0;
-    transform: translateY(26px);
-    transition: all 700ms cubic-bezier(.2,.9,.3,1);
-    line-height:1.4;
-  }
+@keyframes cloudMove {
+    from { transform: translateX(-200px); }
+    to { transform: translateX(120vw); }
+}
 
-  .fade-in { opacity:1 !important; transform: translateY(0px) !important; }
+/* ------------------ FLOATING SPARKLES ------------------ */
+.sparkle {
+    position: fixed;
+    width: 4px;
+    height: 4px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: sparkleFloat 2.5s linear infinite;
+    z-index: -2;
+}
 
-  h1{
-    font-family: 'Great Vibes', cursive;
-    font-size:3.6rem;
-    margin:0 0 12px 0;
-    color:var(--accent);
-    letter-spacing:0.5px;
-    z-index:11;
-  }
-  p{ font-size:1.05rem; margin:6px 0; }
+@keyframes sparkleFloat {
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    100% { transform: translateY(-40px) scale(0); opacity: 0; }
+}
 
-  .interactive-btn{
-    padding:10px 22px;
-    background:var(--accent);
-    color:#fff;
-    border:0;
-    border-radius:20px;
-    cursor:pointer;
-    font-size:1rem;
-    margin-top:10px;
-    z-index:12;
-    transition: transform 180ms ease, box-shadow 180ms ease;
-  }
-  .interactive-btn:active{ transform:translateY(2px); }
-  .interactive-btn:hover{ box-shadow:0 8px 18px rgba(0,0,0,0.12); transform:scale(1.03); }
+/* ------------------ SECTIONS ------------------ */
+section {
+    min-height: 100vh;
+    padding: 100px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 1s ease-in-out;
+}
 
-  .carousel{
-    width:82%; max-width:520px; height:260px;
-    margin:22px auto; border-radius:18px;
-    background: rgba(255,255,255,0.5); display:flex;
-    align-items:center; justify-content:center;
-    box-shadow:0 8px 28px rgba(0,0,0,0.06);
-  }
+.section-content {
+    max-width: 700px;
+    text-align: center;
+    font-size: 1.3rem;
+    line-height: 1.8;
+    color: white;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: 1s ease;
+}
 
-  /* ---------- Heart (perfect shape) ---------- */
-  /* container uses rotate(-45deg) so heart points up */
-  .heart{
-    position:fixed;
-    width:22px; height:22px;
-    pointer-events:none;
-    z-index:9;
+section.visible .section-content {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Section color themes */
+#intro { background: linear-gradient(#1a1440, #251a60); }
+#snapchat { background: linear-gradient(#251a60, #401880); }
+#whatsapp { background: linear-gradient(#401880, #600f80); }
+#insta { background: linear-gradient(#600f80, #7a0f60); }
+
+/* ------------------ HEARTS ------------------ */
+.heart {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    background: red;
     transform: rotate(-45deg);
-    filter: drop-shadow(0 2px 6px rgba(255,119,170,0.25));
-    /* gradient + slight gloss */
-    background: linear-gradient(180deg, #ff77aa, #ff5fa0);
-    transition: transform 120ms linear;
-  }
-  .heart::before,
-  .heart::after{
-    content:"";
-    position:absolute;
-    width:22px; height:22px;
-    background: linear-gradient(180deg, #ff77aa, #ff5fa0);
-    border-radius:50%;
-  }
-  .heart::before{ top:-11px; left:0; }
-  .heart::after{ left:11px; top:0; }
+    animation: floatUp 3s linear forwards;
+    z-index: 5 !important;
+}
 
-  .heart.small{
-    width:14px; height:14px;
-    transform: rotate(-45deg) scale(0.9);
-  }
-  .heart.small::before,
-  .heart.small::after{ width:14px; height:14px; }
-  .heart.small::before{ top:-7px; }
-  .heart.small::after{ left:7px; }
+/* Perfect heart shape */
+.heart:before,
+.heart:after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: red;
+    border-radius: 50%;
+}
 
-  /* Upward float: only vertical translate (no sideways) */
-  @keyframes heartFloat {
-    0%{ transform: translateY(0) rotate(-45deg) scale(1); opacity:1; }
-    100%{ transform: translateY(-420px) rotate(-45deg) scale(1.15); opacity:0; }
-  }
+.heart:before { top: -10px; left: 0; }
+.heart:after { left: 10px; top: 0; }
 
-  /* We'll apply this via JS by setting animation property */
-  /* ---------- Shooting star (improved: moves down-left from top-right) ---------- */
-  .shooting-star{
-    position:fixed;
-    width:3px;
-    height:140px;
-    background: linear-gradient(to bottom, rgba(255,255,255,1), rgba(255,255,255,0));
-    border-radius:50px;
-    z-index:8;
-    pointer-events:none;
-    filter: blur(0.6px) drop-shadow(0 0 6px rgba(255,255,255,0.8));
-    opacity:0;
-    transform-origin:center;
-  }
-
-  /* ---------- Responsive tweaks ---------- */
-  @media (max-width:600px){
-    h1{ font-size:2.6rem; }
-    .text-bubble { font-size:1rem; padding:18px 22px; }
-    .carousel{ height:200px; }
-  }
+@keyframes floatUp {
+    from { transform: translateY(0) rotate(-45deg); opacity: 1; }
+    to { transform: translateY(-120px) rotate(-45deg); opacity: 0; }
+}
 </style>
 </head>
 <body>
 
-  <!-- background layer contains moon, clouds, sparkles -->
-  <div id="bg-layer" aria-hidden="true">
-    <div class="moon"></div>
-    <!-- clouds & sparkles will be injected by JS -->
-  </div>
+<div class="sky"></div>
+<div class="moon"></div>
+<div class="cloud"></div>
 
-  <!-- content sections (user content preserved) -->
-  <div class="section" id="landing">
-    <h1>Happy Birthday Ishita 💖</h1>
-    <button class="interactive-btn" onclick="startSite()">Click to Start</button>
-  </div>
+<!-- SPARKLES -->
+<script>
+for (let i = 0; i < 40; i++) {
+    let s = document.createElement("div");
+    s.className = "sparkle";
+    s.style.left = Math.random() * 100 + "vw";
+    s.style.top = Math.random() * 100 + "vh";
+    s.style.animationDelay = Math.random() * 2 + "s";
+    document.body.appendChild(s);
+}
+</script>
 
-  <div class="section" id="snapchat">
-    <div class="text-bubble">Snapchat memories: Our first talks, little snaps, discovering each other slowly...</div>
-    <div class="text-bubble">Thanks to Yogita we got closer earlier and I got your number...</div>
-    <div class="text-bubble">Maybe I would’ve gotten your number later too, but I don’t know when—or how long I would’ve waited.</div>
-    <div class="text-bubble">Because of Yogita's job search, we connected on WhatsApp and got to know each other more...</div>
-  </div>
+<!-- ---- CONTENT SECTIONS ---- -->
 
-  <div class="section" id="whatsapp">
-    <div class="text-bubble">WhatsApp memories: Long movie nights, deep talks, sending each other our favorite rom-coms 🎬💖</div>
-    <div class="text-bubble">Whenever I see reels about How to Lose a Guy in 10 Days or 10 Things I Hate About You, it reminds me of you 😅💓</div>
-    <div class="text-bubble">Any rom-com movie reminds me of youuuuuu 🎥💕 but these 2 are special and unforgettable 😍</div>
-    <div class="text-bubble">
-      1) Women's Day — tiramisu surprise for youu 🤭<br>
-      Youu loved it — your reactions. Whenever I get a chance to make you smile, to make you happy, I try not to miss that chance 🤪
+<section id="intro">
+    <div class="section-content">
+        <h1>Happy Birthday Ishita 💗🥹</h1>
+        <p>Everything I write could never match what I feel for you...</p>
     </div>
-    <div class="text-bubble">
-      2) During Navratri — you sent that cheesecake for me. No one ever did something like that for me — it was my first time and that too from youu 🥹<br>
-      I was soooooo soooo happy. I still have that jar and that box with me — kisi na kisi trh se use kar rakhe h 🤪 I haven't thrown it away coz it's precious to me.
+</section>
+
+<section id="snapchat">
+    <div class="section-content">
+        <h2>Snapchat Memories</h2>
+        <p>Your images & snaps always made my day...</p>
     </div>
-  </div>
+</section>
 
-  <div class="section" id="instagram">
-    <div class="text-bubble">Instagram memories: Placeholder for photos, reels, stories... 💖</div>
-    <div class="text-bubble">You can update this content later with your favorite moments 😍</div>
-  </div>
+<section id="whatsapp">
+    <div class="section-content">
+        <h2>WhatsApp Memories</h2>
 
-  <div class="section" id="real-meet">
-    <div class="text-bubble">Our real-life meet: Only once, but unforgettable! 💖</div>
-    <div class="text-bubble">That day is etched in my memory forever 😍</div>
-  </div>
+        <p><b>1. Women's Day Tiramisu Surprise 🤭</b><br>
+        You loved it... your reactions, your smile... every time I get a chance to make you happy I never want to miss it 🤪</p>
 
-  <div class="section" id="interactive">
-    <div class="text-bubble">
-      Do you want to see your birthday surprise?<br>
-      <button class="interactive-btn" onclick="revealMessage(true)">Yes</button>
-      <button class="interactive-btn" onclick="revealMessage(false)">No</button>
+        <p><b>2. Navratri Cheesecake from You 🥹</b><br>
+        No one ever did something like that for me... I still have that jar and that box. I never threw it because it's precious to me.</p>
     </div>
-  </div>
+</section>
 
-  <div class="section" id="final-message" style="display:none;">
-    <div class="text-bubble" id="birthday-note">Here will be your emotional birthday note...</div>
-    <div class="carousel">[Photo carousel placeholder]</div>
-    <p>From Mohit ❤️</p>
-  </div>
-
-  <audio id="bg-music" loop>
-    <source src="soft-music.mp3" type="audio/mpeg">
-  </audio>
+<section id="insta">
+    <div class="section-content">
+        <h2>Instagram Memories</h2>
+        <p>(You will add text later)</p>
+    </div>
+</section>
 
 <script>
-/* ===========================
-   Utility & State
-   =========================== */
-const bg = document.getElementById('bg-layer');
-let heartsSpawned = 0;
-let maxTrailPerTouch = 8; // limit for mobile trail density
+// ----------- fade-in effect -----------
+const sections = document.querySelectorAll("section");
 
-/* ===========================
-   Start site: initialize visual elements
-   =========================== */
-function startSite(){
-  try{ document.getElementById('bg-music').play(); } catch(e){}
-  createStaticClouds(5);
-  createSparkles(30);
-  createFloatingHearts(12);
-  initSectionObserver();
-  startShootingStars(); // starts background meteor shower
-}
-
-/* reveal final message */
-function revealMessage(choice){
-  if(choice){
-    document.getElementById('interactive').style.display = 'none';
-    const fm = document.getElementById('final-message');
-    fm.style.display = 'flex';
-    fm.scrollIntoView({behavior:'smooth'});
-  } else {
-    alert('You can scroll and see the memories anyway!');
-  }
-}
-
-/* ===========================
-   Section fade-in (IntersectionObserver)
-   =========================== */
-function initSectionObserver(){
-  const options = { threshold: 0.24 };
-  const observer = new IntersectionObserver((entries)=>{
-    entries.forEach(entry=>{
-      if(entry.isIntersecting){
-        const bubbles = entry.target.querySelectorAll('.text-bubble');
-        bubbles.forEach((b,i)=> setTimeout(()=> b.classList.add('fade-in'), i*260));
-      }
+function showSections() {
+    sections.forEach(sec => {
+        const top = sec.getBoundingClientRect().top;
+        if (top < window.innerHeight - 150) {
+            sec.classList.add("visible");
+        }
     });
-  }, options);
-
-  document.querySelectorAll('.section').forEach(s => observer.observe(s));
 }
+window.addEventListener("scroll", showSections);
+showSections();
 
-/* ===========================
-   Clouds
-   =========================== */
-function createStaticClouds(count){
-  for(let i=0;i<count;i++){
-    const c = document.createElement('div');
-    c.className = 'bg-cloud';
-    const w = 140 + Math.random()*260;
-    c.style.width = w + 'px';
-    c.style.height = (w*0.45) + 'px';
-    // place subtly across the screen
-    c.style.left = (Math.random()*110 - 5) + 'vw';
-    c.style.top = (Math.random()*55) + 'vh';
-    c.style.opacity = (0.08 + Math.random()*0.12).toString();
-    c.style.transform = `translateZ(0)`;
-    bg.appendChild(c);
-    // gentle horizontal drift
-    animateBgCloud(c, 0.005 + Math.random()*0.012);
-  }
-}
-function animateBgCloud(el, speed){
-  let left = parseFloat(el.style.left);
-  let dir = Math.random() < 0.5 ? -1 : 1;
-  function step(){
-    left += dir * speed;
-    if(left > 105) left = -25;
-    if(left < -25) left = 105;
-    el.style.left = left + 'vw';
-    requestAnimationFrame(step);
-  }
-  step();
-}
 
-/* ===========================
-   Sparkles (tiny twinkling lights)
-   =========================== */
-function createSparkles(count){
-  for(let i=0;i<count;i++){
-    const sp = document.createElement('div');
-    sp.className = 'sparkle';
-    // random positions across the sky area (not over UI)
-    sp.style.left = (Math.random()*100) + 'vw';
-    sp.style.top = (Math.random()*65) + 'vh';
-    // stagger animation via animationDelay
-    sp.style.animationDelay = (Math.random()*4) + 's';
-    sp.style.opacity = 0;
-    bg.appendChild(sp);
-  }
-}
+// ----------- hearts: tap to pop / floating -----------
+document.addEventListener("click", (e) => {
+    for (let i = 0; i < 5; i++) {
+        let heart = document.createElement("div");
+        heart.className = "heart";
+        heart.style.left = e.clientX + (Math.random()*20 - 10) + "px";
+        heart.style.top = e.clientY + (Math.random()*20 - 10) + "px";
+        heart.style.animationDuration = 2.5 + Math.random() + "s";
+        document.body.appendChild(heart);
 
-/* ===========================
-   Floating hearts (background slow ones)
-   =========================== */
-function createFloatingHearts(count){
-  for(let i=0;i<count;i++){
-    const el = document.createElement('div');
-    el.className = 'heart';
-    // fixed upward-only motion; position fixed so it doesn't blur on scroll
-    const left = (Math.random()*90) + 3; // keep inside viewport
-    const top = (60 + Math.random()*30); // start lower so they ascend into view
-    el.style.left = left + 'vw';
-    el.style.top = top + 'vh';
-    // controlled animation via JS to ensure vertical-only motion
-    const duration = 6000 + Math.random()*7000;
-    el.style.animation = `heartFloat ${duration}ms linear forwards`;
-    // apply small delay so they don't all start together
-    el.style.animationDelay = (Math.random()*2500) + 'ms';
-    bg.appendChild(el);
-    // remove when animation done to avoid buildup
-    setTimeout(()=> el.remove(), duration + 2600);
-  }
-}
-
-/* ===========================
-   Tap/Touch heart trail (on pointer interactions)
-   - upright heart (rotate(-45deg) in CSS)
-   - limited spawn on mobile to avoid perf issues
-   =========================== */
-let lastTouchTime = 0;
-document.addEventListener('click', (e) => {
-  createTrailAt(e.clientX, e.clientY);
-});
-document.addEventListener('touchstart', (e) => {
-  const t = e.touches[0];
-  createTrailAt(t.clientX, t.clientY);
-});
-document.addEventListener('touchmove', (e) => {
-  // throttle trail spawn during touchmove
-  const now = Date.now();
-  if(now - lastTouchTime < 60) return;
-  lastTouchTime = now;
-  for(let i=0;i<Math.min(e.touches.length, maxTrailPerTouch); i++){
-    const t = e.touches[i];
-    createTrailAt(t.clientX, t.clientY, 1.1 + Math.random()*0.6);
-  }
-});
-
-function createTrailAt(x,y, scale=1){
-  const h = document.createElement('div');
-  h.className = 'heart small';
-  // use fixed positioning relative to viewport
-  h.style.left = (x - (parseInt(getComputedStyle(h).width||14)/2)) + 'px';
-  h.style.top = (y - (parseInt(getComputedStyle(h).height||14)/2)) + 'px';
-
-  // set animation explicitly so each trail has same vertical-only motion
-  const dur = 1400 + Math.random()*700;
-  h.style.animation = `heartFloat ${dur}ms cubic-bezier(.15,.8,.25,1) forwards`;
-  // slight scale difference by transform
-  h.style.transform = `rotate(-45deg) scale(${scale})`;
-  document.body.appendChild(h);
-  setTimeout(()=> h.remove(), dur + 200);
-}
-
-/* ===========================
-   Shooting stars (realistic): top-right -> down-left
-   - appear at random intervals
-   =========================== */
-function spawnShootingStar(){
-  const star = document.createElement('div');
-  star.className = 'shooting-star';
-  // start near top-right corner
-  const startX = 88 + Math.random()*12; // vw
-  const startY = 2 + Math.random()*18;  // vh
-  star.style.left = startX + 'vw';
-  star.style.top = startY + 'vh';
-  // random length
-  const length = 80 + Math.random()*120;
-  star.style.height = length + 'px';
-  // initial rotation so tail points toward movement
-  const angle = -28 - Math.random()*7; // negative angle moves down-left
-  star.style.transform = `rotate(${angle}deg) translateZ(0)`;
-  star.style.opacity = '0';
-  document.body.appendChild(star);
-
-  // calculate distance to move: large negative X (left) and positive Y (down)
-  const moveX = - (window.innerWidth * (0.95 + Math.random()*0.4));
-  const moveY = (window.innerHeight * (0.45 + Math.random()*0.4));
-  const duration = 900 + Math.random()*900;
-
-  // animate: fade in, fly, fade out
-  requestAnimationFrame(()=> {
-    star.style.transition = `transform ${duration}ms cubic-bezier(.12,.7,.2,1), opacity ${duration}ms linear`;
-    // translate along whatever rotated axis; we include rotate again to maintain angle
-    star.style.transform = `translate(${moveX}px, ${moveY}px) rotate(${angle}deg)`;
-    star.style.opacity = '1';
-  });
-
-  // fade earlier
-  setTimeout(()=> { star.style.opacity = '0'; }, Math.min(700, duration - 150));
-  setTimeout(()=> star.remove(), duration + 200);
-}
-
-let shootingTimer;
-function startShootingStars(){
-  (function loop(){
-    const delay = 1800 + Math.random()*3500;
-    shootingTimer = setTimeout(()=>{
-      spawnShootingStar();
-      // sometimes spawn a second one closely for realism
-      if(Math.random() < 0.45) setTimeout(spawnShootingStar, 120 + Math.random()*420);
-      loop();
-    }, delay);
-  })();
-}
-
-/* ===========================
-   Background gradient by section (smooth blended)
-   =========================== */
-const sectionGradients = [
-  ['#FFD1DC','#FFB3C1'], // landing
-  ['#FFE8EE','#FFDDE6'], // snapchat
-  ['#FFF0F3','#FFE5EB'], // whatsapp (light)
-  ['#F7E9FF','#EEDFFF'], // instagram
-  ['#FFF5F9','#FFEFF3'], // real meet
-  ['#0d1b2a','#1b263b']  // final / night
-];
-
-function interpolateColor(c1,c2,f){
-  const n1 = parseInt(c1.slice(1),16);
-  const n2 = parseInt(c2.slice(1),16);
-  const r = Math.round(((n2>>16)&255)*f + ((n1>>16)&255)*(1-f));
-  const g = Math.round(((n2>>8)&255)*f + ((n1>>8)&255)*(1-f));
-  const b = Math.round((n2&255)*f + (n1&255)*(1-f));
-  return `rgb(${r},${g},${b})`;
-}
-
-window.addEventListener('scroll', () => {
-  const scroll = window.scrollY;
-  const total = document.body.scrollHeight - window.innerHeight;
-  let norm = total > 0 ? scroll/total : 0;
-  norm = Math.max(0, Math.min(1, norm));
-
-  const segments = sectionGradients.length - 1;
-  let idx = Math.floor(norm * segments);
-  if(idx >= segments) idx = segments - 1;
-  const frac = (norm - (idx/segments)) * segments;
-  const start = sectionGradients[idx];
-  const end = sectionGradients[idx+1];
-  document.body.style.background = `linear-gradient(120deg, ${interpolateColor(start[0],end[0],frac)}, ${interpolateColor(start[1],end[1],frac)})`;
-});
-
-/* ===========================
-   Minor perf helpers / cleanup on resize
-   =========================== */
-window.addEventListener('resize', () => {
-  // nothing heavy here — keep for future adaptability
-});
-
-/* ===========================
-   Initial quick fade on page load for landing
-   =========================== */
-window.addEventListener('load', ()=>{
-  // small delay so fonts render
-  setTimeout(()=> {
-    const landingBubbles = document.querySelectorAll('#landing .text-bubble, #landing h1');
-    // landing has h1 and button, fade them
-    document.querySelector('#landing h1').classList.add('fade-in');
-    setTimeout(()=> document.querySelector('#landing .interactive-btn').classList.add('fade-in'), 150);
-  }, 160);
+        setTimeout(() => heart.remove(), 3000);
+    }
 });
 </script>
+
 </body>
 </html>
