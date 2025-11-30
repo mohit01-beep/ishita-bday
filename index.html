@@ -11,12 +11,13 @@ body, html {
   font-family:'Quicksand',sans-serif;
   overflow-x:hidden;
   scroll-behavior:smooth;
-  background: linear-gradient(180deg, #FFD1DC 0%, #1B1B3A 100%);
+  transition: background 1s linear;
+  background: linear-gradient(120deg,#FFD1DC,#FFB3C1);
   color:#333;
-  height: 100%;
+  position:relative;
 }
 
-/* Section */
+/* Section styling */
 .section {
   min-height:100vh;
   display:flex;
@@ -27,9 +28,8 @@ body, html {
   flex-direction:column;
   position:relative;
   z-index:5;
+  transition: background 1s linear;
 }
-
-/* Text bubble */
 .text-bubble {
   display:inline-block;
   padding:25px 35px;
@@ -44,14 +44,13 @@ body, html {
   transform:translateY(30px);
   transition: all 1s ease;
   position:relative;
+  z-index:5;
 }
 .fade-in { opacity:1 !important; transform:translateY(0px) !important; }
 
-/* Fonts & headings */
 h1 { font-family:'Great Vibes', cursive; font-size:4em; margin-bottom:0.5em; color:#ff77aa; }
 p { font-size:1.3em; max-width:700px; }
 
-/* Buttons */
 .interactive-btn {
   padding:12px 24px;
   background:#ff8fab;
@@ -77,7 +76,7 @@ p { font-size:1.3em; max-width:700px; }
   h1{font-size:2.5em; margin-top:20px;}
 }
 
-/* Hearts */
+/* Floating hearts */
 .heart {
   position: fixed;
   width: 22px;
@@ -89,8 +88,7 @@ p { font-size:1.3em; max-width:700px; }
   animation: floatUp linear infinite;
   box-shadow: 0 0 10px #ff77aa, 0 0 20px #ff77aa, 0 0 30px #ff77aa;
 }
-.heart::before,
-.heart::after {
+.heart::before, .heart::after {
   content: "";
   position: absolute;
   width: 22px;
@@ -106,19 +104,37 @@ p { font-size:1.3em; max-width:700px; }
   animation: floatUp 1.8s ease-out forwards;
   box-shadow: 0 0 5px #ff77aa, 0 0 10px #ff77aa;
 }
-.heart.small::before,
-.heart.small::after {
+.heart.small::before, .heart.small::after {
   width: 14px;
   height: 14px;
 }
 .heart.small::before { top: -7px; }
 .heart.small::after { left: 7px; }
+
 @keyframes floatUp {
   0% { transform: translateY(0) scale(0.8); opacity:0.8; }
   100% { transform: translateY(-800px) scale(1.2); opacity:0; }
 }
 
-/* Stars */
+/* Floating fireflies / sparkles */
+.firefly {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  background: rgba(255,255,150,0.8);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 3;
+  box-shadow: 0 0 10px rgba(255,255,150,0.6);
+  animation: floatFirefly 6s linear infinite;
+}
+@keyframes floatFirefly {
+  0% { transform: translate(0,0) scale(0.8); opacity:0.3; }
+  50% { transform: translate(50px,-50px) scale(1.2); opacity:1; }
+  100% { transform: translate(-50px,-100px) scale(0.8); opacity:0.3; }
+}
+
+/* Twinkle stars */
 .twinkle-star {
   position: fixed;
   width: 2px;
@@ -131,31 +147,34 @@ p { font-size:1.3em; max-width:700px; }
   box-shadow: 0 0 10px white;
 }
 
-/* Moon */
-.moon {
-  position: fixed;
-  top: 10%;
-  right: 10%;
-  width: 80px;
-  height: 80px;
-  background: radial-gradient(circle at 30% 30%, #FFFFCC 0%, #FFDDAA 80%);
-  border-radius: 50%;
-  box-shadow: 0 0 30px rgba(255,255,200,0.6);
-  z-index: 2;
-}
-
-/* Clouds with parallax layers */
+/* Clouds */
 .cloud {
   position: fixed;
   border-radius: 50%;
-  background: rgba(255,255,255,0.3);
-  filter: blur(10px);
-  pointer-events: none;
+  background: rgba(255,255,255,0.4);
   z-index: 1;
+  pointer-events: none;
+  filter: blur(10px);
 }
-.cloud.cloud-back { opacity:0.2; width:200px; height:100px; }
-.cloud.cloud-mid { opacity:0.3; width:250px; height:120px; }
-.cloud.cloud-front { opacity:0.4; width:300px; height:150px; }
+
+/* Aurora / mist glow */
+.mist {
+  position: fixed;
+  width: 200%;
+  height: 200px;
+  background: radial-gradient(circle, rgba(255,182,193,0.3), transparent 70%);
+  top: 50px;
+  left: -50%;
+  z-index: 1;
+  pointer-events: none;
+  filter: blur(50px);
+  animation: driftMist 20s linear infinite;
+}
+@keyframes driftMist {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(50%); }
+  100% { transform: translateX(0); }
+}
 
 /* Carousel placeholder */
 .carousel {
@@ -175,6 +194,7 @@ p { font-size:1.3em; max-width:700px; }
 </head>
 <body>
 
+<!-- Sections -->
 <div class="section" id="landing">
   <h1>Happy Birthday Ishita 💖</h1>
   <button class="interactive-btn" onclick="startSite()">Click to Start</button>
@@ -189,8 +209,12 @@ p { font-size:1.3em; max-width:700px; }
 
 <div class="section" id="whatsapp">
   <div class="text-bubble">WhatsApp memories: Long movie nights, deep talks, sending each other our favorite rom-coms 🎬💖</div>
-  <div class="text-bubble">Women's day tiramisu surprise for youu🤭 Youu loved it your reactions whenever I get a chance to make you smile 🤪</div>
-  <div class="text-bubble">During navratre when you send that cheesecake for me 🥹 First time someone did that for me, still keeping the jar & box 🤪</div>
+  <div class="text-bubble">Whenever I see reels about How to Lose a Guy in 10 Days or 10 Things I Hate About You, it reminds me of you 😅💓</div>
+  <div class="text-bubble">Any rom-com movie reminds me of youuuuuu 🎥💕 but these 2 are special and unforgettable 😍</div>
+  <div class="text-bubble">Our first movie together was Saltburn 🎞️ Your reactions were hilarious 🤭🤣</div>
+  <div class="text-bubble">And remember our horror movie together - IT Chapter 1 👻😱</div>
+  <div class="text-bubble">Women's day tiramisu surprise for youu 🤭 Youu loved it! Your reactions whenever I get a chance to make you smile to make you happy 🤪 I try not to lose that chance</div>
+  <div class="text-bubble">During navratre when you send that cheesecake for me 🥹 No one ever did something like that for me so it was my 1st time and that too from youu. I was soooooo soooo happy. You know I still have that jar and that box with me kisi na kisi trh se use kar rakhe h 🤪 I haven't thrown it away coz it's precious to me</div>
 </div>
 
 <div class="section" id="instagram">
@@ -200,6 +224,7 @@ p { font-size:1.3em; max-width:700px; }
 
 <div class="section" id="real-meet">
   <div class="text-bubble">Our real-life meet: Only once, but unforgettable! 💖</div>
+  <div class="text-bubble">That day is etched in my memory forever 😍</div>
 </div>
 
 <div class="section" id="interactive">
@@ -221,19 +246,20 @@ p { font-size:1.3em; max-width:700px; }
   <source src="soft-music.mp3" type="audio/mpeg">
 </audio>
 
-<!-- Moon -->
-<div class="moon"></div>
+<!-- Floating elements -->
+<div class="mist"></div>
 
 <script>
 function startSite(){
   try { document.getElementById('bg-music').play(); } catch(e){}
   createStars(100);
-  createParallaxClouds();
+  createClouds(5);
   createFloatingHearts(15);
+  createFireflies(20);
   observeSections();
 }
 
-// Fade-in on scroll
+// Scroll-triggered fade-in
 function observeSections(){
   const options = { threshold:0.25 };
   const observer = new IntersectionObserver((entries)=>{
@@ -247,7 +273,6 @@ function observeSections(){
   document.querySelectorAll('.section').forEach(section=>observer.observe(section));
 }
 
-// Reveal birthday
 function revealMessage(choice){
   if(choice){
     document.getElementById('interactive').style.display='none';
@@ -280,35 +305,83 @@ function createHeartTrail(x,y){
 // Stars
 function createStars(count){
   for(let i=0;i<count;i++){
-    const s=document.createElement('div');s.className='twinkle-star';
+    const s=document.createElement('div');
+    s.className='twinkle-star';
     s.style.left=Math.random()*100+'vw';
     s.style.top=Math.random()*100+'vh';
-    const sz=1+Math.random()*3;s.style.width=sz+'px';s.style.height=sz+'px';
-    animateStar(s); document.body.appendChild(s);
+    const sz=1+Math.random()*2;
+    s.style.width=sz+'px'; s.style.height=sz+'px';
+    animateStar(s);
+    document.body.appendChild(s);
   }
 }
 function animateStar(s){
   let o=Math.random()*0.5+0.5; let inc=true;
-  function tw(){if(inc)o+=0.01;else o-=0.01;if(o>=1)inc=false;if(o<=0.3)inc=true;s.style.opacity=o; requestAnimationFrame(tw);}
+  function tw(){ if(inc)o+=0.01; else o-=0.01;
+    if(o>=1) inc=false; if(o<=0.3) inc=true;
+    s.style.opacity=o; requestAnimationFrame(tw);}
   tw();
 }
 
-// Clouds with parallax
-function createParallaxClouds(){
-  const cloudTypes=['cloud-back','cloud-mid','cloud-front'];
-  for(let i=0;i<8;i++){
-    const c=document.createElement('div'); c.className='cloud '+cloudTypes[Math.floor(Math.random()*3)];
-    c.style.left=Math.random()*100+'vw';
-    c.style.top=Math.random()*50+'vh';
-    document.body.appendChild(c);
-    animateCloud(c, 0.01 + Math.random()*0.03);
+// Clouds
+function createClouds(count){
+  for(let i=0;i<count;i++){
+    const cl=document.createElement('div');
+    cl.className='cloud';
+    const sz=150+Math.random()*150; cl.style.width=sz+'px'; cl.style.height=(sz/2)+'px';
+    cl.style.left=Math.random()*100+'vw'; cl.style.top=Math.random()*50+'vh';
+    document.body.appendChild(cl);
+    animateCloud(cl,0.01+Math.random()*0.02);
   }
 }
-function animateCloud(c, speed){
-  let pos=parseFloat(c.style.left); let dir=Math.random()<0.5?-1:1;
-  function move(){ pos+=dir*speed; if(pos>100)pos=-20; if(pos<-20)pos=100; c.style.left=pos+'vw'; requestAnimationFrame(move);}
+function animateCloud(cl,speed){
+  let pos=parseFloat(cl.style.left); let dir=Math.random()<0.5?-1:1;
+  function move(){ pos+=dir*speed;
+    if(pos>100) pos=-20; if(pos<-20) pos=100;
+    cl.style.left=pos+'vw'; requestAnimationFrame(move);}
   move();
 }
+
+// Floating fireflies
+function createFireflies(count){
+  for(let i=0;i<count;i++){
+    const f=document.createElement('div');
+    f.className='firefly';
+    f.style.left=Math.random()*100+'vw';
+    f.style.top=Math.random()*100+'vh';
+    f.style.animationDuration=(5+Math.random()*5)+'s';
+    document.body.appendChild(f);
+  }
+}
+
+// Background gradient scroll
+const sectionGradients = [
+  ['#FFD1DC','#FFB3C1'],
+  ['#FFB3D1','#FF9EC1'],
+  ['#FF99CC','#FF77AA'],
+  ['#FF77AA','#BB6699']
+];
+
+function interpolateColor(c1,c2,f){
+  const n1=parseInt(c1.slice(1),16), n2=parseInt(c2.slice(1),16);
+  const r=Math.round(((n2>>16)&255)*f + ((n1>>16)&255)*(1-f));
+  const g=Math.round(((n2>>8)&255)*f + ((n1>>8)&255)*(1-f));
+  const b=Math.round((n2&255)*f + (n1&255)*(1-f));
+  return `rgb(${r},${g},${b})`;
+}
+
+window.addEventListener('scroll',()=>{
+  const scroll = window.scrollY;
+  const totalHeight = document.body.scrollHeight - window.innerHeight;
+  const normScroll = scroll / totalHeight;
+  let sectionIndex = 0;
+  for(let i=0;i<sectionGradients.length-1;i++){
+    if(normScroll >= i/(sectionGradients.length-1) && normScroll <= (i+1)/(sectionGradients.length-1)) sectionIndex=i;
+  }
+  const frac = (normScroll - sectionIndex/(sectionGradients.length-1))*(sectionGradients.length-1);
+  const start = sectionGradients[sectionIndex], end = sectionGradients[sectionIndex+1];
+  document.body.style.background=`linear-gradient(120deg, ${interpolateColor(start[0],end[0],frac)}, ${interpolateColor(start[1],end[1],frac)})`;
+});
 </script>
 </body>
 </html>
