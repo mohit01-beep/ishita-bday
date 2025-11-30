@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
@@ -6,7 +6,6 @@
 <title>Happy Birthday Ishita 💖</title>
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
 <style>
-  /* ---------- Base ---------- */
   :root{
     --z-bg: 0;
     --z-cloud-far: 1;
@@ -24,23 +23,24 @@
     font-family:'Quicksand',sans-serif;
     overflow-x:hidden;
     -webkit-tap-highlight-color:transparent;
-    background: linear-gradient(120deg, #EAC9F5, #BDB1FF); /* initial */
-    transition: background 900ms linear;
     color:#222;
     scroll-behavior:smooth;
+    /* initial purple-ish evening gradient */
+    background: linear-gradient(120deg, #EAC9F5, #BDB1FF);
+    transition: background 800ms linear;
+    position:relative;
   }
 
-  /* background layer container (holds stars, clouds, moon, fireflies) */
+  /* Background container holds everything decorative */
   #bg {
     position:fixed; inset:0; pointer-events:none;
     z-index:var(--z-bg);
     overflow:hidden;
   }
 
-  /* clouds layers grouped for parallax */
-  .cloud-layer { position:absolute; inset:0; pointer-events:none; overflow:visible; }
+  .cloud-layer{ position:absolute; inset:0; pointer-events:none; overflow:visible; }
 
-  /* section / content */
+  /* UI / content */
   .section {
     min-height:100vh;
     display:flex;
@@ -51,13 +51,12 @@
     flex-direction:column;
     position:relative;
     z-index:var(--z-ui);
-    transition: background 1s linear;
   }
 
   .text-bubble{
     display:inline-block;
     padding:22px 30px;
-    background: rgba(255,255,255,0.64);
+    background: rgba(255,255,255,0.66);
     border-radius:28px;
     box-shadow:0 8px 22px rgba(0,0,0,0.09);
     backdrop-filter: blur(4px);
@@ -84,16 +83,15 @@
     margin-top:10px;
     z-index:var(--z-ui);
   }
-  .interactive-btn:active{ transform:scale(0.98); }
 
-  /* ---------- Hearts (perfect shape) ---------- */
+  /* HEART - perfect shape using two circles (pseudo elements) */
   .heart {
     position:fixed;
     width:22px; height:22px;
     transform: rotate(-45deg);
     pointer-events:none;
     z-index:var(--z-hearts);
-    opacity:0.95;
+    opacity:0.98;
     will-change: transform, opacity;
   }
   .heart::before, .heart::after{
@@ -107,36 +105,32 @@
   .heart::before{ transform: translate(-6px,-6px); }
   .heart::after { transform: translate(6px,-6px); }
   .heart.small{ width:14px; height:14px; }
-  .heart.small::before, .heart.small::after{ width:14px; height:14px; transform:none; }
-  /* heart float animation (upwards) */
-  @keyframes heartFloat {
-    0% { transform: translateY(0) rotate(-45deg) scale(0.9); opacity:1; }
-    100% { transform: translateY(-420px) rotate(-45deg) scale(1.05); opacity:0; }
-  }
+  .heart.small::before, .heart.small::after { width:14px; height:14px; transform:none; }
 
-  /* ---------- Stars & Fireflies ---------- */
+  /* STAR */
   .star {
     position:fixed;
     width:2px; height:2px;
     border-radius:50%;
     background:#fff;
-    box-shadow:0 0 8px rgba(255,255,255,0.9);
+    box-shadow:0 0 8px rgba(255,255,255,0.95);
     z-index:var(--z-stars);
     opacity:0.9;
     will-change: opacity, transform;
   }
 
+  /* FIREFLY */
   .firefly {
     position:fixed;
-    width:4px; height:4px;
+    width:6px; height:6px;
     border-radius:50%;
-    background: radial-gradient(circle, #fff 0%, rgba(255,255,170,0.9) 35%, rgba(255,255,170,0.05) 70%);
+    background: radial-gradient(circle, #fff 0%, rgba(255,255,170,0.95) 40%, rgba(255,255,170,0.06) 70%);
     box-shadow: 0 0 12px rgba(255,255,170,0.9);
     z-index:calc(var(--z-stars)+1);
     pointer-events:none;
   }
 
-  /* ---------- Moon ---------- */
+  /* MOON */
   .moon {
     position:fixed;
     width:96px; height:96px;
@@ -147,16 +141,15 @@
     z-index:var(--z-moon);
     opacity:0;
     transform: scale(0.9);
-    transition: opacity 900ms ease, transform 900ms ease, filter 900ms ease;
-    filter: drop-shadow(0 6px 18px rgba(0,0,0,0.15));
+    transition: opacity 900ms ease, transform 900ms ease;
+    filter: drop-shadow(0 6px 18px rgba(0,0,0,0.12));
   }
   .moon.visible { opacity:1; transform: scale(1); }
 
-  /* ---------- Shooting star style (tail is the element) ---------- */
+  /* SHOOTING STAR (tail element) */
   .shoot {
     position:fixed;
-    width:3px;
-    height:140px;
+    width:3px; height:140px;
     background: linear-gradient(to bottom, rgba(255,255,255,1), rgba(255,255,255,0));
     border-radius:50px;
     z-index:var(--z-stars);
@@ -165,17 +158,17 @@
     transform: rotate(45deg);
   }
 
-  /* ---------- Cloud shapes (simple blurred ellipses) ---------- */
+  /* CLOUD ELEMENTS (blurred ovals) */
   .cloud-el {
     position:absolute;
-    background: rgba(255,255,255,0.32);
+    background: rgba(255,255,255,0.30);
     border-radius:50%;
     filter: blur(10px);
     will-change: transform;
     pointer-events:none;
   }
 
-  /* ---------- Carousel placeholder (unchanged UI) ---------- */
+  /* carousel placeholder */
   .carousel {
     width:80%;
     max-width:520px;
@@ -184,22 +177,20 @@
     background: rgba(255,255,255,0.45);
     border-radius:16px;
     display:flex;
-    justify-content:center;
-    align-items:center;
+    justify-content:center; align-items:center;
     color:#333;
   }
 
-  /* ---------- Responsive tweaks ---------- */
   @media (max-width:600px){
     h1{ font-size:2.6rem; }
-    .text-bubble{ padding:18px 20px; font-size:1rem; }
+    .text-bubble{ padding:16px 18px; font-size:1rem; max-width:95%; }
     .moon{ width:72px; height:72px; top:6vh; right:6vw; }
   }
 </style>
 </head>
 <body>
 
-  <!-- Background container with layers -->
+  <!-- bg layers -->
   <div id="bg" aria-hidden="true">
     <div id="cloud-far" class="cloud-layer" style="z-index:var(--z-cloud-far)"></div>
     <div id="stars" style="z-index:var(--z-stars)"></div>
@@ -210,7 +201,7 @@
     <div id="hearts-layer" style="z-index:var(--z-hearts)"></div>
   </div>
 
-  <!-- YOUR UNCHANGED CONTENT SECTIONS -->
+  <!-- CONTENT (kept as you provided) -->
   <div class="section" id="landing">
     <h1>Happy Birthday Ishita 💖</h1>
     <button class="interactive-btn" onclick="startSite()">Click to Start</button>
@@ -262,21 +253,21 @@
   </audio>
 
 <script>
-/* ============================
-   Config (Purple Evening A)
-   ============================ */
+/* ---------------------------
+   Config & palettes (purple evening)
+   --------------------------- */
 const GRADIENTS = [
-  ['#EAC9F5','#BDB1FF'],  // landing (soft purple/pink)
+  ['#EAC9F5','#BDB1FF'],  // landing
   ['#C9B3FF','#A38BFF'],  // snapchat
   ['#A38BFF','#8061DD'],  // whatsapp
   ['#8061DD','#5A3FBD'],  // instagram
   ['#3B2B6D','#0B132B']   // real-meet (night)
 ];
 
-const MOON_SHOW_AT = 0.65;      // show moon after 65% scroll
-const NIGHT_START_AT = 0.55;    // shooting stars & fireflies appear after 55% scroll
+const MOON_SHOW_AT = 0.65;   // show moon after 65% scroll
+const NIGHT_START_AT = 0.55; // night mode for shooting stars/fireflies
 
-/* ---------- util: color interp ---------- */
+/* tiny util helpers */
 function hexToRgb(hex){
   const n = parseInt(hex.replace('#',''),16);
   return [(n>>16)&255, (n>>8)&255, n&255];
@@ -290,19 +281,28 @@ function interpHex(a,b,t){
   return rgbToCss([R,G,Bc]);
 }
 
-/* ---------- background gradient by scroll ---------- */
+/* clamp & throttle */
+function clamp(v, a, b){ return Math.max(a, Math.min(b, v)); }
+function throttle(fn, wait){
+  let last = 0;
+  return (...args) => {
+    const now = Date.now();
+    if(now - last > wait){ last = now; fn(...args); }
+  };
+}
+
+/* -------------- Background gradient by scroll -------------- */
 function updateBackgroundByScroll(){
   const scroll = window.scrollY;
   const total = document.body.scrollHeight - window.innerHeight;
-  let norm = total <= 0 ? 0 : (scroll/total);
-  norm = Math.max(0, Math.min(1, norm));
+  let norm = (total <= 0) ? 0 : (scroll / total);
+  norm = clamp(norm, 0, 1);
 
-  // map norm to gradient slots
   const segments = GRADIENTS.length - 1;
   let idx = Math.floor(norm * segments);
   if(idx >= segments) idx = segments - 1;
   const segStart = idx / segments;
-  const t = (norm - segStart) * segments;
+  const t = clamp((norm - segStart) * segments, 0, 1);
 
   const [s0,s1] = GRADIENTS[idx];
   const [e0,e1] = GRADIENTS[idx+1];
@@ -312,16 +312,15 @@ function updateBackgroundByScroll(){
 
   // moon visibility
   const moonEl = document.getElementById('moon');
-  if(norm >= MOON_SHOW_AT) moonEl.classList.add('visible');
-  else moonEl.classList.remove('visible');
+  if(norm >= MOON_SHOW_AT) moonEl.classList.add('visible'); else moonEl.classList.remove('visible');
 
-  // enable/disable star/meteor/firefly spawns based on night start
+  // night boolean for other spawns
   window._isNight = (norm >= NIGHT_START_AT);
 }
-window.addEventListener('scroll', throttle(updateBackgroundByScroll, 50));
-updateBackgroundByScroll(); // initial
+window.addEventListener('scroll', throttle(updateBackgroundByScroll, 60));
+updateBackgroundByScroll();
 
-/* ========= Parallax clouds ========== */
+/* ---------- Clouds: spawn & parallax ---------- */
 const cloudFar = document.getElementById('cloud-far');
 const cloudMid = document.getElementById('cloud-mid');
 const cloudNear = document.getElementById('cloud-near');
@@ -339,44 +338,36 @@ function createCloud(layer, left, top, w, h, blur, opacity){
   return el;
 }
 function spawnClouds(){
-  // far: slow, light
-  for(let i=0;i<5;i++){
-    createCloud(cloudFar, Math.random()*120 - 10, Math.random()*45, 160+Math.random()*240, 80+Math.random()*60, 10, 0.32);
+  for(let i=0;i<6;i++){
+    createCloud(cloudFar, Math.random()*120 - 10, Math.random()*45, 130+Math.random()*200, 70+Math.random()*50, 10, 0.28);
   }
-  // mid
-  for(let i=0;i<5;i++){
-    createCloud(cloudMid, Math.random()*120 - 10, 10+Math.random()*50, 200+Math.random()*260, 90+Math.random()*70, 12, 0.34);
+  for(let i=0;i<6;i++){
+    createCloud(cloudMid, Math.random()*120 - 10, 8+Math.random()*50, 180+Math.random()*220, 90+Math.random()*70, 12, 0.32);
   }
-  // near: bigger & more blurred
-  for(let i=0;i<4;i++){
-    createCloud(cloudNear, Math.random()*120 - 10, 15+Math.random()*50, 240+Math.random()*300, 110+Math.random()*80, 16, 0.38);
+  for(let i=0;i<5;i++){
+    createCloud(cloudNear, Math.random()*120 - 10, 12+Math.random()*50, 220+Math.random()*260, 110+Math.random()*80, 16, 0.36);
   }
 }
 spawnClouds();
 
-/* cloud parallax animation (simple horizontal movement) */
 function animateClouds(){
-  const farEls = cloudFar.children;
-  const midEls = cloudMid.children;
-  const nearEls = cloudNear.children;
-  // speeds in vw per tick
-  animateLayer(farEls, 0.01);
-  animateLayer(midEls, 0.03);
-  animateLayer(nearEls, 0.06);
+  animateLayer(cloudFar.children, 0.01);
+  animateLayer(cloudMid.children, 0.03);
+  animateLayer(cloudNear.children, 0.06);
+  requestAnimationFrame(animateClouds);
 }
 function animateLayer(list, speed){
   for(let i=0;i<list.length;i++){
     const el = list[i];
-    let left = parseFloat(el.style.left);
+    let left = parseFloat(el.style.left) || 0;
     left += speed;
     if(left > 110) left = -30;
     el.style.left = left + 'vw';
   }
-  requestAnimationFrame(animateClouds);
 }
 requestAnimationFrame(animateClouds);
 
-/* ========= Stars (twinkle) ========= */
+/* ---------- Stars: spawn & twinkle ---------- */
 function spawnStars(n = 80){
   const stars = document.getElementById('stars');
   for(let i=0;i<n;i++){
@@ -387,182 +378,139 @@ function spawnStars(n = 80){
     const size = 1 + Math.random()*2;
     s.style.width = size+'px';
     s.style.height = size+'px';
-    // random twinkle speed
-    const dur = 2000 + Math.random()*3000;
-    s.style.animation = `none`;
+    s.style.opacity = 0.4 + Math.random()*0.6;
     stars.appendChild(s);
-    twinkle(s, dur);
+    twinkle(s);
   }
 }
-function twinkle(el, dur){
+function twinkle(el){
   let up = Math.random() < 0.5;
   function tick(){
-    let o = parseFloat(el.style.opacity || 1);
-    o += (up ? 0.01 : -0.01);
-    if(o >= 1){ up = false; }
-    if(o <= 0.2){ up = true; }
+    let o = parseFloat(el.style.opacity) || 0.6;
+    o += (up ? 0.02 : -0.02) * (0.5 + Math.random()*1.2);
+    if(o >= 1){ up = false; o = 1; }
+    if(o <= 0.2){ up = true; o = 0.2; }
     el.style.opacity = o;
-    setTimeout(tick, 40 + Math.random()*60);
+    setTimeout(tick, 60 + Math.random()*200);
   }
   tick();
 }
 spawnStars(80);
 
-/* ========= Hearts (floating + tap trail) ========= */
+/* ---------- Hearts: floating + tap trail ---------- */
 const heartsLayer = document.getElementById('hearts-layer');
 
-function spawnFloatingHearts(count = 12){
-  for(let i=0;i<count;i++){
-    createFloatingHeart();
-  }
-}
 function createFloatingHeart(){
   const h = document.createElement('div');
   h.className = 'heart';
-  // color gradient tint on background pieces (set via pseudo shapes by CSS)
   const x = Math.random()*100;
-  const y = 80 + Math.random()*20; // start near bottom and float up
+  const y = 78 + Math.random()*22; // start near bottom
   h.style.left = x + 'vw';
   h.style.top = y + 'vh';
-  const dur = 6000 + Math.random()*7000;
   heartsLayer.appendChild(h);
-
-  // animate upwards using JS (so we can remove)
+  const dur = 6000 + Math.random()*7000;
   h.animate([
-    { transform: 'translateY(0) rotate(-45deg) scale(0.95)', opacity: 1 },
-    { transform: 'translateY(-380px) rotate(-45deg) scale(1.05)', opacity: 0 }
-  ], {
-    duration: dur,
-    easing: 'cubic-bezier(.2,.8,.2,1)'
-  });
-
-  setTimeout(()=>h.remove(), dur+100);
+    { transform: 'translateY(0) rotate(-45deg) scale(0.95)', opacity:1 },
+    { transform: 'translateY(-360px) rotate(-45deg) scale(1.05)', opacity:0 }
+  ], { duration: dur, easing: 'cubic-bezier(.2,.8,.2,1)' });
+  setTimeout(()=>{ try{ h.remove(); }catch(e){} }, dur+80);
 }
+function spawnFloatingHearts(n=8){
+  for(let i=0;i<n;i++) createFloatingHeart();
+}
+setInterval(()=>{ createFloatingHeart(); if(Math.random()<0.45) createFloatingHeart(); }, 1800);
+spawnFloatingHearts(8);
 
-// tap trail & touch
+/* tap heart trail */
 function createHeartTrail(x,y, small=true){
   const h = document.createElement('div');
   h.className = 'heart ' + (small ? 'small' : '');
-  // use fixed px coordinates so it appears where tapped
+  // position relative to viewport
   h.style.left = (x - (small?7:11)) + 'px';
   h.style.top = (y - (small?7:11)) + 'px';
   document.body.appendChild(h);
-  // animate with CSS keyframes equivalent
   const animDur = small ? 1400 : 1800;
   h.animate([
-    { transform: 'translateY(0) rotate(-45deg) scale(0.9)', opacity: 1 },
-    { transform: 'translateY(-220px) rotate(-45deg) scale(1.05)', opacity: 0 }
-  ], { duration: animDur, easing: 'ease-out' });
-  setTimeout(()=>h.remove(), animDur+50);
+    { transform: 'translateY(0) rotate(-45deg) scale(0.9)', opacity:1 },
+    { transform: 'translateY(-220px) rotate(-45deg) scale(1.05)', opacity:0 }
+  ], { duration: animDur, easing:'ease-out' });
+  setTimeout(()=>{ try{ h.remove(); }catch(e){} }, animDur + 60);
 }
+document.addEventListener('click', e => createHeartTrail(e.clientX, e.clientY, true));
+document.addEventListener('touchstart', e => { for(const t of e.touches) createHeartTrail(t.clientX, t.clientY, true); });
 
-document.addEventListener('click', (ev) => {
-  createHeartTrail(ev.clientX, ev.clientY, true);
-});
-document.addEventListener('touchstart', (ev) => {
-  for(const t of ev.touches) createHeartTrail(t.clientX, t.clientY, true);
-});
+/* ---------- Moon: handled by updateBackgroundByScroll (class "visible") ---------- */
 
-/* spawn a few floating hearts periodically */
-setInterval(()=>{ createFloatingHeart(); if(Math.random()<0.4) createFloatingHeart(); }, 1800);
-spawnFloatingHearts(8);
-
-/* ========= Moon visibility handled in updateBackgroundByScroll ========= */
-/* moon DOM already present - we toggle .visible */
-
-/* ========= Shooting stars (realistic diagonal) ========= */
+/* ---------- Shooting stars: only at night ---------- */
 function spawnShootingStarOnce(){
-  if(!window._isNight) return; // only at night
+  if(!window._isNight) return;
   const s = document.createElement('div');
   s.className = 'shoot';
-  // start near right-top quadrant
   const startX = window.innerWidth * (0.78 + Math.random()*0.18);
   const startY = window.innerHeight * (0.02 + Math.random()*0.25);
   s.style.left = startX + 'px';
   s.style.top = startY + 'px';
-  document.body.appendChild(s);
-
-  // path: translate left-down by large amount
+  document.getElementById('bg').appendChild(s);
   const dx = - (window.innerWidth * (0.9 + Math.random()*0.6));
   const dy = window.innerHeight * (0.5 + Math.random()*0.6);
+  const duration = 900 + Math.random()*900;
   s.animate([
     { transform: `translate(0px,0px) rotate(45deg)`, opacity: 1 },
     { transform: `translate(${dx}px, ${dy}px) rotate(45deg)`, opacity: 0 }
-  ], {
-    duration: 1100 + Math.random()*800,
-    easing: 'cubic-bezier(.2,.9,.1,1)'
-  });
-  setTimeout(()=>s.remove(), 2200);
+  ], { duration, easing: 'cubic-bezier(.2,.9,.1,1)' });
+  setTimeout(()=>{ try{ s.remove(); }catch(e){} }, duration + 80);
 }
-// spawn randomly when night
-(function starLoop(){
-  const delay = 1800 + Math.random()*3000;
+(function shootingLoop(){
+  const delay = 1400 + Math.random()*2600;
   setTimeout(()=>{
     if(window._isNight && Math.random()<0.9) spawnShootingStarOnce();
-    starLoop();
+    shootingLoop();
   }, delay);
 })();
 
-/* ========= Fireflies (gentle floating golden dots) ========= */
+/* ---------- Fireflies: gentle golden dots at night ---------- */
 function spawnFirefly(){
   if(!window._isNight) return;
   const f = document.createElement('div');
   f.className = 'firefly';
-  // spawn in mid-lower area
   const left = 10 + Math.random()*80;
   const top = 48 + Math.random()*40;
   f.style.left = left + 'vw';
   f.style.top = top + 'vh';
   document.getElementById('fireflies').appendChild(f);
-
   const dx = (Math.random()-0.5) * 240;
   const dy = (Math.random()-0.5) * 120;
   const duration = 4000 + Math.random()*6000;
-
-  // subtle flicker + path
   f.animate([
     { transform: `translate(0,0)`, opacity: 1 },
-    { transform: `translate(${dx}px, ${dy}px)`, opacity: 0.2 },
-    { transform: `translate(${dx*1.2}px, ${dy*0.2}px)`, opacity: 0.6 }
+    { transform: `translate(${dx}px, ${dy}px)`, opacity: 0.25 },
+    { transform: `translate(${dx*1.2}px, ${dy*0.2}px)`, opacity: 0.8 }
   ], { duration, easing:'ease-in-out', iterations: Infinity, direction:'alternate' });
-
-  // remove after a long time to keep DOM tidy
   setTimeout(()=>{ try{ f.remove(); }catch(e){} }, 30000);
 }
-// continuous spawn when night
-setInterval(()=>{ if(window._isNight) { spawnFirefly(); if(Math.random()<0.5) spawnFirefly(); } }, 1200);
+setInterval(()=>{ if(window._isNight) { spawnFirefly(); if(Math.random()<0.4) spawnFirefly(); } }, 1200);
 
-/* ========= Section fade-in using IntersectionObserver ========= */
+/* ---------- Section fade-in (IntersectionObserver) ---------- */
 function initSectionObserver(){
   const options = { threshold: 0.22 };
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
+  const obs = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
       if(entry.isIntersecting){
         const bubbles = entry.target.querySelectorAll('.text-bubble');
-        bubbles.forEach((b, idx) => setTimeout(()=>b.classList.add('fade-in'), idx*260));
+        bubbles.forEach((b,i)=> setTimeout(()=> b.classList.add('fade-in'), i*240));
       }
     });
   }, options);
-  document.querySelectorAll('.section').forEach(s => obs.observe(s));
+  document.querySelectorAll('.section').forEach(s=>obs.observe(s));
 }
 initSectionObserver();
 
-/* ========= helpers ========= */
-function throttle(fn, wait){
-  let last = 0;
-  return (...args) => {
-    const now = Date.now();
-    if(now - last > wait){ last = now; fn(...args); }
-  };
-}
-
-/* ========= Start / UI helpers ========= */
+/* ---------- UI helpers ---------- */
 function startSite(){
   try { document.getElementById('bg-music').play(); } catch(e){}
-  // initial heart spawn & stars already created
+  // ensure immediate visual activity
   updateBackgroundByScroll();
-  // ensure small immediate spawns for visual
-  if(window._isNight) { spawnShootingStarOnce(); spawnFirefly(); }
+  if(window._isNight){ spawnShootingStarOnce(); spawnFirefly(); }
 }
 function revealMessage(choice){
   if(choice){
@@ -570,14 +518,13 @@ function revealMessage(choice){
     const fm = document.getElementById('final-message');
     fm.style.display = 'flex';
     fm.scrollIntoView({behavior:'smooth'});
-  } else {
-    alert('You can scroll and see the memories anyway!');
-  }
+  } else alert('You can scroll and see the memories anyway!');
 }
 
-/* Prevent weird yellow by clamping interpolation (we only used purple palette) */
-/* Nothing else to do because GRADIENTS contain no yellow */
+/* Initial update to compute night/day */
+updateBackgroundByScroll();
 
+/* Prevent accidental yellow: we only use defined purple palette so interpolation won't create yellow */
 </script>
 </body>
 </html>
