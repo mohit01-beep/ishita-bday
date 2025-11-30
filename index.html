@@ -1,23 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Happy Birthday Ishita 💖</title>
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
 
 <style>
-body, html {
+/* ---------- base ---------- */
+html,body{
   margin:0; padding:0;
+  height:100%;
   font-family:'Quicksand',sans-serif;
   overflow-x:hidden;
   scroll-behavior:smooth;
-  transition: background 1s linear;
   background: linear-gradient(120deg,#FFD1DC,#FFB3C1);
   color:#333;
 }
 
-/* SECTION BACKGROUND COLORS */
+/* ensure background visuals sit behind content */
+.bg-layer {
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:5; /* lower than content sections */
+  overflow:hidden;
+}
+
+/* keep visuals lower than sections which use z-index:50 */
+.visual-item { position:absolute; pointer-events:none; }
+
+/* ---------- Sections & text ---------- */
 .section {
   min-height:100vh;
   display:flex;
@@ -27,9 +40,11 @@ body, html {
   text-align:center;
   flex-direction:column;
   position:relative;
-  z-index:5;
+  z-index:50; /* high so content is always on top */
+  transition: background 1s ease-in-out;
 }
 
+/* per-section background colors (unchanged text content) */
 #landing { background:linear-gradient(120deg,#FFD1DC,#FFB3C1); }
 #snapchat { background:linear-gradient(120deg,#FFB3C1,#FF9BB4); }
 #whatsapp { background:linear-gradient(120deg,#FF9BB4,#FF8DAA); }
@@ -38,7 +53,6 @@ body, html {
 #interactive { background:linear-gradient(120deg,#FF6A8C,#FF5C84); }
 #final-message { background:linear-gradient(120deg,#FF5C84,#FF4B78); }
 
-/* TEXT BUBBLES */
 .text-bubble {
   display:inline-block;
   padding:25px 35px;
@@ -51,25 +65,100 @@ body, html {
   margin:30px 0;
   opacity:0;
   transform:translateY(30px);
-  transition: all 1s ease;
+  transition: all 900ms cubic-bezier(.2,.9,.2,1);
 }
-.fade-in { opacity:1 !important; transform:translateY(0px) !important; }
+
+.fade-in { opacity:1 !important; transform:translateY(0) !important; }
 
 h1 { font-family:'Great Vibes', cursive; font-size:4em; margin-bottom:0.5em; color:#ff77aa; }
 
-/* HEARTS */
-.heart {
-  position: fixed;
-  width: 20px;
-  height: 20px;
-  background: #ff77aa;
-  transform: rotate(-45deg);
-  border-radius: 5px;
+/* ---------- background objects styling (hearts, stars, sparkles, clouds, moon) ---------- */
+
+/* background container holds generated elements */
+.bg-container { position: absolute; inset:0; z-index:6; pointer-events:none; }
+
+/* MOON */
+.moon {
+  position:fixed;
+  right:24px;
+  top:24px;
+  width:84px;
+  height:84px;
+  background:#fff8e7;
+  border-radius:50%;
+  box-shadow:0 0 40px #fff2c1;
+  z-index:8;
   pointer-events:none;
-  z-index:3;
-  animation: floatUp 5s linear infinite;
+  opacity:0.95;
 }
-.heart::before, .heart::after {
+
+/* CLOUD */
+.cloud {
+  position:absolute;
+  border-radius:50%;
+  background: rgba(255,255,255,0.42);
+  filter: blur(10px);
+  pointer-events:none;
+  z-index:6;
+  opacity:0.95;
+}
+
+/* TWINKLING STARS */
+.twinkle-star {
+  position:absolute;
+  width:2px;
+  height:2px;
+  background:white;
+  border-radius:50%;
+  box-shadow:0 0 8px white;
+  opacity:0.6;
+  pointer-events:none;
+  z-index:6;
+  animation: starTwinkle 2000ms infinite ease-in-out;
+}
+@keyframes starTwinkle {
+  0% { opacity:0.2; transform: scale(0.6); }
+  50% { opacity:1;   transform: scale(1.25); }
+  100% { opacity:0.2; transform: scale(0.6); }
+}
+
+/* SPARKLES (slightly larger, softer) */
+.sparkle {
+  position:absolute;
+  width:4px;
+  height:4px;
+  background:white;
+  border-radius:50%;
+  opacity:0.6;
+  filter: blur(0.5px);
+  z-index:7;
+  pointer-events:none;
+  animation: sparklePulse 1500ms infinite ease-in-out;
+}
+@keyframes sparklePulse {
+  0% { transform:scale(0.6); opacity:0.3; }
+  50% { transform:scale(1.3); opacity:1; }
+  100% { transform:scale(0.6); opacity:0.3; }
+}
+
+/* HEART (floating and small popped hearts) */
+/* hearts are fixed so their coordinates are independent of sections */
+.heart {
+  position:fixed;
+  width:20px;
+  height:20px;
+  background:#ff77aa;
+  transform: rotate(-45deg);
+  border-radius:4px;
+  pointer-events:none;
+  z-index:9;
+  box-shadow:0 0 8px rgba(255,119,170,0.9), 0 0 18px rgba(255,119,170,0.6);
+  /* we won't assign a continuous animation here, JS will set custom animation durations */
+}
+
+/* the two lobes to make the heart */
+.heart::before,
+.heart::after {
   content:"";
   position:absolute;
   width:20px;
@@ -80,90 +169,54 @@ h1 { font-family:'Great Vibes', cursive; font-size:4em; margin-bottom:0.5em; col
 .heart::before { top:-10px; left:0; }
 .heart::after { top:0; left:10px; }
 
-/* SMALL HEART POPPING */
+/* small popped heart on click (animation handled by class 'pop-anim' ) */
 .heart.small {
-  width:14px;
-  height:14px;
-  animation: popUp 1.5s ease-out forwards;
+  width:14px; height:14px;
 }
 .heart.small::before,
-.heart.small::after {
-  width:14px;
-  height:14px;
-}
-.heart.small::before { top:-7px; }
-.heart.small::after { left:7px; }
+.heart.small::after { width:14px; height:14px; }
 
-/* FLOAT UP */
-@keyframes floatUp {
-  0% { transform: translateY(0px) rotate(-45deg); opacity:0.9; }
-  100% { transform: translateY(-600px) rotate(-45deg); opacity:0; }
+/* pop animation (play-once) */
+.pop-anim {
+  animation: popUp 1200ms cubic-bezier(.2,.9,.2,1) forwards;
 }
-
-/* POP */
 @keyframes popUp {
-  0% { transform:scale(0.5) rotate(-45deg); opacity:1; }
-  100% { transform:scale(1.2) translateY(-120px) rotate(-45deg); opacity:0; }
+  0% { transform: scale(0.5) translateY(0) rotate(-45deg); opacity:1; }
+  60% { transform: scale(1.15) translateY(-90px) rotate(-45deg); opacity:0.85; }
+  100% { transform: scale(1.3) translateY(-160px) rotate(-45deg); opacity:0; }
 }
 
-/* STARS */
-.twinkle-star {
-  position: fixed;
-  width: 2px;
-  height: 2px;
-  background: white;
-  border-radius: 50%;
-  opacity: 0.5;
-  pointer-events:none;
-  z-index:2;
+/* float-up animation for background hearts (longer, linear) */
+.float-anim {
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+@keyframes floatUpLong {
+  from { transform: translateY(0) rotate(-45deg); opacity:0.95; }
+  to   { transform: translateY(-780px) rotate(-45deg); opacity:0; }
 }
 
-/* SPARKLES */
-.sparkle {
-  position: fixed;
-  width: 4px;
-  height: 4px;
-  background: white;
-  border-radius: 50%;
-  pointer-events:none;
-  opacity:0.7;
-  animation: sparkleTwinkle 1.5s infinite;
-  z-index:3;
-}
-@keyframes sparkleTwinkle {
-  0% { transform:scale(0.5); opacity:0.4; }
-  50% { transform:scale(1.3); opacity:1; }
-  100% { transform:scale(0.5); opacity:0.4; }
-}
+/* SHORT helper to avoid sideways movement: we animate translateY only, keep left constant */
 
-/* CLOUDS */
-.cloud {
-  position: fixed;
-  border-radius:50%;
-  background: rgba(255,255,255,0.4);
-  z-index:1;
-  filter:blur(10px);
-}
-
-/* MOON */
-.moon {
-  position: fixed;
-  right:40px;
-  top:40px;
-  width:90px;
-  height:90px;
-  background:#fff8e7;
-  border-radius:50%;
-  box-shadow:0 0 50px #fff2c1;
-  z-index:1;
+/* ---------- responsive tweaks ---------- */
+@media (max-width:600px){
+  .text-bubble{padding:18px 22px; font-size:1em; max-width:90%}
+  h1{font-size:2.6em}
+  .moon{width:64px;height:64px; right:16px; top:12px}
 }
 </style>
 </head>
 
 <body>
 
-<!-- MOON -->
-<div class="moon"></div>
+<!-- BACKGROUND LAYER for visuals -->
+<div class="bg-layer" id="bg-layer" aria-hidden="true">
+  <div class="bg-container" id="bg-container"></div>
+  <!-- moon (visual) -->
+  <div class="moon" id="moon"></div>
+</div>
+
+<!-- ---------- CONTENT (kept exactly as provided) ---------- -->
 
 <!-- LANDING -->
 <div class="section" id="landing">
@@ -232,94 +285,226 @@ h1 { font-family:'Great Vibes', cursive; font-size:4em; margin-bottom:0.5em; col
   <p>From Mohit ❤️</p>
 </div>
 
+<!-- optional audio file (if you have soft-music.mp3 in same folder it will play when user clicks Start) -->
+<audio id="bg-music" loop preload="auto">
+  <source src="soft-music.mp3" type="audio/mpeg">
+</audio>
+
 <script>
+/* ---------- Utility / globals ---------- */
+const bgContainer = document.getElementById('bg-container');
+let started = false;
+
+/* ---------- Start site: create visuals & enable observers ---------- */
 function startSite(){
-  createStars(120);
-  createSparkles(40);
-  createClouds(6);
-  createFloatingHearts(20);
-  observeSections();
+  if(!started){
+    started = true;
+    try { document.getElementById('bg-music').play().catch(()=>{/* autoplay blocked — user gesture required */}); } catch(e){}
+    createStars(120);
+    createSparkles(40);
+    createClouds(6);
+    createFloatingHearts(18);
+    observeSections();
+    shootingStarLoop();
+    // initial landing bubbles fade
+    document.querySelectorAll('#landing .text-bubble').forEach((b,i)=>setTimeout(()=>b.classList.add('fade-in'), i*150));
+  }
 }
 
+/* ---------- Reveal final note ---------- */
 function revealMessage(choice){
   if(choice){
     document.getElementById('interactive').style.display='none';
     document.getElementById('final-message').style.display='flex';
     document.getElementById('final-message').scrollIntoView({behavior:'smooth'});
+    // fade-in final message bubbles
+    document.querySelectorAll('#final-message .text-bubble').forEach((b,i)=>setTimeout(()=>b.classList.add('fade-in'), i*200));
+  } else {
+    alert('You can scroll and see the memories anyway!');
   }
 }
 
-/* FADE-IN */
+/* ---------- Section observer (fade-in) ---------- */
 function observeSections(){
-  const obs=new IntersectionObserver((entries)=>{
+  const options = { threshold: 0.25 };
+  const obs = new IntersectionObserver((entries)=>{
     entries.forEach(entry=>{
       if(entry.isIntersecting){
-        entry.target.querySelectorAll('.text-bubble')
-        .forEach((b,i)=>setTimeout(()=>b.classList.add('fade-in'), i*250));
+        const bubbles = entry.target.querySelectorAll('.text-bubble');
+        bubbles.forEach((b,i)=>setTimeout(()=>b.classList.add('fade-in'), i*220));
       }
     });
-  }, { threshold:0.3 });
+  }, options);
   document.querySelectorAll('.section').forEach(s=>obs.observe(s));
 }
 
-/* STARS */
+/* ---------- STARS ---------- */
 function createStars(n){
   for(let i=0;i<n;i++){
-    const s=document.createElement('div');
-    s.className='twinkle-star';
-    s.style.left=Math.random()*100+'vw';
-    s.style.top=Math.random()*100+'vh';
-    document.body.appendChild(s);
+    const s = document.createElement('div');
+    s.className = 'twinkle-star visual-item';
+    // distribute across viewport (slightly favor upper half)
+    s.style.left = Math.random()*100 + 'vw';
+    s.style.top  = (Math.random()*60) + 'vh';
+    // small random size
+    const size = 1 + Math.random()*2;
+    s.style.width = size+'px';
+    s.style.height = size+'px';
+    // staggered animation speed for variety
+    const delay = Math.random()*2000;
+    s.style.animationDelay = delay + 'ms';
+    bgContainer.appendChild(s);
   }
 }
 
-/* SPARKLES */
+/* ---------- SPARKLES ---------- */
 function createSparkles(n){
   for(let i=0;i<n;i++){
-    const sp=document.createElement('div');
-    sp.className='sparkle';
-    sp.style.left=Math.random()*100+'vw';
-    sp.style.top=Math.random()*100+'vh';
-    document.body.appendChild(sp);
+    const sp = document.createElement('div');
+    sp.className = 'sparkle visual-item';
+    sp.style.left = Math.random()*100 + 'vw';
+    sp.style.top  = Math.random()*75 + 'vh';
+    // random animation delay
+    sp.style.animationDelay = (Math.random()*1500)+'ms';
+    // random opacity & scale
+    sp.style.opacity = 0.4 + Math.random()*0.7;
+    bgContainer.appendChild(sp);
   }
 }
 
-/* CLOUDS */
+/* ---------- CLOUDS (with slow left-right movement) ---------- */
 function createClouds(n){
   for(let i=0;i<n;i++){
-    const c=document.createElement('div');
-    c.className='cloud';
-    const size=150+Math.random()*150;
-    c.style.width=size+'px';
-    c.style.height=size/2+'px';
-    c.style.left=Math.random()*100+'vw';
-    c.style.top=Math.random()*50+'vh';
-    document.body.appendChild(c);
+    const cl = document.createElement('div');
+    cl.className = 'cloud visual-item';
+    const w = 120 + Math.random()*220;
+    cl.style.width = w+'px';
+    cl.style.height = (w/2)+'px';
+    // place mainly upper half
+    cl.style.left = Math.random()*100 + 'vw';
+    cl.style.top  = (5 + Math.random()*35) + 'vh';
+    cl.style.opacity = 0.35 + Math.random()*0.35;
+    bgContainer.appendChild(cl);
+    animateCloud(cl, 0.008 + Math.random()*0.015);
   }
 }
+function animateCloud(el, speed){
+  // animate by moving left/right across viewport using requestAnimationFrame
+  // use vw position parse
+  let left = parseFloat(el.style.left);
+  // if left includes 'vw' it will be parsed; ensure numeric
+  // start direction (random)
+  let dir = Math.random() < 0.5 ? -1 : 1;
+  function step(){
+    left += dir * speed;
+    if(left > 110) left = -30;
+    if(left < -30) left = 110;
+    el.style.left = left + 'vw';
+    requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
 
-/* FLOATING HEARTS */
+/* ---------- FLOATING HEARTS (background) ---------- */
 function createFloatingHearts(n){
   for(let i=0;i<n;i++){
-    const h=document.createElement('div');
-    h.className='heart';
-    h.style.left=Math.random()*100+'vw';
-    h.style.bottom='-30px';
-    h.style.animationDuration=(4+Math.random()*4)+'s';
+    const h = document.createElement('div');
+    h.className = 'heart visual-item';
+    // start from bottom outside viewport
+    const left = Math.random()*92 + 3; // avoid exact edges
+    // set using fixed positioning so they float independently
+    h.style.left = left + 'vw';
+    // place just below the viewport to float up
+    const startBottom = -30 - Math.random()*80;
+    // we'll emulate bottom by converting to top: calc(100vh + offset)
+    // simpler: compute initial top = window.innerHeight - startBottom
+    const initialTopPx = window.innerHeight + Math.abs(startBottom);
+    h.style.top = initialTopPx + 'px';
+    // set long float animation by setting inline animation
+    const duration = 6000 + Math.random()*7000; // 6s - 13s
+    h.style.animation = `floatUpLong ${duration}ms linear forwards`;
+    // set custom animation name to use translateY only (we set top explicitly, but using transform is fine)
+    h.style.willChange = 'transform, opacity';
+    // append then let animation run - remove on end to avoid DOM clutter
     document.body.appendChild(h);
+    // remove after animation
+    setTimeout(()=>{ if(h && h.parentNode) h.parentNode.removeChild(h); }, duration + 500);
   }
 }
 
-/* HEART POP */
-document.addEventListener('click', e=>{
-  const h=document.createElement('div');
-  h.className='heart small';
-  h.style.left=e.clientX+'px';
-  h.style.top=e.clientY+'px';
+/* ---------- HEART POP ON CLICK/TOUCH ---------- */
+function spawnPopHeart(x, y){
+  const h = document.createElement('div');
+  h.className = 'heart small pop-anim';
+  // center the small heart on pointer (adjust because heart rotated)
+  const offsetX = 8; const offsetY = 8;
+  h.style.left = (x - offsetX) + 'px';
+  h.style.top  = (y - offsetY) + 'px';
   document.body.appendChild(h);
-  setTimeout(()=>h.remove(),1500);
+  // remove when animation finishes (popUp duration 1200ms)
+  setTimeout(()=>{ if(h && h.parentNode) h.parentNode.removeChild(h); }, 1300);
+}
+document.addEventListener('click', (e)=>{ spawnPopHeart(e.clientX, e.clientY); });
+document.addEventListener('touchstart', (ev)=> {
+  for(const t of ev.touches) spawnPopHeart(t.clientX, t.clientY);
 });
-</script>
 
+/* ---------- SHOOTING STARS (periodic) ---------- */
+function shootingStarLoop(){
+  // create a first delayed call to avoid immediate burst
+  setTimeout(()=> {
+    shootingStarOnce();
+    // then local loop
+    setInterval(shootingStarOnce, 2800 + Math.random()*2200);
+  }, 800);
+}
+function shootingStarOnce(){
+  const s = document.createElement('div');
+  s.className = 'shooting-star visual-item';
+  // start near the right edge, random high position
+  const startX = window.innerWidth - 60;
+  const startY = 20 + Math.random()*120; // px from top
+  s.style.left = startX + 'px';
+  s.style.top  = startY + 'px';
+  s.style.width = '2px';
+  s.style.height = (80 + Math.random()*60) + 'px';
+  s.style.opacity = '1';
+  document.body.appendChild(s);
+  // animate using Web Animations API: translate left & down only (no sideways jitter)
+  const distanceX = - (window.innerWidth * (0.6 + Math.random()*0.4));
+  const distanceY = (window.innerHeight * (0.25 + Math.random()*0.45));
+  s.animate([
+    { transform: `translate(0px,0px) rotate(45deg)`, opacity:1 },
+    { transform: `translate(${distanceX}px, ${distanceY}px) rotate(45deg)`, opacity:0 }
+  ], {
+    duration: 900 + Math.random()*700,
+    easing: 'cubic-bezier(.2,.9,.2,1)'
+  });
+  // cleanup
+  setTimeout(()=>{ if(s && s.parentNode) s.parentNode.removeChild(s); }, 2000);
+}
+
+/* ---------- helpers: remove old visuals when resizing to avoid weird positions ---------- */
+window.addEventListener('resize', ()=> {
+  // optional: not aggressively removing everything, but okay to keep visuals
+});
+
+/* ---------- run loop (expose shootingStarLoop symbol) ---------- */
+function shootingStarLoopStarter(){
+  shootingStarLoop();
+}
+
+/* ---------- initialize: in case user scrolls without clicking Start, we still want fade-in on scroll */
+document.addEventListener('DOMContentLoaded', ()=>{
+  // basic observer so sections fade as user scrolls even if startSite not clicked
+  observeSections();
+});
+
+/* ---------- safe exports for button handlers ---------- */
+window.startSite = startSite;
+window.revealMessage = revealMessage;
+window.shootingStarLoop = shootingStarLoopStarter;
+
+</script>
 </body>
 </html>
