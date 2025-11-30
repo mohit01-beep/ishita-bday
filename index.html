@@ -11,7 +11,7 @@ body, html {
   font-family:'Quicksand',sans-serif;
   overflow-x:hidden;
   scroll-behavior:smooth;
-  background: linear-gradient(120deg,#FFD1DC,#FFB3C1);
+  background: linear-gradient(120deg,#FFD1DC,#B190C8);
   color:#333;
   position: relative;
 }
@@ -115,16 +115,19 @@ p { font-size:1.3em; max-width:700px; }
   100% { transform: translateY(-800px) scale(1.2) rotate(-45deg); opacity:0; }
 }
 
-/* Background: moon, clouds, sparkles */
+/* Moon */
 #moon {
-  position: fixed; top: 50px; right: 50px;
-  width:80px; height:80px;
-  background: radial-gradient(circle, #fff 0%, #ccc 70%);
-  border-radius:50%;
-  z-index:1;
-  filter: drop-shadow(0 0 15px #fff);
+  position: fixed;
+  top:50px;
+  right:50px;
+  font-size:80px;
+  z-index:2;
+  color:#fffacd;
+  text-shadow:0 0 20px #fffacd;
+  pointer-events:none;
 }
 
+/* Clouds */
 .cloud {
   position: fixed;
   border-radius: 50%;
@@ -134,16 +137,17 @@ p { font-size:1.3em; max-width:700px; }
   filter: blur(10px);
 }
 
-.sparkle {
+/* Stars */
+.star {
   position: fixed;
   width:2px;
   height:2px;
   background:white;
   border-radius:50%;
-  opacity:0.5;
   pointer-events:none;
   z-index:2;
-  box-shadow:0 0 10px white;
+  box-shadow:0 0 6px white;
+  opacity:0.5;
 }
 
 /* Carousel placeholder */
@@ -165,7 +169,7 @@ p { font-size:1.3em; max-width:700px; }
 <body>
 
 <!-- Moon -->
-<div id="moon"></div>
+<div id="moon">🌙</div>
 
 <!-- Sections -->
 <div class="section" id="landing">
@@ -216,11 +220,11 @@ function startSite(){
   try{document.getElementById('bg-music').play();}catch(e){}
   createHearts(15);
   createClouds(5);
-  createSparkles(100);
+  createStars(80);
   observeSections();
 }
 
-// Section fade-in on scroll
+// Section fade-in
 function observeSections(){
   const observer = new IntersectionObserver((entries)=>{
     entries.forEach(entry=>{
@@ -266,28 +270,28 @@ function createHeartTrail(x,y){
 function createClouds(count){
   for(let i=0;i<count;i++){
     const c=document.createElement('div'); c.className='cloud';
-    const sz=150+Math.random()*150; c.style.width=sz+'px'; c.style.height=(sz/2)+'px';
+    const sz=100+Math.random()*150; c.style.width=sz+'px'; c.style.height=(sz/2)+'px';
     c.style.left=Math.random()*100+'vw'; c.style.top=Math.random()*50+'vh';
     document.body.appendChild(c);
-    animateCloud(c,0.01+Math.random()*0.02);
+    animateCloud(c,0.01+Math.random()*0.03);
   }
 }
 function animateCloud(c,speed){
   let pos=parseFloat(c.style.left); let dir=Math.random()<0.5?-1:1;
-  function move(){pos+=dir*speed; if(pos>100)pos=-20;if(pos<-20)pos=100;c.style.left=pos+'vw'; requestAnimationFrame(move);}
+  function move(){pos+=dir*speed; if(pos>100)pos=-20; if(pos<-20)pos=100; c.style.left=pos+'vw'; requestAnimationFrame(move);}
   move();
 }
 
-// Sparkles
-function createSparkles(count){
+// Stars
+function createStars(count){
   for(let i=0;i<count;i++){
-    const s=document.createElement('div'); s.className='sparkle';
+    const s=document.createElement('div'); s.className='star';
     s.style.left=Math.random()*100+'vw'; s.style.top=Math.random()*100+'vh';
     document.body.appendChild(s);
-    animateSparkle(s);
+    animateStar(s);
   }
 }
-function animateSparkle(s){
+function animateStar(s){
   let opacity=Math.random()*0.5+0.5; let inc=true;
   function twinkle(){ if(inc)opacity+=0.01; else opacity-=0.01;
     if(opacity>=1) inc=false; if(opacity<=0.2) inc=true;
