@@ -16,6 +16,7 @@ body, html {
   color:#333;
 }
 
+/* Section background transitions */
 .section {
   min-height:100vh;
   display:flex;
@@ -26,13 +27,22 @@ body, html {
   flex-direction:column;
   position:relative;
   z-index:5;
-  transition: background 1s linear;
+  transition: background 1s ease-in-out;
 }
+
+/* Color blend for each section */
+#landing     { background:linear-gradient(120deg,#FFD1DC,#FFB3C1); }
+#snapchat    { background:linear-gradient(120deg,#FFB3C1,#FF9BB4); }
+#whatsapp    { background:linear-gradient(120deg,#FF9BB4,#FF8DAA); }
+#instagram   { background:linear-gradient(120deg,#FF8DAA,#FF7A99); }
+#real-meet   { background:linear-gradient(120deg,#FF7A99,#FF6A8C); }
+#interactive { background:linear-gradient(120deg,#FF6A8C,#FF5C84); }
+#final-message { background:linear-gradient(120deg,#FF5C84,#FF4B78); }
 
 .text-bubble {
   display:inline-block;
   padding:25px 35px;
-  background: rgba(255,255,255,0.6);
+  background: rgba(255,255,255,0.55);
   border-radius:30px;
   box-shadow:0 8px 20px rgba(0,0,0,0.1);
   backdrop-filter:blur(5px);
@@ -64,8 +74,9 @@ p { font-size:1.3em; max-width:700px; }
   z-index:5;
   position:relative;
 }
-.interactive-btn:hover { transform: scale(1.1); }
+.interactive-btn:hover { transform: scale(1.1);}
 
+/* Responsive */
 @media(max-width:900px){
   .text-bubble{max-width:85%; font-size:1.1em; padding:20px 25px; margin:20px auto;}
   h1{font-size:3em;}
@@ -76,46 +87,48 @@ p { font-size:1.3em; max-width:700px; }
   h1{font-size:2.5em; margin-top:20px;}
 }
 
-/* Floating hearts with glow */
+/* ❤️ Perfect heart shape */
 .heart {
   position: fixed;
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   background: #ff77aa;
-  transform: rotate(0deg);
+  transform: rotate(-45deg);
+  border-radius: 5px;
   pointer-events: none;
   z-index: 3;
   animation: floatUp linear infinite;
-  box-shadow: 0 0 10px #ff77aa, 0 0 20px #ff77aa, 0 0 30px #ff77aa;
+  box-shadow: 0 0 8px #ff77aa, 0 0 15px #ff77aa;
 }
 .heart::before,
 .heart::after {
-  content: "";
-  position: absolute;
-  width: 22px;
-  height: 22px;
-  background: #ff77aa;
-  border-radius: 50%;
+  content:"";
+  position:absolute;
+  width:20px;
+  height:20px;
+  background:#ff77aa;
+  border-radius:50%;
 }
-.heart::before { top: -11px; left: 0; }
-.heart::after { top: 0; left: 11px; }
+.heart::before { top:-10px; left:0; }
+.heart::after { left:10px; top:0; }
+
 .heart.small {
   width: 14px;
   height: 14px;
   animation: floatUp 1.8s ease-out forwards;
-  box-shadow: 0 0 5px #ff77aa, 0 0 10px #ff77aa;
 }
 .heart.small::before,
 .heart.small::after {
   width: 14px;
   height: 14px;
 }
-.heart.small::before { top: -7px; }
-.heart.small::after { left: 7px; }
+.heart.small::before { top:-7px; }
+.heart.small::after { left:7px; }
 
+/* Floating animation */
 @keyframes floatUp {
-  0% { transform: translateY(0) scale(0.8); opacity:0.8; }
-  100% { transform: translateY(-800px) scale(1.2); opacity:0; }
+  0% { transform: translateY(0) scale(0.7) rotate(-45deg); opacity:0.9; }
+  100% { transform: translateY(-700px) scale(1.1) rotate(-45deg); opacity:0; }
 }
 
 /* Stars */
@@ -145,8 +158,8 @@ p { font-size:1.3em; max-width:700px; }
 .shooting-star {
   position: fixed;
   width: 2px;
-  height: 100px;
-  background: linear-gradient(to bottom, white, rgba(255,255,255,0));
+  height: 90px;
+  background: linear-gradient(to bottom, white, transparent);
   opacity: 1;
   border-radius: 50px;
   transform: rotate(45deg);
@@ -154,7 +167,6 @@ p { font-size:1.3em; max-width:700px; }
   z-index: 2;
 }
 
-/* Carousel placeholder */
 .carousel {
   width: 80%;
   max-width:500px;
@@ -165,58 +177,83 @@ p { font-size:1.3em; max-width:700px; }
   display:flex;
   justify-content:center;
   align-items:center;
-  font-size:1.2em;
-  color:#333;
+  font-size:1.2em; color:#333;
 }
 </style>
 </head>
+
 <body>
 
+<!-- Landing -->
 <div class="section" id="landing">
   <h1>Happy Birthday Ishita 💖</h1>
   <button class="interactive-btn" onclick="startSite()">Click to Start</button>
 </div>
 
+<!-- Snapchat -->
 <div class="section" id="snapchat">
   <div class="text-bubble">Snapchat memories: Our first talks, little snaps, discovering each other slowly...</div>
   <div class="text-bubble">Thanks to Yogita we got closer earlier and I got your number...</div>
-  <div class="text-bubble">Maybe I would’ve gotten your number later too, but I don’t know when—or how long I would’ve waited.</div>
+  <div class="text-bubble">Maybe I would've gotten your number later too, but I don’t know when—or how long I would've waited.</div>
   <div class="text-bubble">Because of Yogita's job search, we connected on WhatsApp and got to know each other more...</div>
 </div>
 
+<!-- WhatsApp (UPDATED WITH YOUR NEW MEMORIES) -->
 <div class="section" id="whatsapp">
   <div class="text-bubble">WhatsApp memories: Long movie nights, deep talks, sending each other our favorite rom-coms 🎬💖</div>
   <div class="text-bubble">Whenever I see reels about How to Lose a Guy in 10 Days or 10 Things I Hate About You, it reminds me of you 😅💓</div>
   <div class="text-bubble">Any rom-com movie reminds me of youuuuuu 🎥💕 but these 2 are special and unforgettable 😍</div>
   <div class="text-bubble">Our first movie together was Saltburn 🎞️ Your reactions were hilarious 🤭🤣</div>
   <div class="text-bubble">And remember our horror movie together - IT Chapter 1 👻😱</div>
+
+  <!-- YOUR TWO NEW MEMORIES -->
+  <div class="text-bubble">
+    Women’s Day Tiramisu surprise for youu 🤭  
+    Youu loved it… your reactions… whenever I get a chance to make you smile,  
+    to make you happy 🤪 I try not to lose that chance.
+  </div>
+
+  <div class="text-bubble">
+    During Navratre when you sent that cheesecake for me…  
+    no one ever did something like that for me.  
+    It was my 1st time, and that too from youu 🥹  
+    I was soooo soooo happy.
+    <br><br>
+    You know I still have that jar and that box with me…  
+    kisi na kisi trh se use kar rakhe h 🤪  
+    I haven’t thrown it away because it's precious to me.
+  </div>
 </div>
 
+<!-- Instagram -->
 <div class="section" id="instagram">
   <div class="text-bubble">Instagram memories: Placeholder for photos, reels, stories... 💖</div>
   <div class="text-bubble">You can update this content later with your favorite moments 😍</div>
 </div>
 
+<!-- Real meet -->
 <div class="section" id="real-meet">
   <div class="text-bubble">Our real-life meet: Only once, but unforgettable! 💖</div>
   <div class="text-bubble">That day is etched in my memory forever 😍</div>
 </div>
 
+<!-- Interactive -->
 <div class="section" id="interactive">
   <div class="text-bubble">
-    Do you want to see your birthday surprise?
-    <br>
+    Do you want to see your birthday surprise?<br>
     <button class="interactive-btn" onclick="revealMessage(true)">Yes</button>
     <button class="interactive-btn" onclick="revealMessage(false)">No</button>
   </div>
 </div>
 
+<!-- Final Note -->
 <div class="section" id="final-message" style="display:none;">
   <div class="text-bubble" id="birthday-note">Here will be your emotional birthday note...</div>
   <div class="carousel">[Photo carousel placeholder]</div>
   <p>From Mohit ❤️</p>
 </div>
 
+<!-- Music -->
 <audio id="bg-music" loop>
   <source src="soft-music.mp3" type="audio/mpeg">
 </audio>
@@ -228,6 +265,7 @@ function startSite(){
   createClouds(5);
   createFloatingHearts(15);
   observeSections();
+  shootingStarLoop();
 }
 
 function revealMessage(choice){
@@ -238,32 +276,125 @@ function revealMessage(choice){
   } else alert('You can scroll and see the memories anyway!');
 }
 
-// Scroll-triggered fade-in
+// Fade-in
 function observeSections(){
-  const options = { threshold:0.25 };
+  const options = { threshold:0.3 };
   const observer = new IntersectionObserver((entries)=>{
     entries.forEach(entry=>{
       if(entry.isIntersecting){
-        const bubbles = entry.target.querySelectorAll('.text-bubble');
-        bubbles.forEach((b,i)=>setTimeout(()=>b.classList.add('fade-in'), i*300));
+        entry.target.querySelectorAll('.text-bubble')
+        .forEach((b,i)=>setTimeout(()=>b.classList.add('fade-in'), i*250));
       }
     });
   }, options);
 
-  document.querySelectorAll('.section').forEach(section=>{
-    observer.observe(section);
-  });
+  document.querySelectorAll('.section').forEach(sec=>observer.observe(sec));
 }
 
-// Hearts, stars, clouds same as previous code
-function createStars(count){for(let i=0;i<count;i++){const s=document.createElement('div');s.className='twinkle-star';s.style.left=Math.random()*100+'vw';s.style.top=Math.random()*100+'vh';const sz=1+Math.random()*3;s.style.width=sz+'px';s.style.height=sz+'px';animateStar(s);document.body.appendChild(s);}}
-function animateStar(s){let o=Math.random()*0.5+0.5;let inc=true;function tw(){if(inc)o+=0.01;else o-=0.01;if(o>=1)inc=false;if(o<=0.3)inc=true;s.style.opacity=o;requestAnimationFrame(tw);}tw();}
-function createClouds(c){for(let i=0;i<c;i++){const cl=document.createElement('div');cl.className='cloud';const sz=150+Math.random()*150;cl.style.width=sz+'px';cl.style.height=(sz/2)+'px';cl.style.left=Math.random()*100+'vw';cl.style.top=Math.random()*50+'vh';document.body.appendChild(cl);animateCloud(cl,0.01+Math.random()*0.02);}}
-function animateCloud(cl,s){let pos=parseFloat(cl.style.left);let dir=Math.random()<0.5?-1:1;function move(){pos+=dir*s;if(pos>100)pos=-20;if(pos<-20)pos=100;cl.style.left=pos+'vw';requestAnimationFrame(move);}move();}
-function createFloatingHearts(count){for(let i=0;i<count;i++){const h=document.createElement('div');h.className='heart';h.style.left=Math.random()*100+'vw';h.style.animationDuration=(5+Math.random()*5)+'s';document.body.appendChild(h);}}
+/* Stars */
+function createStars(count){
+  for(let i=0;i<count;i++){
+    const s=document.createElement('div');
+    s.className='twinkle-star';
+    s.style.left=Math.random()*100+'vw';
+    s.style.top=Math.random()*100+'vh';
+    const size=1+Math.random()*3;
+    s.style.width=size+'px';
+    s.style.height=size+'px';
+    animateStar(s);
+    document.body.appendChild(s);
+  }
+}
+function animateStar(s){
+  let o=Math.random()*0.5+0.5, dir=true;
+  function tw(){
+    o += dir?0.01:-0.01;
+    if(o>=1) dir=false;
+    if(o<=0.3) dir=true;
+    s.style.opacity=o;
+    requestAnimationFrame(tw);
+  }
+  tw();
+}
+
+/* Clouds */
+function createClouds(c){
+  for(let i=0;i<c;i++){
+    const cl=document.createElement('div');
+    cl.className='cloud';
+    const size=150+Math.random()*150;
+    cl.style.width=size+'px';
+    cl.style.height=size/2+'px';
+    cl.style.left=Math.random()*100+'vw';
+    cl.style.top=Math.random()*50+'vh';
+    document.body.appendChild(cl);
+    animateCloud(cl,0.01+Math.random()*0.02);
+  }
+}
+function animateCloud(cl,speed){
+  let pos=parseFloat(cl.style.left);
+  let dir=Math.random()<0.5?-1:1;
+  function move(){
+    pos+=dir*speed;
+    if(pos>100) pos=-20;
+    if(pos<-20) pos=100;
+    cl.style.left=pos+'vw';
+    requestAnimationFrame(move);
+  }
+  move();
+}
+
+/* Floating hearts */
+function createFloatingHearts(count){
+  for(let i=0;i<count;i++){
+    const h=document.createElement('div');
+    h.className='heart';
+    h.style.left=Math.random()*100+'vw';
+    h.style.animationDuration=(4+Math.random()*4)+'s';
+    document.body.appendChild(h);
+  }
+}
+
+/* Heart trail */
 document.addEventListener('click', e=>createHeartTrail(e.clientX,e.clientY));
-document.addEventListener('touchmove', e=>{for(const t of e.touches) createHeartTrail(t.clientX,t.clientY);});
-function createHeartTrail(x,y){const h=document.createElement('div');h.className='heart small';h.style.left=x+'px';h.style.top=y+'px';document.body.appendChild(h);setTimeout(()=>h.remove(),1800);}
+document.addEventListener('touchmove', e=>{
+  for(const t of e.touches) createHeartTrail(t.clientX,t.clientY);
+});
+function createHeartTrail(x,y){
+  const h=document.createElement('div');
+  h.className='heart small';
+  h.style.left=x+'px';
+  h.style.top=y+'px';
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),1800);
+}
+
+/* Shooting star improved */
+function shootingStarLoop(){
+  setInterval(()=>{
+    const s=document.createElement('div');
+    s.className='shooting-star';
+
+    const startX=window.innerWidth - 50;
+    const startY=Math.random()*200;
+
+    s.style.left=startX+'px';
+    s.style.top=startY+'px';
+
+    document.body.appendChild(s);
+
+    s.animate([
+      { transform:`translate(0,0) rotate(45deg)` , opacity:1 },
+      { transform:`translate(-600px,300px) rotate(45deg)` , opacity:0 }
+    ],{
+      duration:1200,
+      easing:'ease-out'
+    });
+
+    setTimeout(()=>s.remove(),1200);
+  }, 3000);
+}
 </script>
+
 </body>
 </html>
