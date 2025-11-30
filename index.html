@@ -5,16 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Happy Birthday Ishita 💖</title>
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+
 <style>
 body, html {
   margin:0; padding:0;
   font-family:'Quicksand',sans-serif;
   overflow-x:hidden;
   scroll-behavior:smooth;
-  transition: background 1s linear;
   background: linear-gradient(120deg,#FFD1DC,#FFB3C1);
   color:#333;
   position: relative;
+  transition: background 1s linear;
 }
 
 .section {
@@ -27,7 +28,6 @@ body, html {
   flex-direction:column;
   position:relative;
   z-index:5;
-  transition: background 1s linear;
 }
 
 .text-bubble {
@@ -83,11 +83,11 @@ p { font-size:1.3em; max-width:700px; }
   width: 22px;
   height: 22px;
   background: #ff77aa;
-  transform: rotate(0deg);
+  transform: rotate(45deg);
   pointer-events: none;
   z-index: 3;
   animation: floatUp linear infinite;
-  box-shadow: 0 0 10px #ff77aa, 0 0 20px #ff77aa, 0 0 30px #ff77aa;
+  box-shadow: 0 0 10px #ff77aa, 0 0 20px #ff77aa;
 }
 .heart::before,
 .heart::after {
@@ -100,23 +100,21 @@ p { font-size:1.3em; max-width:700px; }
 }
 .heart::before { top: -11px; left: 0; }
 .heart::after { top: 0; left: 11px; }
+
 .heart.small {
-  width: 14px;
-  height: 14px;
+  width: 14px; height: 14px;
+  transform: rotate(45deg);
   animation: floatUp 1.8s ease-out forwards;
-  box-shadow: 0 0 5px #ff77aa, 0 0 10px #ff77aa;
+  box-shadow: 0 0 5px #ff77aa;
 }
 .heart.small::before,
-.heart.small::after {
-  width: 14px;
-  height: 14px;
-}
+.heart.small::after { width: 14px; height: 14px; }
 .heart.small::before { top: -7px; }
 .heart.small::after { left: 7px; }
 
 @keyframes floatUp {
-  0% { transform: translateY(0) scale(0.8); opacity:0.8; }
-  100% { transform: translateY(-800px) scale(1.2); opacity:0; }
+  0% { transform: translateY(0) scale(0.8) rotate(45deg); opacity:0.8; }
+  100% { transform: translateY(-800px) scale(1.2) rotate(45deg); opacity:0; }
 }
 
 /* Stars */
@@ -136,26 +134,26 @@ p { font-size:1.3em; max-width:700px; }
 .cloud {
   position: fixed;
   border-radius: 50%;
-  background: rgba(255,255,255,0.3);
+  background: rgba(255,255,255,0.35);
   z-index: 1;
   pointer-events: none;
-  filter: blur(10px);
+  filter: blur(12px);
 }
 
 /* Moon */
 .moon {
   position: fixed;
-  width: 100px;
-  height: 100px;
-  background: radial-gradient(circle at 30% 30%, #fff, #eee);
+  width: 110px;
+  height: 110px;
+  background: radial-gradient(circle at 30% 30%, #fff, #ddd);
   border-radius: 50%;
   top: 10%;
   right: 10%;
   z-index: 2;
-  box-shadow:0 0 15px rgba(255,255,255,0.7);
+  box-shadow:0 0 20px rgba(255,255,255,0.8);
 }
 
-/* Carousel placeholder */
+/* Carousel */
 .carousel {
   width: 80%;
   max-width:500px;
@@ -175,11 +173,13 @@ p { font-size:1.3em; max-width:700px; }
 
 <div class="moon"></div>
 
+<!-- Landing -->
 <div class="section" id="landing">
   <h1>Happy Birthday Ishita 💖</h1>
   <button class="interactive-btn" onclick="startSite()">Click to Start</button>
 </div>
 
+<!-- Snapchat -->
 <div class="section" id="snapchat">
   <div class="text-bubble">Snapchat memories: Our first talks, little snaps, discovering each other slowly...</div>
   <div class="text-bubble">Thanks to Yogita we got closer earlier and I got your number...</div>
@@ -187,6 +187,7 @@ p { font-size:1.3em; max-width:700px; }
   <div class="text-bubble">Because of Yogita's job search, we connected on WhatsApp and got to know each other more...</div>
 </div>
 
+<!-- WhatsApp -->
 <div class="section" id="whatsapp">
   <div class="text-bubble">WhatsApp memories: Long movie nights, deep talks, sending each other our favorite rom-coms 🎬💖</div>
   <div class="text-bubble">Whenever I see reels about How to Lose a Guy in 10 Days or 10 Things I Hate About You, it reminds me of you 😅💓</div>
@@ -197,16 +198,19 @@ p { font-size:1.3em; max-width:700px; }
   <div class="text-bubble">During Navratri when you sent that cheesecake for me 🥹 It was my 1st time someone did this for me, and that too from you! I still have that jar and box 😇</div>
 </div>
 
+<!-- Instagram -->
 <div class="section" id="instagram">
   <div class="text-bubble">Instagram memories: Placeholder for photos, reels, stories... 💖</div>
   <div class="text-bubble">You can update this content later with your favorite moments 😍</div>
 </div>
 
+<!-- Real Meet -->
 <div class="section" id="real-meet">
   <div class="text-bubble">Our real-life meet: Only once, but unforgettable! 💖</div>
   <div class="text-bubble">That day is etched in my memory forever 😍</div>
 </div>
 
+<!-- Choice -->
 <div class="section" id="interactive">
   <div class="text-bubble">
     Do you want to see your birthday surprise?
@@ -216,6 +220,7 @@ p { font-size:1.3em; max-width:700px; }
   </div>
 </div>
 
+<!-- Final -->
 <div class="section" id="final-message" style="display:none;">
   <div class="text-bubble" id="birthday-note">Here will be your emotional birthday note...</div>
   <div class="carousel">[Photo carousel placeholder]</div>
@@ -227,22 +232,26 @@ p { font-size:1.3em; max-width:700px; }
 </audio>
 
 <script>
-// Background gradients
-const sectionGradients = [
-  ['#FFD1DC','#FFB3C1'],  // landing - evening pink
-  ['#FFC1D6','#FF99B3'],  // snapchat
-  ['#FFB3C1','#FF77AA'],  // whatsapp
-  ['#FF99AA','#FF6699'],  // instagram
-  ['#442266','#0d1b2a']   // real meet - dark night
-];
+// Clean color interpolation (fixed yellow bug)
+function interpolateColor(c1, c2, f) {
+  const a = parseInt(c1.slice(1), 16);
+  const b = parseInt(c2.slice(1), 16);
 
-function interpolateColor(c1,c2,f){
-  const n1=parseInt(c1.slice(1),16), n2=parseInt(c2.slice(1),16);
-  const r=Math.round(((n2>>16)&255)*f + ((n1>>16)&255)*(1-f));
-  const g=Math.round(((n2>>8)&255)*f + ((n1>>8)&255)*(1-f));
-  const b=Math.round((n2&255)*f + (n1&255)*f*(1-f));
-  return `rgb(${r},${g},${b})`;
+  const r = Math.round(((a >> 16) & 255) * (1 - f) + ((b >> 16) & 255) * f);
+  const g = Math.round(((a >> 8) & 255) * (1 - f) + ((b >> 8) & 255) * f);
+  const b2 = Math.round((a & 255) * (1 - f) + (b & 255) * f);
+
+  return `rgb(${r},${g},${b2})`;
 }
+
+// Gradient colors (no yellow)
+const sectionGradients = [
+  ['#FFD1DC', '#FFB3C1'],  // pink
+  ['#FFB3C1', '#FF77AA'],  // deeper pink
+  ['#FF77AA', '#FF4F9A'],  // rose
+  ['#FF4F9A', '#CC3C86'],  // purple-pink
+  ['#4A1C68', '#0B0F2F']   // night sky
+];
 
 // Start site
 function startSite(){
@@ -253,27 +262,26 @@ function startSite(){
   observeSections();
 }
 
-// Fade-in on scroll
+// Fade in on scroll
 function observeSections(){
-  const options={threshold:0.25};
   const observer=new IntersectionObserver((entries)=>{
     entries.forEach(entry=>{
       if(entry.isIntersecting){
-        const bubbles=entry.target.querySelectorAll('.text-bubble');
-        bubbles.forEach((b,i)=>setTimeout(()=>b.classList.add('fade-in'), i*300));
+        entry.target.querySelectorAll('.text-bubble')
+        .forEach((b,i)=>setTimeout(()=>b.classList.add('fade-in'), i*300));
       }
     });
-  },options);
-  document.querySelectorAll('.section').forEach(section=>observer.observe(section));
+  },{threshold:0.25});
+  document.querySelectorAll('.section').forEach(sec=>observer.observe(sec));
 }
 
-// Reveal birthday
+// Reveal message
 function revealMessage(choice){
   if(choice){
     document.getElementById('interactive').style.display='none';
     document.getElementById('final-message').style.display='flex';
     document.getElementById('final-message').scrollIntoView({behavior:'smooth'});
-  } else alert('You can scroll and see the memories anyway!');
+  }
 }
 
 // Hearts
@@ -282,13 +290,17 @@ function createFloatingHearts(count){
     const h=document.createElement('div');
     h.className='heart';
     h.style.left=Math.random()*100+'vw';
-    h.style.animationDuration=(5+Math.random()*5)+'s';
+    h.style.animationDuration=(6+Math.random()*4)+'s';
     document.body.appendChild(h);
   }
 }
-document.addEventListener('click', e=>createHeartTrail(e.clientX,e.clientY));
-document.addEventListener('touchmove', e=>{for(const t of e.touches) createHeartTrail(t.clientX,t.clientY);});
-function createHeartTrail(x,y){
+
+document.addEventListener('click', e=>spawnHeart(e.clientX,e.clientY));
+document.addEventListener('touchmove', e=>{
+  for(const t of e.touches) spawnHeart(t.clientX,t.clientY);
+});
+
+function spawnHeart(x,y){
   const h=document.createElement('div');
   h.className='heart small';
   h.style.left=x+'px';
@@ -300,57 +312,78 @@ function createHeartTrail(x,y){
 // Stars
 function createStars(count){
   for(let i=0;i<count;i++){
-    const s=document.createElement('div'); s.className='twinkle-star';
+    const s=document.createElement('div');
+    s.className='twinkle-star';
     s.style.left=Math.random()*100+'vw';
     s.style.top=Math.random()*100+'vh';
-    const sz=1+Math.random()*2; s.style.width=sz+'px'; s.style.height=sz+'px';
-    animateStar(s); document.body.appendChild(s);
+    const sz=1+Math.random()*2;
+    s.style.width=sz+'px';
+    s.style.height=sz+'px';
+    twinkle(s);
+    document.body.appendChild(s);
   }
 }
-function animateStar(s){
-  let o=Math.random()*0.5+0.5, inc=true;
-  function tw(){ if(inc) o+=0.01; else o-=0.01;
-    if(o>=1) inc=false; if(o<=0.2) inc=true;
-    s.style.opacity=o; requestAnimationFrame(tw);
+
+function twinkle(s){
+  let op=0.3+Math.random()*0.7, dir=true;
+  function glow(){
+    if(dir) op+=0.01; else op-=0.01;
+    if(op>=1) dir=false;
+    if(op<=0.3) dir=true;
+    s.style.opacity=op;
+    requestAnimationFrame(glow);
   }
-  tw();
+  glow();
 }
 
 // Clouds
 function createClouds(count){
   for(let i=0;i<count;i++){
-    const cl=document.createElement('div'); cl.className='cloud';
-    const sz=150+Math.random()*200; cl.style.width=sz+'px'; cl.style.height=(sz/2)+'px';
-    cl.style.left=Math.random()*100+'vw'; cl.style.top=Math.random()*50+'vh';
-    document.body.appendChild(cl);
-    animateCloud(cl,0.05+Math.random()*0.05);
+    const c=document.createElement('div');
+    c.className='cloud';
+    const size=150+Math.random()*200;
+    c.style.width=size+'px';
+    c.style.height=size/2+'px';
+    c.style.left=Math.random()*100+'vw';
+    c.style.top=Math.random()*40+'vh';
+    document.body.appendChild(c);
+    drift(c,0.04+Math.random()*0.06);
   }
 }
-function animateCloud(cl,s){
-  let pos=parseFloat(cl.style.left), dir=Math.random()<0.5?-1:1;
-  function move(){ pos+=dir*s;
-    if(pos>100) pos=-20; if(pos<-20) pos=100;
-    cl.style.left=pos+'vw'; requestAnimationFrame(move);
+
+function drift(cloud,speed){
+  let pos=parseFloat(cloud.style.left);
+  function move(){
+    pos+=speed;
+    if(pos>110) pos=-20;
+    cloud.style.left=pos+'vw';
+    requestAnimationFrame(move);
   }
   move();
 }
 
-// Scroll-based gradient
+// Scroll gradient
 window.addEventListener('scroll',()=>{
   const scroll=window.scrollY;
-  const totalHeight=document.body.scrollHeight-window.innerHeight;
-  let normScroll=scroll/totalHeight;
-  if(normScroll<=0){document.body.style.background=`linear-gradient(120deg, ${sectionGradients[0][0]}, ${sectionGradients[0][1]})`; return;}
-  if(normScroll>=1){ const last=sectionGradients[sectionGradients.length-1]; document.body.style.background=`linear-gradient(120deg, ${last[0]}, ${last[1]})`; return;}
+  const total=document.body.scrollHeight-window.innerHeight;
+  const t=scroll/total;
 
-  let sectionIndex=0;
-  for(let i=0;i<sectionGradients.length-1;i++){
-    if(normScroll >= i/(sectionGradients.length-1) && normScroll <= (i+1)/(sectionGradients.length-1)) sectionIndex=i;
-  }
-  const frac=(normScroll - sectionIndex/(sectionGradients.length-1))*(sectionGradients.length-1);
-  const start=sectionGradients[sectionIndex], end=sectionGradients[sectionIndex+1];
-  document.body.style.background=`linear-gradient(120deg, ${interpolateColor(start[0],end[0],frac)}, ${interpolateColor(start[1],end[1],frac)})`;
+  const idx=Math.min(
+    Math.floor(t*(sectionGradients.length-1)),
+    sectionGradients.length-2
+  );
+
+  const frac=(t*(sectionGradients.length-1)) - idx;
+
+  const start=sectionGradients[idx];
+  const end=sectionGradients[idx+1];
+
+  const col1=interpolateColor(start[0],end[0],frac);
+  const col2=interpolateColor(start[1],end[1],frac);
+
+  document.body.style.background=`linear-gradient(120deg, ${col1}, ${col2})`;
 });
 </script>
+
 </body>
 </html>
