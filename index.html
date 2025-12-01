@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Happy Birthday Ishita 💖</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
 
 <style>
@@ -15,20 +16,19 @@ body, html {
   overflow-x:hidden;
   scroll-behavior:smooth;
 
-  /* Sunset → Purple → Night Smooth Gradient */
   background: linear-gradient(
       to bottom,
-      #ffb7d5 0%,      
-      #d88ad6 40%,    
-      #4b248a 65%,    
-      #0d0221 100%    
+      #ffb7d5 0%,
+      #d88ad6 40%,
+      #4b248a 65%,
+      #0d0221 100%
   );
   transition: background 1s linear;
   color:#333;
   position: relative;
 }
 
-/* ---------- SECTIONS ---------- */
+/* Sections */
 .section {
   min-height:100vh;
   display:flex;
@@ -77,33 +77,36 @@ h1 { font-family:'Great Vibes', cursive; font-size:4em; color:#ff77aa; }
 /* ---------- HEARTS ----------- */
 .heart {
   position: fixed;
-  width: 20px;
-  height: 20px;
-  background: #ff4f87;
+  width: 22px;
+  height: 22px;
+  background: #ff77aa;
   transform: rotate(-45deg);
   pointer-events:none;
   z-index:10;
+  animation: floatUp linear infinite;
 }
 .heart::before, .heart::after {
   content:"";
   position:absolute;
-  width:20px; height:20px;
-  background:#ff4f87;
+  width:22px; height:22px;
+  background:#ff77aa;
   border-radius:50%;
 }
-.heart::before { top:-10px; left:0; }
-.heart::after { top:0; left:10px; }
+.heart::before { top:-11px; left:0; }
+.heart::after { top:0; left:11px; }
 
 .heart.small {
   width:14px; height:14px;
-  animation: floatUp 1.7s ease-out forwards;
+  animation: floatUp 1.8s ease-out forwards;
 }
-.heart.small::before { width:14px; height:14px; top:-7px; }
-.heart.small::after { width:14px; height:14px; left:7px; }
+.heart.small::before,
+.heart.small::after { width:14px; height:14px; }
+.heart.small::before { top:-7px; }
+.heart.small::after { left:7px; }
 
 @keyframes floatUp {
-  0% { transform: translateY(0) scale(.9) rotate(-45deg); opacity:1; }
-  100% { transform: translateY(-120px) scale(1.1) rotate(-45deg); opacity:0; }
+  0% { transform: translateY(0) scale(0.8) rotate(-45deg); opacity:0.8; }
+  100% { transform: translateY(-800px) scale(1.1) rotate(-45deg); opacity:0; }
 }
 
 /* ---------- MOON ---------- */
@@ -138,29 +141,32 @@ h1 { font-family:'Great Vibes', cursive; font-size:4em; color:#ff77aa; }
   border-radius:50%;
   opacity:0;
   z-index:2;
-  animation: twinkle 2.5s infinite ease-in-out;
 }
 
-/* ⭐ Twinkle animation */
+/* Twinkle animation */
 @keyframes twinkle {
-  0%,100% { opacity:0.2; }
+  0% { opacity:0.2; }
   50% { opacity:1; }
+  100% { opacity:0.2; }
 }
 
-/* 🌠 Shooting Star */
+/* ---------- SHOOTING STAR ---------- */
 .shooting-star {
   position: fixed;
-  width: 2px;
-  height: 80px;
-  background: linear-gradient(white, rgba(255,255,255,0));
-  border-radius: 50%;
-  opacity: 0;
-  z-index: 3;
-  transform: rotate(-45deg);
-  pointer-events:none;
+  width:2px;
+  height:2px;
+  background:white;
+  box-shadow:0 0 10px 3px white;
+  border-radius:50%;
+  z-index:3;
+  animation: shoot 1.2s linear forwards;
 }
 
-/* CAROUSEL */
+@keyframes shoot {
+  0% { transform: translate(0,0) scale(1); opacity:1; }
+  100% { transform: translate(300px, -300px) scale(0.2); opacity:0; }
+}
+
 .carousel {
   width:80%; max-width:500px; height:250px;
   background:rgba(255,255,255,0.5);
@@ -172,7 +178,7 @@ h1 { font-family:'Great Vibes', cursive; font-size:4em; color:#ff77aa; }
 <body>
 
 <!-- MUSIC -->
-<audio id="bg-music" src="soft-music.mp3" autoplay loop></audio>
+<audio id="bg-music" src="soft-music.mp3" loop></audio>
 
 <div id="moon">🌙</div>
 
@@ -183,27 +189,28 @@ h1 { font-family:'Great Vibes', cursive; font-size:4em; color:#ff77aa; }
 </div>
 
 <div class="section" id="snapchat">
-  <div class="text-bubble">Snapchat memories: Our first talks, little snaps, discovering each other slowly...</div>
-  <div class="text-bubble">Thanks to Yogita we got closer earlier and I got your number...</div>
-  <div class="text-bubble">Maybe I would’ve gotten your number later too, but I don’t know when—or how long I would’ve waited.</div>
-  <div class="text-bubble">Because of Yogita's job search, we connected on WhatsApp and got to know each other more...</div>
+  <div class="text-bubble">Snapchat memories...</div>
+  <div class="text-bubble">Thanks to Yogita we got closer...</div>
+  <div class="text-bubble">Maybe I would've gotten your number later...</div>
+  <div class="text-bubble">Because of her job search...</div>
 </div>
 
 <div class="section" id="whatsapp">
-  <div class="text-bubble">WhatsApp memories: Long movie nights, deep talks, sending each other our favorite rom-coms 🎬💖</div>
-  <div class="text-bubble">Women's day tiramisu surprise for youu 🤭 You loved it, your reactions whenever I get a chance to make you smile, to make you happy 🤪 I try not to lose that chance</div>
-  <div class="text-bubble">During Navratre when you sent that cheesecake for me 🥹 I was sooooo happy. I still have that jar and box 😄</div>
-  <div class="text-bubble">Whenever I see reels about How to Lose a Guy in 10 Days or 10 Things I Hate About You, it reminds me of you 😅💓</div>
+  <div class="text-bubble">WhatsApp memories...</div>
+  <div class="text-bubble">Tiramisu surprise...</div>
+  <div class="text-bubble">Cheesecake memory...</div>
+  <div class="text-bubble">Rom-coms remind me of you...</div>
 </div>
 
 <div class="section" id="instagram">
-  <div class="text-bubble">Instagram memories: Placeholder for photos, reels, stories... 💖</div>
-  <div class="text-bubble">You can update this content later with your favorite moments 😍</div>
+  <div class="text-bubble">Instagram memories...</div>
+  <div class="text-bubble">You can update this later 😍</div>
 </div>
 
 <div class="section" id="interactive">
   <div class="text-bubble">
-    Do you want to see your birthday surprise?<br><br>
+    Do you want to see your birthday surprise?
+    <br><br>
     <button class="interactive-btn" onclick="revealMessage(true)">Yes</button>
     <button class="interactive-btn" onclick="revealMessage(false)">No</button>
   </div>
@@ -216,16 +223,28 @@ h1 { font-family:'Great Vibes', cursive; font-size:4em; color:#ff77aa; }
 </div>
 
 <script>
+/* 🔊 MUSIC FIX */
+document.addEventListener("click", () => {
+  const music=document.getElementById("bg-music");
+  if(music.paused) music.play().catch(()=>{});
+});
+
 /* START */
 function startSite(){
+  createHearts(15);
   createClouds(5);
-  createStars(120);
+  createStars(150);
+  startTwinkling();
+  randomShootingStars();
   observeSections();
+
+  const music=document.getElementById("bg-music");
+  music.play().catch(()=>{});
 }
 
 /* Fade-in bubbles */
 function observeSections(){
-  const obs=new IntersectionObserver((entries)=>{
+  const observer=new IntersectionObserver((entries)=>{
     entries.forEach(entry=>{
       if(entry.isIntersecting){
         entry.target.querySelectorAll('.text-bubble')
@@ -233,10 +252,10 @@ function observeSections(){
       }
     });
   },{threshold:0.25});
-  document.querySelectorAll('.section').forEach(s=>obs.observe(s));
+  document.querySelectorAll('.section').forEach(s=>observer.observe(s));
 }
 
-/* Final message */
+/* Reveal final message */
 function revealMessage(choice){
   if(choice){
     document.getElementById('interactive').style.display='none';
@@ -245,7 +264,16 @@ function revealMessage(choice){
   }
 }
 
-/* Heart trail */
+/* Hearts */
+function createHearts(count){
+  for(let i=0;i<count;i++){
+    const h=document.createElement('div');
+    h.className='heart';
+    h.style.left=Math.random()*100+'vw';
+    h.style.animationDuration=(5+Math.random()*5)+'s';
+    document.body.appendChild(h);
+  }
+}
 document.addEventListener('click',e=>createTrail(e.clientX,e.clientY));
 document.addEventListener('touchmove',e=>{
   for(const t of e.touches) createTrail(t.clientX,t.clientY);
@@ -256,7 +284,7 @@ function createTrail(x,y){
   h.style.left=x+'px';
   h.style.top=y+'px';
   document.body.appendChild(h);
-  setTimeout(()=>h.remove(),1700);
+  setTimeout(()=>h.remove(),1800);
 }
 
 /* Clouds */
@@ -291,47 +319,39 @@ function createStars(count){
     s.className='star';
     s.style.left=Math.random()*100+'vw';
     s.style.top=Math.random()*100+'vh';
+    s.style.animation=`twinkle ${2+Math.random()*4}s infinite`;
+    s.style.animationDelay=Math.random()*3+'s';
     document.body.appendChild(s);
   }
 }
 
-/* 🌠 Shooting Stars */
-function createShootingStar() {
-  const star = document.createElement('div');
-  star.className = 'shooting-star';
-
-  star.style.top = (Math.random()*50)+'vh';
-  star.style.left = (Math.random()*80+10)+'vw';
-
-  document.body.appendChild(star);
-
-  setTimeout(()=>{
-    star.style.transition="all 1.2s ease-out";
-    star.style.transform="translate(-200px,200px) rotate(-45deg)";
-    star.style.opacity=1;
-  },50);
-
-  setTimeout(()=>star.remove(),1400);
+/* Randomly create shooting stars */
+function randomShootingStars(){
+  setInterval(()=>{
+    createShootingStar();
+  }, 2000 + Math.random()*4000);
 }
 
-setInterval(()=>{
-  if(Math.random()>0.6) createShootingStar();
-},2000);
+function createShootingStar(){
+  const star=document.createElement('div');
+  star.className='shooting-star';
+  star.style.left=(Math.random()*80)+'vw';
+  star.style.top=(20+Math.random()*30)+'vh';
+  document.body.appendChild(star);
+  setTimeout(()=>star.remove(),1500);
+}
 
-/* Moon + Stars Visibility */
+/* MOON VISIBILITY */
 window.addEventListener('scroll',()=>{
   let max=document.body.scrollHeight-window.innerHeight;
-  let p=window.scrollY/max;
+  let progress=window.scrollY/max;
 
   const moon=document.getElementById("moon");
-  const stars=document.querySelectorAll(".star");
 
-  if(p>0.55){
+  if(progress>0.55){
     moon.style.opacity=1;
-    stars.forEach(s=>s.style.opacity=1);
   } else {
     moon.style.opacity=0;
-    stars.forEach(s=>s.style.opacity=0);
   }
 });
 </script>
