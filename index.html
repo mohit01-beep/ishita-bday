@@ -15,15 +15,15 @@ body, html {
   overflow-x:hidden;
   scroll-behavior:smooth;
 
-  /* Sunset → Purple → Night Smooth Gradient */
+  /* Realistic Sunset → Twilight → Night Gradient */
   background: linear-gradient(
       to bottom,
-      #ffb7d5 0%,      
-      #d88ad6 40%,    
-      #4b248a 65%,    
-      #0d0221 100%    
+      #ff9a8b 0%,      /* Warm sunset */
+      #f6d365 30%,     /* Yellow-orange horizon */
+      #8e44ad 65%,     /* Twilight purple */
+      #0d0221 100%     /* Deep night */
   );
-  transition: background 1s linear;
+  transition: background 2s ease;
   color:#333;
   position: relative;
 }
@@ -141,22 +141,20 @@ h1 { font-family:'Great Vibes', cursive; font-size:4em; color:#ff77aa; }
   animation: twinkle 2.5s infinite ease-in-out;
 }
 
-/* ⭐ Twinkle animation */
 @keyframes twinkle {
   0%,100% { opacity:0.2; }
   50% { opacity:1; }
 }
 
-/* 🌠 Shooting Star */
+/* ---------- SHOOTING STARS ---------- */
 .shooting-star {
   position: fixed;
   width: 2px;
-  height: 80px;
-  background: linear-gradient(white, rgba(255,255,255,0));
+  height: 2px;
+  background: linear-gradient(90deg, white, rgba(255,255,255,0));
   border-radius: 50%;
   opacity: 0;
   z-index: 3;
-  transform: rotate(-45deg);
   pointer-events:none;
 }
 
@@ -295,28 +293,37 @@ function createStars(count){
   }
 }
 
-/* 🌠 Shooting Stars */
+/* 🌠 Improved Shooting Stars */
 function createShootingStar() {
   const star = document.createElement('div');
   star.className = 'shooting-star';
 
-  star.style.top = (Math.random()*50)+'vh';
-  star.style.left = (Math.random()*80+10)+'vw';
+  const startX = Math.random() * window.innerWidth * 0.8 + window.innerWidth * 0.1;
+  const startY = Math.random() * window.innerHeight * 0.5;
+  const angle = Math.random() * 20 - 10;
+  const length = 100 + Math.random() * 150;
+  const duration = 800 + Math.random() * 500;
+
+  star.style.left = startX + 'px';
+  star.style.top = startY + 'px';
+  star.style.transform = `rotate(${angle}deg)`;
 
   document.body.appendChild(star);
 
-  setTimeout(()=>{
-    star.style.transition="all 1.2s ease-out";
-    star.style.transform="translate(-200px,200px) rotate(-45deg)";
-    star.style.opacity=1;
-  },50);
+  star.animate([
+    { transform: `translate(0,0) rotate(${angle}deg)`, opacity: 1 },
+    { transform: `translate(${length}px, ${length}px) rotate(${angle}deg)`, opacity: 0 }
+  ], {
+    duration: duration,
+    easing: 'ease-out'
+  });
 
-  setTimeout(()=>star.remove(),1400);
+  setTimeout(() => star.remove(), duration);
 }
 
 setInterval(()=>{
-  if(Math.random()>0.6) createShootingStar();
-},2000);
+  if(Math.random() > 0.7) createShootingStar();
+}, 1500);
 
 /* Moon + Stars Visibility */
 window.addEventListener('scroll',()=>{
