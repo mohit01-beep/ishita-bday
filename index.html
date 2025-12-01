@@ -15,13 +15,13 @@ body, html {
   overflow-x:hidden;
   scroll-behavior:smooth;
 
-  /* 🔥 NEW SKY — smooth sunset → purple → night blend */
+  /* Sunset → Purple → Night Smooth Gradient */
   background: linear-gradient(
       to bottom,
-      #ffb7d5 0%,      /* pink sunset */
-      #d88ad6 40%,    /* soft purple */
-      #4b248a 65%,    /* deep purple */
-      #0d0221 100%    /* night */
+      #ffb7d5 0%,      
+      #d88ad6 40%,    
+      #4b248a 65%,    
+      #0d0221 100%    
   );
   transition: background 1s linear;
   color:#333;
@@ -77,36 +77,33 @@ h1 { font-family:'Great Vibes', cursive; font-size:4em; color:#ff77aa; }
 /* ---------- HEARTS ----------- */
 .heart {
   position: fixed;
-  width: 22px;
-  height: 22px;
-  background: #ff77aa;
+  width: 20px;
+  height: 20px;
+  background: #ff4f87;
   transform: rotate(-45deg);
   pointer-events:none;
   z-index:10;
-  animation: floatUp linear infinite;
 }
 .heart::before, .heart::after {
   content:"";
   position:absolute;
-  width:22px; height:22px;
-  background:#ff77aa;
+  width:20px; height:20px;
+  background:#ff4f87;
   border-radius:50%;
 }
-.heart::before { top:-11px; left:0; }
-.heart::after { top:0; left:11px; }
+.heart::before { top:-10px; left:0; }
+.heart::after { top:0; left:10px; }
 
 .heart.small {
   width:14px; height:14px;
-  animation: floatUp 1.8s ease-out forwards;
+  animation: floatUp 1.7s ease-out forwards;
 }
-.heart.small::before,
-.heart.small::after { width:14px; height:14px; }
-.heart.small::before { top:-7px; }
-.heart.small::after { left:7px; }
+.heart.small::before { width:14px; height:14px; top:-7px; }
+.heart.small::after { width:14px; height:14px; left:7px; }
 
 @keyframes floatUp {
-  0% { transform: translateY(0) scale(0.8) rotate(-45deg); opacity:0.8; }
-  100% { transform: translateY(-800px) scale(1.1) rotate(-45deg); opacity:0; }
+  0% { transform: translateY(0) scale(.9) rotate(-45deg); opacity:1; }
+  100% { transform: translateY(-120px) scale(1.1) rotate(-45deg); opacity:0; }
 }
 
 /* ---------- MOON ---------- */
@@ -141,9 +138,29 @@ h1 { font-family:'Great Vibes', cursive; font-size:4em; color:#ff77aa; }
   border-radius:50%;
   opacity:0;
   z-index:2;
-  transition: opacity 1s linear;
+  animation: twinkle 2.5s infinite ease-in-out;
 }
 
+/* ⭐ Twinkle animation */
+@keyframes twinkle {
+  0%,100% { opacity:0.2; }
+  50% { opacity:1; }
+}
+
+/* 🌠 Shooting Star */
+.shooting-star {
+  position: fixed;
+  width: 2px;
+  height: 80px;
+  background: linear-gradient(white, rgba(255,255,255,0));
+  border-radius: 50%;
+  opacity: 0;
+  z-index: 3;
+  transform: rotate(-45deg);
+  pointer-events:none;
+}
+
+/* CAROUSEL */
 .carousel {
   width:80%; max-width:500px; height:250px;
   background:rgba(255,255,255,0.5);
@@ -154,8 +171,8 @@ h1 { font-family:'Great Vibes', cursive; font-size:4em; color:#ff77aa; }
 </head>
 <body>
 
-<!-- 🔊 MUSIC FIX -->
-<audio id="bgMusic" src="soft-music.mp3" loop></audio>
+<!-- MUSIC -->
+<audio id="bg-music" src="soft-music.mp3" autoplay loop></audio>
 
 <div id="moon">🌙</div>
 
@@ -174,9 +191,9 @@ h1 { font-family:'Great Vibes', cursive; font-size:4em; color:#ff77aa; }
 
 <div class="section" id="whatsapp">
   <div class="text-bubble">WhatsApp memories: Long movie nights, deep talks, sending each other our favorite rom-coms 🎬💖</div>
-  <div class="text-bubble">Women's day tiramisu surprise for youu 🤭 You loved it...</div>
-  <div class="text-bubble">During Navratre when you sent that cheesecake for me 🥹 I was sooo happy...</div>
-  <div class="text-bubble">Whenever I see reels about How to Lose a Guy in 10 Days… it reminds me of you 😅💓</div>
+  <div class="text-bubble">Women's day tiramisu surprise for youu 🤭 You loved it, your reactions whenever I get a chance to make you smile, to make you happy 🤪 I try not to lose that chance</div>
+  <div class="text-bubble">During Navratre when you sent that cheesecake for me 🥹 I was sooooo happy. I still have that jar and box 😄</div>
+  <div class="text-bubble">Whenever I see reels about How to Lose a Guy in 10 Days or 10 Things I Hate About You, it reminds me of you 😅💓</div>
 </div>
 
 <div class="section" id="instagram">
@@ -186,8 +203,7 @@ h1 { font-family:'Great Vibes', cursive; font-size:4em; color:#ff77aa; }
 
 <div class="section" id="interactive">
   <div class="text-bubble">
-    Do you want to see your birthday surprise?
-    <br><br>
+    Do you want to see your birthday surprise?<br><br>
     <button class="interactive-btn" onclick="revealMessage(true)">Yes</button>
     <button class="interactive-btn" onclick="revealMessage(false)">No</button>
   </div>
@@ -200,23 +216,16 @@ h1 { font-family:'Great Vibes', cursive; font-size:4em; color:#ff77aa; }
 </div>
 
 <script>
-/* FORCE MUSIC START ON FIRST CLICK */
-document.addEventListener("click", () => {
-    const audio = document.getElementById("bgMusic");
-    if (audio.paused) audio.play().catch(()=>{});
-});
-
 /* START */
 function startSite(){
-  createHearts(15);
   createClouds(5);
-  createStars(100);
+  createStars(120);
   observeSections();
 }
 
 /* Fade-in bubbles */
 function observeSections(){
-  const observer=new IntersectionObserver((entries)=>{
+  const obs=new IntersectionObserver((entries)=>{
     entries.forEach(entry=>{
       if(entry.isIntersecting){
         entry.target.querySelectorAll('.text-bubble')
@@ -224,10 +233,10 @@ function observeSections(){
       }
     });
   },{threshold:0.25});
-  document.querySelectorAll('.section').forEach(s=>observer.observe(s));
+  document.querySelectorAll('.section').forEach(s=>obs.observe(s));
 }
 
-/* Reveal final message */
+/* Final message */
 function revealMessage(choice){
   if(choice){
     document.getElementById('interactive').style.display='none';
@@ -236,16 +245,7 @@ function revealMessage(choice){
   }
 }
 
-/* Hearts */
-function createHearts(count){
-  for(let i=0;i<count;i++){
-    const h=document.createElement('div');
-    h.className='heart';
-    h.style.left=Math.random()*100+'vw';
-    h.style.animationDuration=(5+Math.random()*5)+'s';
-    document.body.appendChild(h);
-  }
-}
+/* Heart trail */
 document.addEventListener('click',e=>createTrail(e.clientX,e.clientY));
 document.addEventListener('touchmove',e=>{
   for(const t of e.touches) createTrail(t.clientX,t.clientY);
@@ -256,7 +256,7 @@ function createTrail(x,y){
   h.style.left=x+'px';
   h.style.top=y+'px';
   document.body.appendChild(h);
-  setTimeout(()=>h.remove(),1800);
+  setTimeout(()=>h.remove(),1700);
 }
 
 /* Clouds */
@@ -295,15 +295,38 @@ function createStars(count){
   }
 }
 
-/* Moon + Stars visibility */
+/* 🌠 Shooting Stars */
+function createShootingStar() {
+  const star = document.createElement('div');
+  star.className = 'shooting-star';
+
+  star.style.top = (Math.random()*50)+'vh';
+  star.style.left = (Math.random()*80+10)+'vw';
+
+  document.body.appendChild(star);
+
+  setTimeout(()=>{
+    star.style.transition="all 1.2s ease-out";
+    star.style.transform="translate(-200px,200px) rotate(-45deg)";
+    star.style.opacity=1;
+  },50);
+
+  setTimeout(()=>star.remove(),1400);
+}
+
+setInterval(()=>{
+  if(Math.random()>0.6) createShootingStar();
+},2000);
+
+/* Moon + Stars Visibility */
 window.addEventListener('scroll',()=>{
   let max=document.body.scrollHeight-window.innerHeight;
-  let progress=window.scrollY/max;
+  let p=window.scrollY/max;
 
   const moon=document.getElementById("moon");
   const stars=document.querySelectorAll(".star");
 
-  if(progress>0.55){
+  if(p>0.55){
     moon.style.opacity=1;
     stars.forEach(s=>s.style.opacity=1);
   } else {
