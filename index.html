@@ -1,360 +1,489 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Happy Birthday Ishita 💖</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
 
 <style>
-/* ----------- BASE ----------- */
-body, html {
-  margin:0;
-  padding:0;
-  font-family:'Quicksand',sans-serif;
-  overflow-x:hidden;
-  scroll-behavior:smooth;
+  /* ---------- base / layout ---------- */
+  :root{
+    --z-decor: 1;
+    --z-stars: 2;
+    --z-clouds: 3;
+    --z-moon: 4;
+    --z-ui: 10;
+  }
 
-  background: linear-gradient(
-      to bottom,
-      #ffb7d5 0%,
-      #d88ad6 40%,
-      #4b248a 65%,
-      #0d0221 100%
-  );
-  transition: background 1s linear;
-  color:#333;
-  position: relative;
-}
+  html,body{
+    height:100%;
+    margin:0; padding:0;
+    font-family:'Quicksand',sans-serif;
+    overflow-x:hidden;
+    scroll-behavior:smooth;
+    background: linear-gradient(120deg,#ffb7d5 0%,#d88ad6 40%,#4b248a 65%,#0d0221 100%);
+    transition: background 800ms linear;
+    color:#222;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+  }
 
-/* Sections */
-.section {
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  padding:50px 20px;
-  text-align:center;
-  flex-direction:column;
-  position:relative;
-  z-index:5;
-}
+  /* background container for decor elements */
+  #decor {
+    position:fixed; inset:0; pointer-events:none; z-index:var(--z-decor);
+  }
 
-.text-bubble {
-  display:inline-block;
-  padding:25px 35px;
-  background: rgba(255,255,255,0.6);
-  border-radius:30px;
-  box-shadow:0 8px 20px rgba(0,0,0,0.1);
-  backdrop-filter:blur(5px);
-  max-width:70%;
-  font-size:1.2em;
-  margin:30px 0;
-  opacity:0;
-  transform:translateY(30px);
-  transition:1s ease;
-  z-index:5;
-}
-.fade-in { opacity:1 !important; transform:translateY(0px) !important; }
+  /* sections/content */
+  .section {
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:50px 20px;
+    text-align:center;
+    flex-direction:column;
+    position:relative;
+    z-index:var(--z-ui);
+  }
 
-/* ---------- HEADINGS ---------- */
-h1 { font-family:'Great Vibes', cursive; font-size:4em; color:#ff77aa; }
+  .text-bubble{
+    display:inline-block;
+    padding:25px 35px;
+    background: rgba(255,255,255,0.64);
+    border-radius:28px;
+    box-shadow:0 8px 22px rgba(0,0,0,0.09);
+    backdrop-filter: blur(4px);
+    max-width:76%;
+    font-size:1.15rem;
+    margin:18px 0;
+    opacity:0;
+    transform: translateY(22px);
+    transition: opacity 650ms ease, transform 650ms ease;
+  }
+  .text-bubble.fade-in { opacity:1; transform:translateY(0); }
 
-/* ---------- BUTTON ---------- */
-.interactive-btn {
-  padding:12px 24px;
-  background:#ff8fab;
-  color:#fff;
-  border:none;
-  border-radius:20px;
-  cursor:pointer;
-  font-size:1.2em;
-  margin:10px;
-  z-index:6;
-}
+  h1{ font-family:'Great Vibes',cursive; font-size:3.8rem; margin:0 0 8px; color:#ff77aa; }
+  .interactive-btn{ padding:10px 22px; background:#ff7ba1; color:#fff; border:none; border-radius:18px; cursor:pointer; font-size:1rem; }
 
-/* ---------- HEARTS ----------- */
-.heart {
-  position: fixed;
-  width: 22px;
-  height: 22px;
-  background: #ff77aa;
-  transform: rotate(-45deg);
-  pointer-events:none;
-  z-index:10;
-  animation: floatUp linear infinite;
-}
-.heart::before, .heart::after {
-  content:"";
-  position:absolute;
-  width:22px; height:22px;
-  background:#ff77aa;
-  border-radius:50%;
-}
-.heart::before { top:-11px; left:0; }
-.heart::after { top:0; left:11px; }
+  /* ---------- hearts (tap only) ---------- */
+  .heart {
+    position: fixed;
+    width: 16px;
+    height: 16px;
+    transform: rotate(-45deg);
+    pointer-events:none;
+    z-index:calc(var(--z-ui)+1);
+    will-change: transform, opacity;
+  }
+  .heart::before, .heart::after{
+    content:"";
+    position:absolute;
+    width:16px; height:16px;
+    background:#ff77aa;
+    border-radius:50%;
+  }
+  .heart::before{ transform: translate(-4px,-4px); left:0; top:0; }
+  .heart::after{ transform: translate(4px,-4px); left:0; top:0; }
 
-.heart.small {
-  width:14px; height:14px;
-  animation: floatUp 1.8s ease-out forwards;
-}
-.heart.small::before,
-.heart.small::after { width:14px; height:14px; }
-.heart.small::before { top:-7px; }
-.heart.small::after { left:7px; }
+  /* small heart class (used for touch trail) */
+  .heart.small{ width:12px; height:12px; }
+  .heart.small::before, .heart.small::after{ width:12px; height:12px; transform:none; }
 
-@keyframes floatUp {
-  0% { transform: translateY(0) scale(0.8) rotate(-45deg); opacity:0.8; }
-  100% { transform: translateY(-800px) scale(1.1) rotate(-45deg); opacity:0; }
-}
+  /* heart animation (JS-driven) */
+  /* no constant flashing/glow CSS — subtle via box-shadow on creation if needed */
 
-/* ---------- MOON ---------- */
-#moon {
-  position: fixed;
-  top:40px;
-  right:40px;
-  font-size:80px;
-  z-index:2;
-  color:#fffacd;
-  text-shadow:0 0 22px #fffacd;
-  opacity:0;
-  transition: opacity 1.5s ease;
-  pointer-events:none;
-}
+  /* ---------- moon ---------- */
+  #moon {
+    position: fixed;
+    top: 36px;
+    right: 36px;
+    font-size:84px;
+    z-index:var(--z-moon);
+    color:#fffacd;
+    text-shadow:0 0 20px rgba(255,250,200,0.9);
+    pointer-events:none;
+    opacity:0;
+    transform: scale(0.98);
+    transition: opacity 900ms ease, transform 900ms ease;
+  }
+  #moon.visible { opacity:1; transform: scale(1); }
 
-/* ---------- CLOUDS ---------- */
-.cloud {
-  position: fixed;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.4);
-  z-index:1;
-  filter: blur(10px);
-}
+  /* ---------- clouds ---------- */
+  .cloud {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.32);
+    filter: blur(10px);
+    pointer-events:none;
+    z-index:var(--z-clouds);
+    will-change: left;
+  }
 
-/* ---------- STARS ---------- */
-.star {
-  position: fixed;
-  width:2px;
-  height:2px;
-  background:white;
-  border-radius:50%;
-  opacity:0;
-  z-index:2;
-}
+  /* ---------- stars ---------- */
+  .star {
+    position: fixed;
+    width: 2px; height:2px;
+    border-radius:50%;
+    background: #fff;
+    box-shadow:0 0 6px rgba(255,255,255,0.95);
+    z-index:var(--z-stars);
+    opacity:0;
+    will-change: opacity;
+  }
 
-/* Twinkle animation */
-@keyframes twinkle {
-  0% { opacity:0.2; }
-  50% { opacity:1; }
-  100% { opacity:0.2; }
-}
+  /* ---------- shooting star (tail element) ---------- */
+  .shoot {
+    position: fixed;
+    width: 3px;
+    height: 120px;
+    background: linear-gradient(to bottom, rgba(255,255,255,1), rgba(255,255,255,0));
+    border-radius: 50px;
+    z-index:var(--z-stars);
+    pointer-events:none;
+    will-change: transform, opacity;
+    transform: rotate(45deg);
+  }
 
-/* ---------- SHOOTING STAR ---------- */
-.shooting-star {
-  position: fixed;
-  width:2px;
-  height:2px;
-  background:white;
-  box-shadow:0 0 10px 3px white;
-  border-radius:50%;
-  z-index:3;
-  animation: shoot 1.2s linear forwards;
-}
-
-@keyframes shoot {
-  0% { transform: translate(0,0) scale(1); opacity:1; }
-  100% { transform: translate(300px, -300px) scale(0.2); opacity:0; }
-}
-
-.carousel {
-  width:80%; max-width:500px; height:250px;
-  background:rgba(255,255,255,0.5);
-  border-radius:20px;
-  display:flex; justify-content:center; align-items:center;
-}
+  /* responsive */
+  @media(max-width:700px){
+    h1{ font-size:2.6rem; }
+    .text-bubble{ padding:18px 20px; font-size:1rem; }
+    #moon{ font-size:64px; top:18px; right:18px; }
+  }
 </style>
 </head>
 <body>
 
-<!-- MUSIC -->
-<audio id="bg-music" src="soft-music.mp3" loop></audio>
+  <!-- audio (same filename you said) -->
+  <audio id="bgMusic" src="soft-music.mp3" loop></audio>
 
-<div id="moon">🌙</div>
+  <!-- decorations container -->
+  <div id="decor" aria-hidden="true"></div>
 
-<!-- SECTIONS -->
-<div class="section" id="landing">
-  <h1>Happy Birthday Ishita 💖</h1>
-  <button class="interactive-btn" onclick="startSite()">Click to Start</button>
-</div>
+  <!-- moon -->
+  <div id="moon">🌙</div>
 
-<div class="section" id="snapchat">
-  <div class="text-bubble">Snapchat memories...</div>
-  <div class="text-bubble">Thanks to Yogita we got closer...</div>
-  <div class="text-bubble">Maybe I would've gotten your number later...</div>
-  <div class="text-bubble">Because of her job search...</div>
-</div>
-
-<div class="section" id="whatsapp">
-  <div class="text-bubble">WhatsApp memories...</div>
-  <div class="text-bubble">Tiramisu surprise...</div>
-  <div class="text-bubble">Cheesecake memory...</div>
-  <div class="text-bubble">Rom-coms remind me of you...</div>
-</div>
-
-<div class="section" id="instagram">
-  <div class="text-bubble">Instagram memories...</div>
-  <div class="text-bubble">You can update this later 😍</div>
-</div>
-
-<div class="section" id="interactive">
-  <div class="text-bubble">
-    Do you want to see your birthday surprise?
-    <br><br>
-    <button class="interactive-btn" onclick="revealMessage(true)">Yes</button>
-    <button class="interactive-btn" onclick="revealMessage(false)">No</button>
+  <!-- content (kept identical to your reference) -->
+  <div class="section" id="landing">
+    <h1>Happy Birthday Ishita 💖</h1>
+    <button class="interactive-btn" onclick="startSite()">Click to Start</button>
   </div>
-</div>
 
-<div class="section" id="final-message" style="display:none;">
-  <div class="text-bubble" id="birthday-note">Here will be your emotional birthday note...</div>
-  <div class="carousel">[Photo carousel placeholder]</div>
-  <p>From Mohit ❤️</p>
-</div>
+  <div class="section" id="snapchat">
+    <div class="text-bubble">Snapchat memories: Our first talks, little snaps, discovering each other slowly...</div>
+    <div class="text-bubble">Thanks to Yogita we got closer earlier and I got your number...</div>
+    <div class="text-bubble">Maybe I would’ve gotten your number later too, but I don’t know when—or how long I would’ve waited.</div>
+    <div class="text-bubble">Because of Yogita's job search, we connected on WhatsApp and got to know each other more...</div>
+  </div>
+
+  <div class="section" id="whatsapp">
+    <div class="text-bubble">WhatsApp memories: Long movie nights, deep talks, sending each other our favorite rom-coms 🎬💖</div>
+    <div class="text-bubble">Women's day tiramisu surprise for youu 🤭 Youu loved it! Your reactions whenever I get a chance to make you smile — I try not to lose that chance 🤪</div>
+    <div class="text-bubble">During Navratri when you sent that cheesecake for me 🥹 — It was my 1st time someone did this for me, and that too from you! I still have that jar and box 😇</div>
+    <div class="text-bubble">Whenever I see reels about How to Lose a Guy in 10 Days or 10 Things I Hate About You, it reminds me of you 😅💓</div>
+  </div>
+
+  <div class="section" id="instagram">
+    <div class="text-bubble">Instagram memories: Placeholder for photos, reels, stories... 💖</div>
+    <div class="text-bubble">You can update this content later with your favorite moments 😍</div>
+  </div>
+
+  <div class="section" id="interactive">
+    <div class="text-bubble">
+      Do you want to see your birthday surprise?<br><br>
+      <button class="interactive-btn" onclick="revealMessage(true)">Yes</button>
+      <button class="interactive-btn" onclick="revealMessage(false)">No</button>
+    </div>
+  </div>
+
+  <div class="section" id="final-message" style="display:none;">
+    <div class="text-bubble" id="birthday-note">Here will be your emotional birthday note...</div>
+    <div class="carousel" style="margin-top:18px;">[Photo carousel placeholder]</div>
+    <p style="margin-top:12px;">From Mohit ❤️</p>
+  </div>
 
 <script>
-/* 🔊 MUSIC FIX */
-document.addEventListener("click", () => {
-  const music=document.getElementById("bg-music");
-  if(music.paused) music.play().catch(()=>{});
-});
+/* ================== Configuration ================== */
+const GRADIENTS = [
+  ['#ffb7d5','#d88ad6'], // top (landing → soft transition)
+  ['#d88ad6','#4b248a'], // middle
+  ['#4b248a','#0d0221']  // deep night
+];
 
-/* START */
-function startSite(){
-  createHearts(15);
-  createClouds(5);
-  createStars(150);
-  startTwinkling();
-  randomShootingStars();
-  observeSections();
+const MOON_THRESHOLD = 0.62;   // progress after which moon is visible
+const NIGHT_THRESHOLD = 0.55;  // progress after which shooting stars & fireflies allowed
 
-  const music=document.getElementById("bg-music");
-  music.play().catch(()=>{});
+/* ========== Utilities ========== */
+function hexToRgb(hex){
+  const n = parseInt(hex.replace('#',''),16);
+  return [(n>>16)&255, (n>>8)&255, n&255];
+}
+function rgbToCss([r,g,b]){ return `rgb(${r},${g},${b})`; }
+function lerp(a,b,t){ return Math.round(a*(1-t)+b*t); }
+function interpHex(a,b,t){
+  const A = hexToRgb(a), B = hexToRgb(b);
+  return rgbToCss([ lerp(A[0],B[0],t), lerp(A[1],B[1],t), lerp(A[2],B[2],t) ]);
 }
 
-/* Fade-in bubbles */
-function observeSections(){
-  const observer=new IntersectionObserver((entries)=>{
+/* ========== Scroll-based background blending ========= */
+function updateBackground(){
+  const scroll = window.scrollY;
+  const total = Math.max(1, document.body.scrollHeight - window.innerHeight);
+  let norm = Math.max(0, Math.min(1, scroll/total)); // 0..1
+
+  // map into gradient segments (GRADIENTS array)
+  const segments = GRADIENTS.length - 1;
+  let idx = Math.floor(norm * segments);
+  if(idx >= segments) idx = segments - 1;
+  const segStart = idx / segments;
+  const t = (norm - segStart) * segments;
+
+  const [s0,s1] = GRADIENTS[idx];
+  const [e0,e1] = GRADIENTS[idx+1];
+  const c0 = interpHex(s0,e0,t);
+  const c1 = interpHex(s1,e1,t);
+
+  document.documentElement.style.background = `linear-gradient(120deg, ${c0}, ${c1})`;
+
+  // Moon visibility
+  document.getElementById('moon').classList.toggle('visible', norm >= MOON_THRESHOLD);
+
+  // allow shooting stars
+  window._isNight = (norm >= NIGHT_THRESHOLD);
+}
+window.addEventListener('scroll', throttle(updateBackground, 60));
+updateBackground(); // initial
+
+/* ========== Section fade-in (keeps content behaviour) ========== */
+function initSectionObserver(){
+  const obs = new IntersectionObserver((entries)=>{
     entries.forEach(entry=>{
       if(entry.isIntersecting){
-        entry.target.querySelectorAll('.text-bubble')
-          .forEach((b,i)=>setTimeout(()=>b.classList.add('fade-in'), i*300));
+        const bubbles = entry.target.querySelectorAll('.text-bubble');
+        bubbles.forEach((b,i)=> setTimeout(()=>b.classList.add('fade-in'), i*280));
       }
     });
-  },{threshold:0.25});
-  document.querySelectorAll('.section').forEach(s=>observer.observe(s));
+  }, { threshold: 0.25 });
+  document.querySelectorAll('.section').forEach(s => obs.observe(s));
 }
+initSectionObserver();
 
-/* Reveal final message */
-function revealMessage(choice){
-  if(choice){
-    document.getElementById('interactive').style.display='none';
-    document.getElementById('final-message').style.display='flex';
-    document.getElementById('final-message').scrollIntoView({behavior:'smooth'});
-  }
-}
+/* ========== Clouds (soft, parallax-like slow movement) ========== */
+const decor = document.getElementById('decor');
 
-/* Hearts */
-function createHearts(count){
+function spawnClouds(count=5){
   for(let i=0;i<count;i++){
-    const h=document.createElement('div');
-    h.className='heart';
-    h.style.left=Math.random()*100+'vw';
-    h.style.animationDuration=(5+Math.random()*5)+'s';
-    document.body.appendChild(h);
+    const c = document.createElement('div');
+    c.className = 'cloud';
+    const w = 120 + Math.random()*220;
+    const h = Math.round(w/2);
+    c.style.width = w + 'px';
+    c.style.height = h + 'px';
+    c.style.left = (Math.random()*120 - 10) + 'vw';
+    c.style.top = (5 + Math.random()*60) + 'vh';
+    c.dataset.speed = (0.01 + Math.random()*0.04).toString();
+    decor.appendChild(c);
   }
 }
-document.addEventListener('click',e=>createTrail(e.clientX,e.clientY));
-document.addEventListener('touchmove',e=>{
-  for(const t of e.touches) createTrail(t.clientX,t.clientY);
-});
-function createTrail(x,y){
-  const h=document.createElement('div');
-  h.className='heart small';
-  h.style.left=x+'px';
-  h.style.top=y+'px';
+function animateClouds(){
+  const clouds = document.querySelectorAll('.cloud');
+  clouds.forEach(cl => {
+    let left = parseFloat(cl.style.left);
+    left += parseFloat(cl.dataset.speed);
+    if(left > 110) left = -30;
+    cl.style.left = left + 'vw';
+  });
+  requestAnimationFrame(animateClouds);
+}
+spawnClouds(6);
+requestAnimationFrame(animateClouds);
+
+/* ========== Stars (twinkle independently at random intervals) ========== */
+function spawnStars(n=90){
+  for(let i=0;i<n;i++){
+    const s = document.createElement('div');
+    s.className = 'star';
+    s.style.left = (Math.random()*100) + 'vw';
+    s.style.top  = (Math.random()*92) + 'vh';
+    s.style.opacity = 0; // start hidden, will show when night
+    decor.appendChild(s);
+    startTwinkle(s);
+  }
+}
+function startTwinkle(el){
+  // each star twinkles independently (random period)
+  function doTwinkle(){
+    const onDur = 300 + Math.random()*900;
+    const offDur = 400 + Math.random()*1600;
+    // random max opacity so they look varied
+    const max = 0.3 + Math.random()*0.7;
+    // fade in
+    fadeTo(el, max, onDur).then(()=>{
+      // fade out
+      setTimeout(()=> fadeTo(el, 0.05 + Math.random()*0.25, onDur/2), 80);
+      setTimeout(doTwinkle, offDur);
+    });
+  }
+  // defer start slightly
+  setTimeout(doTwinkle, Math.random()*1200);
+}
+function fadeTo(el, target, ms){
+  return new Promise(res=>{
+    const start = performance.now();
+    const from = parseFloat(el.style.opacity || 0);
+    const diff = target - from;
+    function tick(now){
+      const t = Math.min(1, (now - start)/ms);
+      el.style.opacity = (from + diff * t).toFixed(3);
+      if(t < 1) requestAnimationFrame(tick);
+      else res();
+    }
+    requestAnimationFrame(tick);
+  });
+}
+spawnStars(90);
+
+/* ========== Shooting star (realistic diagonal streak) ========== */
+function spawnShootingStar(){
+  if(!window._isNight) return; // only at night
+  const s = document.createElement('div');
+  s.className = 'shoot';
+  // start near the right-top quadrant
+  const startX = window.innerWidth * (0.75 + Math.random()*0.22);
+  const startY = window.innerHeight * (0.04 + Math.random()*0.22);
+  s.style.left = startX + 'px';
+  s.style.top  = startY + 'px';
+  document.body.appendChild(s);
+
+  // compute translation (to left-down)
+  const dx = - (window.innerWidth * (0.9 + Math.random()*0.6));
+  const dy = window.innerHeight * (0.45 + Math.random()*0.4);
+  const dur = 900 + Math.random()*900;
+
+  const anim = s.animate([
+    { transform: `translate(0px,0px) rotate(45deg)`, opacity: 1 },
+    { transform: `translate(${dx}px, ${dy}px) rotate(45deg)`, opacity: 0 }
+  ], { duration: dur, easing: 'cubic-bezier(.2,.9,.1,1)' });
+
+  setTimeout(()=> s.remove(), dur + 80);
+}
+/* random loop for shooting stars (only at night) */
+(function shootingLoop(){
+  const wait = 1600 + Math.random()*4200;
+  setTimeout(()=>{
+    if(window._isNight && Math.random() < 0.9) {
+      spawnShootingStar();
+    }
+    shootingLoop();
+  }, wait);
+})();
+
+/* ========== Heart tap trail (only on click/touch) ========== */
+function createHeartAt(x,y, small=true){
+  const h = document.createElement('div');
+  h.className = 'heart' + (small ? ' small' : '');
+  // position so the heart centers near the pointer
+  const offset = small ? 6 : 8;
+  h.style.left = (x - offset) + 'px';
+  h.style.top  = (y - offset) + 'px';
+  // subtle glow
+  h.style.boxShadow = '0 0 8px rgba(255,119,170,0.6)';
   document.body.appendChild(h);
-  setTimeout(()=>h.remove(),1800);
+
+  // animate up and fade
+  const dur = small ? 1300 : 1800;
+  h.animate([
+    { transform: 'translateY(0) rotate(-45deg) scale(0.95)', opacity: 1 },
+    { transform: 'translateY(-220px) rotate(-45deg) scale(1.05)', opacity: 0 }
+  ], { duration: dur, easing: 'ease-out' });
+
+  setTimeout(()=> h.remove(), dur + 50);
 }
 
-/* Clouds */
-function createClouds(count){
-  for(let i=0;i<count;i++){
-    const c=document.createElement('div');
-    c.className='cloud';
-    const sz=120+Math.random()*150;
-    c.style.width=sz+'px';
-    c.style.height=sz/2+'px';
-    c.style.left=Math.random()*100+'vw';
-    c.style.top=Math.random()*50+'vh';
-    document.body.appendChild(c);
-    moveCloud(c,0.02+Math.random()*0.03);
-  }
-}
-function moveCloud(cloud,speed){
-  let pos=parseFloat(cloud.style.left);
-  function step(){
-    pos+=speed;
-    if(pos>110) pos=-20;
-    cloud.style.left=pos+'vw';
-    requestAnimationFrame(step);
-  }
-  step();
-}
-
-/* Stars */
-function createStars(count){
-  for(let i=0;i<count;i++){
-    const s=document.createElement('div');
-    s.className='star';
-    s.style.left=Math.random()*100+'vw';
-    s.style.top=Math.random()*100+'vh';
-    s.style.animation=`twinkle ${2+Math.random()*4}s infinite`;
-    s.style.animationDelay=Math.random()*3+'s';
-    document.body.appendChild(s);
-  }
-}
-
-/* Randomly create shooting stars */
-function randomShootingStars(){
-  setInterval(()=>{
-    createShootingStar();
-  }, 2000 + Math.random()*4000);
-}
-
-function createShootingStar(){
-  const star=document.createElement('div');
-  star.className='shooting-star';
-  star.style.left=(Math.random()*80)+'vw';
-  star.style.top=(20+Math.random()*30)+'vh';
-  document.body.appendChild(star);
-  setTimeout(()=>star.remove(),1500);
-}
-
-/* MOON VISIBILITY */
-window.addEventListener('scroll',()=>{
-  let max=document.body.scrollHeight-window.innerHeight;
-  let progress=window.scrollY/max;
-
-  const moon=document.getElementById("moon");
-
-  if(progress>0.55){
-    moon.style.opacity=1;
-  } else {
-    moon.style.opacity=0;
-  }
+// click / tap -> heart trail
+let pointerDown = false;
+document.addEventListener('click', (ev)=>{
+  // create single small heart
+  createHeartAt(ev.clientX, ev.clientY, true);
+  // ensure music starts on first user click as well
+  tryPlayMusic();
 });
-</script>
+document.addEventListener('touchstart', (ev)=>{
+  for(const t of ev.touches) createHeartAt(t.clientX, t.clientY, true);
+  tryPlayMusic();
+});
+document.addEventListener('touchmove', (ev)=>{
+  for(const t of ev.touches) createHeartAt(t.clientX, t.clientY, true);
+});
 
+/* ========== Clouds / stars already spawned above ========== */
+
+/* ========== Music start helper (must be user gesture) ========== */
+const audio = document.getElementById('bgMusic');
+function tryPlayMusic(){
+  if(audio.paused){
+    audio.play().catch(()=>{/* ignore Autoplay errors */});
+  }
+}
+
+/* ensure first click on page starts audio too (safe) */
+document.addEventListener('pointerdown', tryPlayMusic, { once:true });
+
+/* ========== Start button handler ========== */
+function startSite(){
+  // clicking start is a user gesture — play music & ensure decor already active
+  tryPlayMusic();
+  // reveal first section's bubbles (observer will reveal on scroll; force show landing)
+  document.querySelectorAll('#landing .text-bubble').forEach(b=>b.classList.add('fade-in'));
+}
+
+/* ========== small helpers ========== */
+function throttle(fn, wait){
+  let last = 0;
+  return (...args) => {
+    const now = Date.now();
+    if(now - last > wait){ last = now; fn(...args); }
+  };
+}
+
+/* ========== initial cloud spawn & other initializations ========== */
+(function init(){
+  // spawn clouds (placed in decor to keep DOM tidy)
+  for(let i=0;i<6;i++){
+    const c = document.createElement('div');
+    c.className = 'cloud';
+    const w = 110 + Math.random()*220;
+    c.style.width = w + 'px';
+    c.style.height = Math.round(w/2) + 'px';
+    c.style.left = (Math.random()*120 - 10) + 'vw';
+    c.style.top  = (5 + Math.random()*70) + 'vh';
+    c.dataset.speed = (0.006 + Math.random()*0.045).toString();
+    decor.appendChild(c);
+  }
+  // animate clouds using decor children
+  (function cloudAnimator(){
+    const clouds = decor.querySelectorAll('.cloud');
+    clouds.forEach(cl => {
+      let left = parseFloat(cl.style.left);
+      left += parseFloat(cl.dataset.speed || 0.02);
+      if(left > 110) left = -30;
+      cl.style.left = left + 'vw';
+    });
+    requestAnimationFrame(cloudAnimator);
+  })();
+
+  // spawn stars and start twinkling
+  spawnStars(90);
+})();
+
+/* Toggle moon visibility on scroll (also handled by updateBackground) */
+window.addEventListener('scroll', throttle(()=> {
+  updateBackground();
+}, 70));
+
+/* Final: keep content visible above decorations (done via z-index in CSS) */
+
+</script>
 </body>
 </html>
