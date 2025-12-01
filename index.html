@@ -14,7 +14,6 @@ body, html {
   overflow-x:hidden;
   scroll-behavior:smooth;
   background: linear-gradient(to bottom, #ff9a8b 0%, #d88ad6 50%, #1b003f 100%);
-  transition: background 1s linear;
   color:#333;
   position: relative;
 }
@@ -103,8 +102,8 @@ h1 { font-family:'Great Vibes', cursive; font-size:4em; color:#ff77aa; }
   color:#fff;
   text-shadow:0 0 25px #fff;
   opacity:0;
-  transition: opacity 2s ease;
   pointer-events:none;
+  transition: opacity 1s linear;
 }
 
 /* Clouds */
@@ -195,7 +194,9 @@ h1 { font-family:'Great Vibes', cursive; font-size:4em; color:#ff77aa; }
 </div>
 
 <script>
-/* START */
+let stars = [];
+let maxStars = 120;
+
 function startSite(){
   createClouds(5);
   observeSections();
@@ -262,12 +263,10 @@ function moveCloud(cloud,speed){
   step();
 }
 
-/* Stars & Moon gradual fade */
-let stars = [];
-let maxStars = 120;
+/* Stars */
 function createStars(count){
   for(let i=0;i<count;i++){
-    const s = document.createElement('div');
+    const s=document.createElement('div');
     s.className='star';
     s.style.left = Math.random()*100+'vw';
     s.style.top = Math.random()*100+'vh';
@@ -299,33 +298,49 @@ function createShootingStar() {
 }
 setInterval(()=>{if(Math.random()>0.7) createShootingStar();},1500);
 
-/* Scroll-based sky + gradual stars */
-window.addEventListener('scroll',()=>{
-  let max=document.body.scrollHeight-window.innerHeight;
-  let p = window.scrollY/max;
-
+/* Smooth scroll-based sky + moon + stars fade */
+function smoothNightTransition(){
   const moon = document.getElementById("moon");
+  const maxStars = 120;
+  const body = document.body;
 
-  // Smooth sky gradient
-  if(p<0.5){
-    document.body.style.background='linear-gradient(to bottom, #ff9a8b 0%, #d88ad6 50%, #1b003f 100%)';
-  } else if(p<0.75){
-    document.body.style.background='linear-gradient(to bottom, #4b248a 0%, #1b003f 50%, #0d001a 100%)';
-  } else{
-    document.body.style.background='linear-gradient(to bottom, #0d001a 0%, #0d001a 50%, #0d001a 100%)';
-  }
+  function update(){
+    let max = body.scrollHeight - window.innerHeight;
+    let p = window.scrollY / max;
 
-  // Gradual moon & stars fade
-  if(p>0.5){
-    if(stars.length===0) createStars(maxStars);
-    let opacity = Math.min((p-0.5)*3,1); // fade in from 0.5 → 0.83 scroll
-    moon.style.opacity = opacity;
-    stars.forEach(s=>s.style.opacity = opacity * Math.random());
-  } else{
-    moon.style.opacity=0;
-    stars.forEach(s=>s.style.opacity=0);
+    // Smooth sky color interpolation
+    let startColor = [255,154,139]; // sunset
+    let midColor   = [75,36,138];   // twilight
+    let nightColor = [13,0,26];     // night
+    let r,g,b;
+    if(p<0.5){
+      r = startColor[0]+(midColor[0]-startColor[0])*p*2;
+      g = startColor[1]+(midColor[1]-startColor[1])*p*2;
+      b = startColor[2]+(midColor[2]-startColor[2])*p*2;
+    } else {
+      r = midColor[0]+(nightColor[0]-midColor[0])*(p-0.5)*2;
+      g = midColor[1]+(nightColor[1]-midColor[1])*(p-0.5)*2;
+      b = midColor[2]+(nightColor[2]-midColor[2])*(p-0.5)*2;
+    }
+    body.style.background=`linear-gradient(to bottom, rgb(${r},${g},${b}) 0%, rgb(${r},${g},${b}) 50%, rgb(${r},${g},${b}) 100%)`;
+
+    // Moon + stars gradual fade
+    if(p>0.45){
+      if(stars.length===0) createStars(maxStars);
+      let opacity = Math.min((p-0.45)*2,1); // smooth fade
+      moon.style.opacity = opacity;
+      stars.forEach(s=>s.style.opacity = opacity * Math.random());
+    } else{
+      moon.style.opacity=0;
+      stars.forEach(s=>s.style.opacity=0);
+    }
+
+    requestAnimationFrame(update);
   }
-});
+  update();
+}
+
+window.addEventListener('load',smoothNightTransition);
 
 /* Music play fix */
 const audio = document.getElementById("bg-music");
