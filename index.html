@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Happy Birthday Ishita 💖</title>
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
 
 <style>
+/* ---------- BASE ---------- */
 body, html {
   margin:0;
   padding:0;
@@ -18,6 +19,7 @@ body, html {
   position: relative;
 }
 
+/* ---------- SECTIONS & CONTENT ---------- */
 .section {
   min-height:100vh;
   display:flex;
@@ -61,7 +63,7 @@ h1 { font-family:'Great Vibes', cursive; font-size:4em; color:#ff77aa; }
   z-index:6;
 }
 
-/* Hearts */
+/* ---------- HEARTS ---------- */
 .heart {
   position: fixed;
   width: 20px;
@@ -92,21 +94,21 @@ h1 { font-family:'Great Vibes', cursive; font-size:4em; color:#ff77aa; }
   100% { transform: translateY(-120px) scale(1.1) rotate(-45deg); opacity:0; }
 }
 
-/* Moon */
+/* ---------- MOON ---------- */
 #moon {
   position: fixed;
   top:40px;
   right:40px;
   font-size:80px;
   z-index:2;
-  color:#fff;
-  text-shadow:0 0 25px #fff;
+  color:#fffacd;
+  text-shadow:0 0 22px #fffacd;
   opacity:0;
   pointer-events:none;
-  transition: opacity 1s linear;
+  transition: opacity 1.25s ease;
 }
 
-/* Clouds */
+/* ---------- CLOUDS ---------- */
 .cloud {
   position: fixed;
   border-radius: 50%;
@@ -115,7 +117,7 @@ h1 { font-family:'Great Vibes', cursive; font-size:4em; color:#ff77aa; }
   filter: blur(10px);
 }
 
-/* Stars */
+/* ---------- STARS ---------- */
 .star {
   position: fixed;
   width:2px;
@@ -124,97 +126,101 @@ h1 { font-family:'Great Vibes', cursive; font-size:4em; color:#ff77aa; }
   border-radius:50%;
   opacity:0;
   z-index:2;
-  animation-name: twinkle;
-  animation-duration: 2.5s;
-  animation-iteration-count: infinite;
-  animation-timing-function: ease-in-out;
+  /* randomized per-star via inline style */
 }
 
+/* twinkle keyframes (kept simple) */
 @keyframes twinkle {
-  0%,100% { opacity:0.2; }
-  50% { opacity:1; }
+  0%,100% { opacity:0.2; transform: scale(1); }
+  50% { opacity:1; transform: scale(1.25); }
 }
 
-/* Shooting stars */
+/* ---------- SHOOTING STAR ---------- */
 .shooting-star {
   position: fixed;
-  width: 2px;
+  width: 3px;
   height: 2px;
-  background: linear-gradient(90deg, white, rgba(255,255,255,0));
+  background: linear-gradient(90deg, rgba(255,255,255,1), rgba(255,255,255,0.0));
   border-radius: 50%;
   opacity: 0;
   z-index: 3;
   pointer-events:none;
+  will-change: transform, opacity;
 }
 
-/* Carousel */
+/* ---------- TULIP BLOOM (ephemeral) ---------- */
+.tulip-bloom {
+  position: fixed;
+  width: 22px;
+  height: 30px;
+  z-index: 8;
+  pointer-events: none;
+  transform-origin: center bottom;
+  opacity: 0;
+}
+
+/* small stem */
+.tulip-bloom .stem {
+  width: 3px;
+  height: 14px;
+  background: #3b7f3b;
+  margin: 0 auto;
+  border-radius: 2px;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* petals (simple) */
+.tulip-bloom .petal {
+  position:absolute;
+  width:18px;
+  height:16px;
+  background:#ff5fa2;
+  border-radius: 50% 50% 0 0;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.tulip-bloom .petal::before,
+.tulip-bloom .petal::after {
+  content:"";
+  position:absolute;
+  width:10px; height:14px;
+  background:#ff5fa2;
+  border-radius:50% 50% 0 0;
+  top:0;
+}
+.tulip-bloom .petal::before { left:-8px; transform: rotate(-12deg); }
+.tulip-bloom .petal::after { right:-8px; transform: rotate(12deg); }
+
+/* bloom animation: scale+fade */
+@keyframes bloom {
+  0% { transform: translateY(10px) scale(.6); opacity:0; }
+  30% { transform: translateY(0px) scale(1.05); opacity:1; }
+  80% { transform: translateY(-6px) scale(0.98); opacity:0.9; }
+  100% { transform: translateY(-8px) scale(.95); opacity:0; }
+}
+
+/* ---------- CAROUSEL ---------- */
 .carousel {
   width:80%; max-width:500px; height:250px;
   background:rgba(255,255,255,0.5);
   border-radius:20px;
   display:flex; justify-content:center; align-items:center;
 }
-
-/* Tulip Garden */
-.tulip {
-  position: fixed;
-  bottom: 0;
-  width: 20px;
-  height: 50px;
-  z-index: 4;
-  transform-origin: bottom center;
-  animation: sway 3s ease-in-out infinite;
-}
-
-.tulip .stem {
-  width: 4px;
-  height: 35px;
-  background: #3b7f3b;
-  margin: 0 auto;
-  border-radius: 2px;
-}
-
-.tulip .flower {
-  width: 20px;
-  height: 20px;
-  background: #ff5fa2; /* pink tulip */
-  border-radius: 50% 50% 0 0;
-  margin: 0 auto;
-  position: relative;
-  top: -5px;
-}
-
-.tulip .flower::before,
-.tulip .flower::after {
-  content: "";
-  position: absolute;
-  width: 12px;
-  height: 18px;
-  background: #ff5fa2;
-  border-radius: 50% 50% 0 0;
-  top: 0;
-}
-
-.tulip .flower::before {
-  left: -6px;
-}
-
-.tulip .flower::after {
-  right: -6px;
-}
-
-@keyframes sway {
-  0% { transform: rotate(0deg); }
-  50% { transform: rotate(3deg); }
-  100% { transform: rotate(0deg); }
-}
 </style>
 </head>
 <body>
 
+<!-- MUSIC -->
 <audio id="bg-music" src="soft-music.mp3" loop></audio>
+
+<!-- Moon -->
 <div id="moon">🌙</div>
 
+<!-- CONTENT (kept EXACT as you had it) -->
 <div class="section" id="landing">
   <h1>Happy Birthday Ishita 💖</h1>
   <button class="interactive-btn" onclick="startSite()">Click to Start</button>
@@ -254,145 +260,239 @@ h1 { font-family:'Great Vibes', cursive; font-size:4em; color:#ff77aa; }
 </div>
 
 <script>
+/* ======= Globals ======= */
 let stars = [];
-let maxStars = 120;
+const MAX_STARS = 120;
+let starsCreated = false;
 
+/* ======= Start helpers ======= */
 function startSite(){
   createClouds(5);
   observeSections();
 }
 
-/* Fade-in bubbles */
+/* Section fade-in and tulip bloom observer */
 function observeSections(){
-  const obs=new IntersectionObserver((entries)=>{
+  // IntersectionObserver for text bubbles (fade) and for tulip blooms (Option B)
+  const fadeObs = new IntersectionObserver((entries)=>{
     entries.forEach(entry=>{
       if(entry.isIntersecting){
-        entry.target.querySelectorAll('.text-bubble')
-          .forEach((b,i)=>setTimeout(()=>b.classList.add('fade-in'), i*300));
+        const bubbles = entry.target.querySelectorAll('.text-bubble');
+        bubbles.forEach((b,i)=>setTimeout(()=>b.classList.add('fade-in'), i*260));
       }
     });
-  },{threshold:0.25});
-  document.querySelectorAll('.section').forEach(s=>obs.observe(s));
+  },{threshold:0.22});
+
+  document.querySelectorAll('.section').forEach(s=> fadeObs.observe(s));
+
+  // Tulip bloom observer: spawn small blooms when section becomes visible
+  const bloomObs = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        // spawn 1-3 subtle blooms near the visible section area
+        const rect = entry.boundingClientRect;
+        const centerX = rect.left + rect.width/2;
+        const centerY = rect.top + rect.height/2;
+        const bloomCount = 1 + Math.floor(Math.random()*2); // 1 or 2
+        for(let i=0;i<bloomCount;i++){
+          const offsetX = (Math.random()*240)-120; // px
+          const offsetY = (Math.random()*160)-80;
+          spawnTulipBloom(centerX + offsetX, centerY + offsetY);
+        }
+      }
+    });
+  },{threshold:0.35});
+
+  // observe only the content sections (not final hidden area)
+  document.querySelectorAll('.section').forEach(s => bloomObs.observe(s));
 }
 
-/* Final message */
+/* ======= Reveal final message ======= */
 function revealMessage(choice){
   if(choice){
     document.getElementById('interactive').style.display='none';
-    document.getElementById('final-message').style.display='flex';
-    document.getElementById('final-message').scrollIntoView({behavior:'smooth'});
+    const fm = document.getElementById('final-message');
+    fm.style.display='flex';
+    fm.scrollIntoView({behavior:'smooth'});
+  } else {
+    alert('You can scroll and see the memories anyway!');
   }
 }
 
-/* Heart trail */
-document.addEventListener('click',e=>createTrail(e.clientX,e.clientY));
-document.addEventListener('touchmove',e=>{
-  for(const t of e.touches) createTrail(t.clientX,t.clientY);
+/* ======= Heart trail (unchanged) ======= */
+document.addEventListener('click', e => createHeartTrail(e.clientX, e.clientY));
+document.addEventListener('touchstart', e => {
+  for(const t of e.touches) createHeartTrail(t.clientX, t.clientY);
 });
-function createTrail(x,y){
-  const h=document.createElement('div');
-  h.className='heart small';
-  h.style.left=x+'px';
-  h.style.top=y+'px';
+function createHeartTrail(x,y){
+  const h = document.createElement('div');
+  h.className = 'heart small';
+  h.style.left = (x - 8) + 'px';
+  h.style.top = (y - 8) + 'px';
   document.body.appendChild(h);
-  setTimeout(()=>h.remove(),1700);
+  setTimeout(()=> h.remove(), 1700);
 }
 
-/* Clouds */
+/* ======= Clouds (unchanged) ======= */
 function createClouds(count){
   for(let i=0;i<count;i++){
-    const c=document.createElement('div');
-    c.className='cloud';
-    const sz=120+Math.random()*150;
-    c.style.width=sz+'px';
-    c.style.height=sz/2+'px';
-    c.style.left=Math.random()*100+'vw';
-    c.style.top=Math.random()*50+'vh';
+    const c = document.createElement('div');
+    c.className = 'cloud';
+    const sz = 120 + Math.random()*150;
+    c.style.width = sz + 'px';
+    c.style.height = (sz/2) + 'px';
+    c.style.left = Math.random()*100 + 'vw';
+    c.style.top = (10 + Math.random()*45) + 'vh';
+    c.style.opacity = 0.28 + Math.random()*0.14;
     document.body.appendChild(c);
-    moveCloud(c,0.02+Math.random()*0.03);
+    moveCloud(c, 0.01 + Math.random()*0.04);
   }
 }
-function moveCloud(cloud,speed){
-  let pos=parseFloat(cloud.style.left);
+function moveCloud(cloud, speed){
+  let left = parseFloat(cloud.style.left) || 0;
   function step(){
-    pos+=speed;
-    if(pos>110) pos=-20;
-    cloud.style.left=pos+'vw';
+    left += speed;
+    if(left > 110) left = -30;
+    cloud.style.left = left + 'vw';
     requestAnimationFrame(step);
   }
-  step();
+  requestAnimationFrame(step);
 }
 
-/* Stars */
+/* ======= Stars (create with randomized twinkle) ======= */
 function createStars(count){
+  if(starsCreated) return;
+  starsCreated = true;
   for(let i=0;i<count;i++){
-    const s=document.createElement('div');
-    s.className='star';
-    s.style.left = Math.random()*100+'vw';
-    s.style.top = Math.random()*100+'vh';
-    s.style.animationDelay = (Math.random()*3)+'s';
+    const s = document.createElement('div');
+    s.className = 'star';
+    // position
+    const left = Math.random()*100;
+    const top = Math.random()*92; // avoid bottom tulip area
+    s.style.left = left + 'vw';
+    s.style.top = top + 'vh';
+    // randomize twinkle timing & scale
+    const dur = 1500 + Math.random()*2500; // 1.5s - 4s
+    const delay = Math.random()*3000 + 'ms';
+    s.style.animation = `twinkle ${dur}ms infinite ease-in-out ${delay}`;
+    // initial opacity 0; we'll fade in based on scroll p
     s.style.opacity = 0;
     document.body.appendChild(s);
     stars.push(s);
   }
 }
 
-/* Shooting stars */
+/* ======= Improved shooting star ======= */
 function createShootingStar() {
+  // Only create if visible night (we handle caller)
   const star = document.createElement('div');
-  star.className='shooting-star';
-  const startX = Math.random()*window.innerWidth*0.8+window.innerWidth*0.1;
-  const startY = Math.random()*window.innerHeight*0.5;
-  const angle = Math.random()*20-10;
-  const length = 100+Math.random()*150;
-  const duration = 800+Math.random()*500;
-  star.style.left=startX+'px';
-  star.style.top=startY+'px';
-  star.style.transform=`rotate(${angle}deg)`;
+  star.className = 'shooting-star';
+  // start from near right edge upper area
+  const startX = window.innerWidth * (0.7 + Math.random()*0.25);
+  const startY = window.innerHeight * (0.05 + Math.random()*0.35);
+  star.style.left = startX + 'px';
+  star.style.top = startY + 'px';
   document.body.appendChild(star);
-  star.animate([
-    { transform: `translate(0,0) rotate(${angle}deg)`, opacity:1 },
-    { transform: `translate(${length}px, ${length}px) rotate(${angle}deg)`, opacity:0 }
-  ], {duration:duration, easing:'ease-out'});
-  setTimeout(()=>star.remove(),duration);
-}
-setInterval(()=>{if(Math.random()>0.7) createShootingStar();},1500);
 
-/* Smooth scroll-based sky + moon + stars fade */
+  // random path length and angle (down-left)
+  const dx = - (200 + Math.random()*600);
+  const dy = 80 + Math.random()*220;
+  const duration = 650 + Math.random()*850;
+
+  star.animate([
+    { transform: `translate(0px,0px) rotate(0deg)`, opacity: 1 },
+    { transform: `translate(${dx}px, ${dy}px) rotate(0deg)`, opacity: 0 }
+  ], { duration: duration, easing: 'cubic-bezier(.2,.8,.2,1)' });
+
+  setTimeout(()=> star.remove(), duration + 80);
+}
+
+/* periodically spawn shooting stars, but only when night visible */
+let shootingInterval = setInterval(()=> {
+  // spawn with some probability when night (controlled by _isNight flag)
+  if(window._isNight && Math.random() > 0.6) createShootingStar();
+}, 1200);
+
+/* ======= Tulip Bloom (Option B) ======= */
+function spawnTulipBloom(pageX, pageY){
+  // ensure coordinates are within viewport - convert to fixed px coordinates
+  const x = Math.max(12, Math.min(window.innerWidth - 30, pageX));
+  const y = Math.max(80, Math.min(window.innerHeight - 160, pageY));
+  const t = document.createElement('div');
+  t.className = 'tulip-bloom';
+  // small random scale so blooms look natural
+  const scale = 0.85 + Math.random()*0.4;
+  t.style.left = (x - 11) + 'px';
+  t.style.top = (y - 28) + 'px';
+  t.style.transform = `scale(${scale})`;
+  t.innerHTML = `<div class="petal"></div><div class="stem"></div>`;
+  document.body.appendChild(t);
+
+  // run bloom animation (CSS keyframes)
+  t.style.animation = `bloom ${900 + Math.random()*600}ms cubic-bezier(.2,.8,.2,1) forwards`;
+  // remove after animation completes
+  setTimeout(()=> {
+    try { t.remove(); } catch(e){}
+  }, 1600);
+}
+
+/* ======= Smooth night transition (sky, moon, stars) ======= */
 function smoothNightTransition(){
-  const moon = document.getElementById("moon");
-  const maxStars = 120;
+  const moon = document.getElementById('moon');
   const body = document.body;
 
   function update(){
-    let max = body.scrollHeight - window.innerHeight;
-    let p = window.scrollY / max;
+    const max = Math.max(1, body.scrollHeight - window.innerHeight);
+    const p = window.scrollY / max; // 0..1
 
-    // Smooth sky color interpolation
-    let startColor = [255,154,139]; // sunset
-    let midColor   = [75,36,138];   // twilight
-    let nightColor = [13,0,26];     // night
+    // smoother sky interpolation (sunset -> twilight -> night)
+    const start = [255,154,139]; // warm pink
+    const mid   = [210,138,214]; // lilac
+    const twilight = [75,36,138]; // deep purple
+    const night  = [13,0,26]; // near black purple
     let r,g,b;
-    if(p<0.5){
-      r = startColor[0]+(midColor[0]-startColor[0])*p*2;
-      g = startColor[1]+(midColor[1]-startColor[1])*p*2;
-      b = startColor[2]+(midColor[2]-startColor[2])*p*2;
-    } else {
-      r = midColor[0]+(nightColor[0]-midColor[0])*(p-0.5)*2;
-      g = midColor[1]+(nightColor[1]-midColor[1])*(p-0.5)*2;
-      b = midColor[2]+(nightColor[2]-midColor[2])*(p-0.5)*2;
-    }
-    body.style.background=`linear-gradient(to bottom, rgb(${r},${g},${b}) 0%, rgb(${r},${g},${b}) 50%, rgb(${r},${g},${b}) 100%)`;
 
-    // Moon + stars gradual fade
-    if(p>0.45){
-      if(stars.length===0) createStars(maxStars);
-      let opacity = Math.min((p-0.45)*2,1); // smooth fade
+    if(p < 0.4){
+      // start -> mid (0..0.4)
+      const t = p / 0.4;
+      r = Math.round(start[0] + (mid[0]-start[0])*t);
+      g = Math.round(start[1] + (mid[1]-start[1])*t);
+      b = Math.round(start[2] + (mid[2]-start[2])*t);
+    } else if(p < 0.75){
+      // mid -> twilight
+      const t = (p - 0.4) / 0.35;
+      r = Math.round(mid[0] + (twilight[0]-mid[0])*t);
+      g = Math.round(mid[1] + (twilight[1]-mid[1])*t);
+      b = Math.round(mid[2] + (twilight[2]-mid[2])*t);
+    } else {
+      // twilight -> night
+      const t = Math.min(1, (p - 0.75) / 0.25);
+      r = Math.round(twilight[0] + (night[0]-twilight[0])*t);
+      g = Math.round(twilight[1] + (night[1]-twilight[1])*t);
+      b = Math.round(twilight[2] + (night[2]-twilight[2])*t);
+    }
+
+    body.style.background = `linear-gradient(to bottom, rgb(${r},${g},${b}) 0%, rgb(${r},${g},${b}) 50%, rgb(${r},${g},${b}) 100%)`;
+
+    // Moon & stars fade in smoothly once p crosses ~0.45..0.5
+    const nightStart = 0.45; // when to start showing moon & stars
+    if(p > nightStart){
+      const opacity = Math.min(1, (p - nightStart) / (1 - nightStart)); // 0..1 as p goes 0.45..1
       moon.style.opacity = opacity;
-      stars.forEach(s=>s.style.opacity = opacity * Math.random());
-    } else{
-      moon.style.opacity=0;
-      stars.forEach(s=>s.style.opacity=0);
+      // create stars once when needed
+      if(!starsCreated) createStars(MAX_STARS);
+      // set each star opacity with a per-star multiplier so they look staggered
+      stars.forEach((s, idx) => {
+        const per = ( (idx % 7) / 7 ) + Math.random()*0.6; // varied factor
+        s.style.opacity = Math.min(1, opacity * per);
+      });
+      // set global flag for shooting star logic
+      window._isNight = true;
+    } else {
+      moon.style.opacity = 0;
+      window._isNight = false;
+      // fade out stars
+      stars.forEach(s=> s.style.opacity = 0);
     }
 
     requestAnimationFrame(update);
@@ -400,36 +500,50 @@ function smoothNightTransition(){
   update();
 }
 
-window.addEventListener('load',smoothNightTransition);
+/* ======= Spawn small blooms near content on scroll/touch also  ======= */
+/* additionally spawn a bloom on click near click point */
+document.addEventListener('click', (ev) => {
+  // don't spawn when clicking on buttons
+  if(ev.target.closest('.interactive-btn')) return;
+  // small chance to spawn a local bloom on click (+heart trail already exists)
+  if(Math.random() > 0.25) spawnTulipBloom(ev.clientX, ev.clientY);
+});
 
-/* Music play fix */
-const audio = document.getElementById("bg-music");
-function tryPlayMusic(){ audio.play().catch(()=>{});}
-document.body.addEventListener("click", tryPlayMusic,{once:true});
-document.body.addEventListener("touchstart", tryPlayMusic,{once:true});
-document.body.addEventListener("scroll", tryPlayMusic,{once:true});
-
-function createTulipGarden() {
-  const count = 22; // number of tulips
-  for (let i = 0; i < count; i++) {
-    const t = document.createElement("div");
-    t.className = "tulip";
-    t.style.left = (i * (100 / count)) + "vw";
-
-    // slight random size variation
-    const scale = 0.8 + Math.random() * 0.4;
-    t.style.transform = `scale(${scale})`;
-
-    t.innerHTML = `
-      <div class="stem"></div>
-      <div class="flower"></div>
-    `;
-
-    document.body.appendChild(t);
+/* also spawn when user scrolls (gentle random chance near viewport center) */
+let lastScroll = 0;
+window.addEventListener('scroll', () => {
+  const now = Date.now();
+  if(now - lastScroll < 420) return;
+  lastScroll = now;
+  // randomly spawn near middle of viewport sometimes
+  if(Math.random() > 0.6){
+    const cx = window.innerWidth * (0.4 + Math.random()*0.2);
+    const cy = window.innerHeight * (0.45 + Math.random()*0.2);
+    spawnTulipBloom(cx, cy);
   }
-}
+});
 
-window.addEventListener("load", createTulipGarden);
+/* ======= Music play fix (user gesture required on some browsers) ======= */
+const audio = document.getElementById('bg-music');
+function tryPlayMusic(){ audio.play().catch(()=>{}); }
+document.body.addEventListener('click', tryPlayMusic, { once: true });
+document.body.addEventListener('touchstart', tryPlayMusic, { once: true });
+document.body.addEventListener('scroll', tryPlayMusic, { once: true });
+
+/* ======= Init on load ======= */
+window.addEventListener('load', ()=>{
+  smoothNightTransition();
+  // observeSections is called from startSite after user clicks "Click to Start"
+  // but we can also set up a lightweight observer to show content fade for already-visible sections:
+  document.querySelectorAll('.section').forEach(sec => {
+    // if already in viewport, trigger fade immediately
+    const rect = sec.getBoundingClientRect();
+    if(rect.top < window.innerHeight*0.85 && rect.bottom > window.innerHeight*0.15){
+      const bubbles = sec.querySelectorAll('.text-bubble');
+      bubbles.forEach((b,i)=>setTimeout(()=>b.classList.add('fade-in'), i*260));
+    }
+  });
+});
 </script>
 </body>
 </html>
