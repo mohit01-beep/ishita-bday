@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Happy Birthday Ishita 💖</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
 
 <style>
-/* ===== BASE ===== */
 html,body{
   margin:0;
   padding:0;
@@ -17,39 +16,40 @@ html,body{
   scroll-behavior:smooth;
   background:linear-gradient(
     to bottom,
-    #ff9a8b 0%,      /* warm sunset pink */
-    #ffb7c5 25%,
-    #d88ad6 45%,     /* purple dusk */
-    #3a1766 65%,     /* dark purple */
-    #0d0221 100%     /* night */
+    #ff9a8b 0%,
+    #ffb7c5 30%,
+    #d88ad6 50%,
+    #3a1766 70%,
+    #0d0221 100%
   );
   color:#333;
 }
 
-/* ===== SECTIONS ===== */
+/* ---------- SECTION ---------- */
 .section{
   min-height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
-  flex-direction:column;
   padding:60px 20px;
   text-align:center;
+  flex-direction:column;
   position:relative;
   z-index:5;
 }
 
 .text-bubble{
-  background:rgba(255,255,255,0.6);
+  display:inline-block;
   padding:25px 35px;
+  background:rgba(255,255,255,0.6);
   border-radius:30px;
-  margin:30px 0;
+  box-shadow:0 8px 20px rgba(0,0,0,0.1);
+  backdrop-filter:blur(6px);
   max-width:70%;
   font-size:1.2em;
-  backdrop-filter:blur(6px);
-  box-shadow:0 8px 20px rgba(0,0,0,0.1);
+  margin:30px 0;
   opacity:0;
-  transform:translateY(35px);
+  transform:translateY(30px);
   transition:1s ease;
 }
 .fade-in{opacity:1;transform:translateY(0);}
@@ -60,18 +60,17 @@ h1{
   color:#ff77aa;
 }
 
-/* ===== BUTTON ===== */
 .interactive-btn{
-  padding:12px 28px;
+  padding:12px 24px;
   background:#ff8fab;
   color:#fff;
   border:none;
-  border-radius:22px;
-  font-size:1.2em;
+  border-radius:20px;
   cursor:pointer;
+  font-size:1.2em;
 }
 
-/* ===== HEARTS ===== */
+/* ---------- HEART TRAIL ---------- */
 .heart{
   position:fixed;
   width:14px;
@@ -80,9 +79,10 @@ h1{
   transform:rotate(-45deg);
   pointer-events:none;
   z-index:10;
+  animation:fadeHeart 1.2s ease forwards;
 }
 .heart::before,.heart::after{
-  content:'';
+  content:"";
   position:absolute;
   width:14px;
   height:14px;
@@ -92,12 +92,12 @@ h1{
 .heart::before{top:-7px;}
 .heart::after{left:7px;}
 
-@keyframes floatUp{
-  from{opacity:1;transform:translateY(0) rotate(-45deg);}
-  to{opacity:0;transform:translateY(-140px) rotate(-45deg);}
+@keyframes fadeHeart{
+  from{opacity:1;transform:scale(1) rotate(-45deg);}
+  to{opacity:0;transform:scale(1.4) rotate(-45deg);}
 }
 
-/* ===== MOON ===== */
+/* ---------- MOON ---------- */
 #moon{
   position:fixed;
   top:40px;
@@ -110,7 +110,7 @@ h1{
   z-index:2;
 }
 
-/* ===== STARS ===== */
+/* ---------- STARS ---------- */
 .star{
   position:fixed;
   width:2px;
@@ -119,62 +119,55 @@ h1{
   border-radius:50%;
   opacity:0;
   z-index:2;
-  transition:opacity 3s ease;
 }
-
 @keyframes twinkle{
-  0%,100%{opacity:.25;}
+  0%,100%{opacity:.3;}
   50%{opacity:1;}
 }
 
-/* ===== TULIPS ===== */
+/* ---------- TULIPS ---------- */
 #tulip-garden{
   position:fixed;
-  bottom:-45px;
+  bottom:-80px;
   left:0;
   width:100%;
-  height:220px;
+  height:280px;
   display:flex;
   justify-content:space-around;
   align-items:flex-end;
   pointer-events:none;
   z-index:3;
   opacity:0;
-  transition:opacity 4s ease;
+  transition:opacity 3s ease;
 }
-
 .tulip{
-  font-size:46px;
-  transform:scaleY(1.35);
+  font-size:48px;
+  transform:scaleY(1.6);
   opacity:0;
   animation:growTulip 3s ease forwards;
   animation-delay:var(--delay);
 }
-
 @keyframes growTulip{
-  from{opacity:0;transform:translateY(80px) scaleY(1.35);}
-  to{opacity:1;transform:translateY(0) scaleY(1.35);}
+  from{opacity:0;transform:translateY(120px) scaleY(1.6);}
+  to{opacity:1;transform:translateY(0) scaleY(1.6);}
 }
 </style>
 </head>
 
 <body>
 
-<!-- MUSIC -->
-<audio id="bgMusic" src="soft-music.mp3" loop></audio>
+<audio id="bg-music" src="soft-music.mp3" loop></audio>
 
 <div id="moon">🌙</div>
 
-<!-- TULIPS -->
 <div id="tulip-garden">
   <div class="tulip" style="--delay:0s">🌷</div>
-  <div class="tulip" style="--delay:.4s">🌷</div>
-  <div class="tulip" style="--delay:.8s">🌷</div>
+  <div class="tulip" style="--delay:.3s">🌷</div>
+  <div class="tulip" style="--delay:.6s">🌷</div>
+  <div class="tulip" style="--delay:.9s">🌷</div>
   <div class="tulip" style="--delay:1.2s">🌷</div>
-  <div class="tulip" style="--delay:1.6s">🌷</div>
 </div>
 
-<!-- SECTIONS -->
 <div class="section">
   <h1>Happy Birthday Ishita 💖</h1>
   <button class="interactive-btn">Click to Start</button>
@@ -189,76 +182,69 @@ h1{
 
 <div class="section">
   <div class="text-bubble">WhatsApp memories: Long movie nights, deep talks, sending each other our favorite rom-coms 🎬💖</div>
-  <div class="text-bubble">Women's Day tiramisu surprise for youu 🤭 You loved it...</div>
-  <div class="text-bubble">During Navratre when you sent that cheesecake for me 🥹 I was soooo happy...</div>
-  <div class="text-bubble">Whenever I see reels about *How to Lose a Guy in 10 Days*… it reminds me of you 😅💓</div>
+  <div class="text-bubble">Women's day tiramisu surprise for youu 🤭 You loved it, your reactions whenever I get a chance to make you smile, to make you happy 🤪 I try not to lose that chance</div>
+  <div class="text-bubble">During Navratre when you sent that cheesecake for me 🥹 I was sooooo happy. I still have that jar and box 😄</div>
+  <div class="text-bubble">Whenever I see reels about How to Lose a Guy in 10 Days or 10 Things I Hate About You, it reminds me of you 😅💓</div>
 </div>
 
 <script>
-/* ===== MUSIC AUTOPLAY FIX ===== */
+/* MUSIC */
 ['click','scroll','touchstart'].forEach(e=>{
   document.body.addEventListener(e,()=>{
-    const m=document.getElementById('bgMusic');
+    const m=document.getElementById('bg-music');
     if(m.paused) m.play().catch(()=>{});
   },{once:true});
 });
 
-/* ===== FADE TEXT ===== */
-const observer=new IntersectionObserver(entries=>{
+/* FADE */
+const obs=new IntersectionObserver(entries=>{
   entries.forEach(en=>{
     if(en.isIntersecting){
       en.target.querySelectorAll('.text-bubble')
-        .forEach((b,i)=>setTimeout(()=>b.classList.add('fade-in'),i*300));
+        .forEach((b,i)=>setTimeout(()=>b.classList.add('fade-in'),i*250));
     }
   });
 },{threshold:.25});
-document.querySelectorAll('.section').forEach(s=>observer.observe(s));
+document.querySelectorAll('.section').forEach(s=>obs.observe(s));
 
-/* ===== HEARTS CLICK + SCROLL ===== */
-document.addEventListener('click',e=>createHeart(e.clientX,e.clientY));
-
-let lastScroll=0;
-window.addEventListener('scroll',()=>{
-  if(Math.abs(scrollY-lastScroll)>90){
-    createHeart(Math.random()*innerWidth,innerHeight-10);
-    lastScroll=scrollY;
-  }
-});
-
-function createHeart(x,y){
+/* HEART TRAIL */
+function heartTrail(x,y){
   const h=document.createElement('div');
   h.className='heart';
   h.style.left=x+'px';
   h.style.top=y+'px';
-  h.style.animation='floatUp 2s ease';
   document.body.appendChild(h);
-  setTimeout(()=>h.remove(),2000);
+  setTimeout(()=>h.remove(),1200);
 }
+document.addEventListener('mousemove',e=>heartTrail(e.clientX,e.clientY));
+document.addEventListener('touchmove',e=>{
+  [...e.touches].forEach(t=>heartTrail(t.clientX,t.clientY));
+});
 
-/* ===== STARS ===== */
+/* STARS */
 const stars=[];
-for(let i=0;i<130;i++){
+for(let i=0;i<120;i++){
   const s=document.createElement('div');
   s.className='star';
   s.style.left=Math.random()*100+'vw';
   s.style.top=Math.random()*60+'vh';
-  s.style.animation=`twinkle ${3+Math.random()*6}s infinite ${Math.random()*6}s`;
+  s.style.animation=`twinkle ${3+Math.random()*5}s infinite ${Math.random()*5}s`;
   document.body.appendChild(s);
   stars.push(s);
 }
 
-/* ===== NIGHT TRANSITION ===== */
-function nightControl(){
+/* NIGHT LOGIC */
+function night(){
   const p=scrollY/(document.body.scrollHeight-innerHeight);
-  const night=p>0.5;
+  const nightOn=p>.55;
 
-  document.getElementById('moon').style.opacity=night?(p-0.5)/0.5:0;
-  document.getElementById('tulip-garden').style.opacity=night?1:0;
-  stars.forEach(s=>s.style.opacity=night?1:0);
+  document.getElementById('moon').style.opacity=nightOn?(p-.55)/.45:0;
+  document.getElementById('tulip-garden').style.opacity=nightOn?1:0;
+  stars.forEach(s=>s.style.opacity=nightOn?1:0);
 
-  requestAnimationFrame(nightControl);
+  requestAnimationFrame(night);
 }
-nightControl();
+night();
 </script>
 
 </body>
