@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Happy Birthday Elsaaaa❄️💖</title>
+<title>Happy Birthday Ishita 💖</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
 
@@ -22,6 +22,7 @@ html,body{
     #3a1766 70%,
     #0d0221 100%
   );
+  color:#333;
 }
 
 /* ---------- SECTION ---------- */
@@ -59,6 +60,16 @@ h1{
   color:#ff77aa;
 }
 
+.interactive-btn{
+  padding:12px 24px;
+  background:#ff8fab;
+  color:#fff;
+  border:none;
+  border-radius:20px;
+  cursor:pointer;
+  font-size:1.2em;
+}
+
 /* ---------- HEART TRAIL ---------- */
 .heart{
   position:fixed;
@@ -82,6 +93,7 @@ h1{
 .heart::after{left:7px;}
 
 @keyframes fadeHeart{
+  from{opacity:1;transform:scale(1) rotate(-45deg);}
   to{opacity:0;transform:scale(1.4) rotate(-45deg);}
 }
 
@@ -91,6 +103,8 @@ h1{
   top:40px;
   right:40px;
   font-size:80px;
+  color:#fffacd;
+  text-shadow:0 0 25px #fffacd;
   opacity:0;
   transition:opacity 3s ease;
   z-index:2;
@@ -115,20 +129,30 @@ h1{
 #tulip-garden{
   position:fixed;
   bottom:-80px;
+  left:0;
   width:100%;
+  height:300px;
   display:flex;
   justify-content:space-around;
+  align-items:flex-end;
   pointer-events:none;
+  z-index:3;
   opacity:0;
   transition:opacity 3s ease;
-  z-index:3;
 }
 .tulip{
   font-size:48px;
-  transform:scaleY(1.6);
+  transform:scaleY(1.8);
+  opacity:0;
+  animation:growTulip 3s ease forwards;
+  animation-delay:var(--delay);
+}
+@keyframes growTulip{
+  from{opacity:0;transform:translateY(150px) scaleY(1.8);}
+  to{opacity:1;transform:translateY(0) scaleY(1.8);}
 }
 
-/* ---------- LETTER ---------- */
+/* ---------- ENVELOPE ---------- */
 #letter-section{
   min-height:100vh;
   display:flex;
@@ -136,36 +160,65 @@ h1{
   align-items:center;
 }
 
-#envelope{
-  font-size:90px;
+.envelope{
+  width:260px;
+  height:180px;
+  background:#f5f0ea;
+  border-radius:8px;
+  position:relative;
   cursor:pointer;
-  animation:float 2.5s ease-in-out infinite;
-  z-index:5;
+  box-shadow:0 15px 40px rgba(0,0,0,.25);
+  transition:transform .6s ease;
+}
+.envelope:hover{transform:scale(1.05);}
+
+.envelope:before{
+  content:"";
+  position:absolute;
+  width:0;height:0;
+  border-left:130px solid transparent;
+  border-right:130px solid transparent;
+  border-top:90px solid #e6ded3;
+  top:0;left:0;
 }
 
-@keyframes float{
-  0%,100%{transform:translateY(0);}
-  50%{transform:translateY(-12px);}
-}
-
-#paper{
-  display:none;
-  background:#fffdf8;
-  padding:50px 40px;
-  border-radius:12px;
-  box-shadow:0 25px 60px rgba(0,0,0,0.35);
-  max-width:700px;
+.envelope span{
+  position:absolute;
+  bottom:20px;
+  width:100%;
   text-align:center;
+  font-size:1.1em;
+  color:#777;
 }
 
-#handwritten{
+/* ---------- LETTER ---------- */
+#paper{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.65);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:20;
+}
+
+.paper-inner{
+  background:#fffaf3;
+  width:80%;
+  max-width:600px;
+  padding:50px 40px;
+  border-radius:6px;
+  box-shadow:0 20px 60px rgba(0,0,0,.4);
+}
+
+.type{
   font-family:'Great Vibes',cursive;
   font-size:2.4em;
-  color:#2a2a2a;
   line-height:1.6;
+  white-space:pre-wrap;
 }
 
-/* ---------- AUDIO ---------- */
+/* ---------- MUSIC ---------- */
 audio{display:none;}
 </style>
 </head>
@@ -177,34 +230,45 @@ audio{display:none;}
 <div id="moon">🌙</div>
 
 <div id="tulip-garden">
-  <div class="tulip">🌷</div>
-  <div class="tulip">🌷</div>
-  <div class="tulip">🌷</div>
-  <div class="tulip">🌷</div>
-  <div class="tulip">🌷</div>
+  <div class="tulip" style="--delay:0s">🌷</div>
+  <div class="tulip" style="--delay:.3s">🌷</div>
+  <div class="tulip" style="--delay:.6s">🌷</div>
+  <div class="tulip" style="--delay:.9s">🌷</div>
+  <div class="tulip" style="--delay:1.2s">🌷</div>
 </div>
 
 <div class="section">
   <h1>Happy Birthday Ishita 💖</h1>
+  <button class="interactive-btn">Click to Start</button>
 </div>
 
+<!-- SNAPCHAT MEMORIES (UNCHANGED) -->
 <div class="section">
   <div class="text-bubble">Snapchat memories: Our first talks, little snaps, discovering each other slowly...</div>
   <div class="text-bubble">Thanks to Yogita we got closer earlier and I got your number...</div>
+  <div class="text-bubble">Maybe I would’ve gotten your number later too, but I don’t know when—or how long I would’ve waited.</div>
   <div class="text-bubble">Because of Yogita's job search, we connected on WhatsApp and got to know each other more...</div>
 </div>
 
+<!-- WHATSAPP MEMORIES (UNCHANGED) -->
 <div class="section">
-  <div class="text-bubble">Women's day tiramisu surprise for youu 🤭</div>
-  <div class="text-bubble">Navratri cheesecake you sent 🥹 I still have the jar.</div>
+  <div class="text-bubble">WhatsApp memories: Long movie nights, deep talks, sending each other our favorite rom-coms 🎬💖</div>
+  <div class="text-bubble">Women's day tiramisu surprise for youu 🤭 You loved it, your reactions whenever I get a chance to make you smile, to make you happy 🤪 I try not to lose that chance</div>
+  <div class="text-bubble">During Navratri, when you sent that cheesecake for me 🥹 I was sooooo happy. I still have that jar and box 😄</div>
+  <div class="text-bubble">Whenever I see reels about How to Lose a Guy in 10 Days or 10 Things I Hate About You, it reminds me of you 😅💓</div>
+  <div class="text-bubble">I love how we both put so much thought into choosing the perfect caption, song, and pics 😁 it makes the whole thing even more special with you 💖</div>
 </div>
 
 <!-- LETTER -->
-<div id="letter-section">
-  <div id="envelope">✉️</div>
+<div id="letter-section" class="section">
+  <div class="envelope" onclick="openLetter()">
+    <span>Tap to open</span>
+  </div>
+</div>
 
-  <div id="paper">
-    <div id="handwritten"></div>
+<div id="paper" onclick="closeLetter()">
+  <div class="paper-inner">
+    <div id="typewriter" class="type"></div>
   </div>
 </div>
 
@@ -254,38 +318,35 @@ for(let i=0;i<120;i++){
   stars.push(s);
 }
 
-/* NIGHT LOGIC */
+/* NIGHT */
 function night(){
   const p=scrollY/(document.body.scrollHeight-innerHeight);
-  const nightOn=p>.55;
-  moon.style.opacity=nightOn?(p-.55)/.45:0;
-  document.getElementById('tulip-garden').style.opacity=nightOn?1:0;
-  stars.forEach(s=>s.style.opacity=nightOn?1:0);
+  const on=p>.55;
+  moon.style.opacity=on?(p-.55)/.45:0;
+  document.getElementById('tulip-garden').style.opacity=on?1:0;
+  stars.forEach(s=>s.style.opacity=on?1:0);
   requestAnimationFrame(night);
 }
 night();
 
-/* LETTER HANDWRITING */
-const message=`I don’t know what the future holds,
+/* LETTER */
+const text=`I don’t know what the future holds,
 but I’m really glad you’re part of my present 🤍
 
 Happy Birthday, Ishita.
 Always.`;
 
 let i=0;
-function write(){
-  if(i<message.length){
-    handwritten.innerHTML+=message[i]==="\n"?"<br>":message[i];
-    i++;
-    setTimeout(write,60);
-  }
+function openLetter(){
+  paper.style.display='flex';
+  typewriter.textContent='';
+  i=0;
+  const t=setInterval(()=>{
+    typewriter.textContent+=text[i++];
+    if(i>=text.length) clearInterval(t);
+  },55);
 }
-
-envelope.onclick=()=>{
-  envelope.style.display="none";
-  paper.style.display="block";
-  write();
-};
+function closeLetter(){paper.style.display='none';}
 </script>
 
 </body>
