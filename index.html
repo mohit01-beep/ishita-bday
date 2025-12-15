@@ -1,73 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Happy Birthday Ishita 💖</title>
+<meta charset="UTF-8">
+<title>For Ishita 🤍</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Great+Vibes&display=swap" rel="stylesheet">
 
 <style>
 html,body{
   margin:0;
   padding:0;
   font-family:'Quicksand',sans-serif;
-  overflow-x:hidden;
+  background:linear-gradient(to bottom,#ff9a8b,#ffb7c5,#d88ad6,#3a1766,#0d0221);
   scroll-behavior:smooth;
-  background:linear-gradient(
-    to bottom,
-    #ff9a8b 0%,
-    #ffb7c5 30%,
-    #d88ad6 50%,
-    #3a1766 70%,
-    #0d0221 100%
-  );
-  color:#333;
+  overflow-x:hidden;
 }
 
-/* ---------- SECTION ---------- */
+/* ---------- SECTIONS ---------- */
 .section{
   min-height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
+  flex-direction:column;
   padding:60px 20px;
   text-align:center;
-  flex-direction:column;
-  position:relative;
-  z-index:5;
 }
 
 .text-bubble{
-  display:inline-block;
+  background:rgba(255,255,255,.65);
   padding:25px 35px;
-  background:rgba(255,255,255,0.6);
   border-radius:30px;
-  box-shadow:0 8px 20px rgba(0,0,0,0.1);
-  backdrop-filter:blur(6px);
+  margin:25px 0;
   max-width:70%;
-  font-size:1.2em;
-  margin:30px 0;
   opacity:0;
-  transform:translateY(30px);
+  transform:translateY(25px);
   transition:1s ease;
 }
-.fade-in{opacity:1;transform:translateY(0);}
+.fade-in{
+  opacity:1;
+  transform:translateY(0);
+}
 
 h1{
   font-family:'Great Vibes',cursive;
   font-size:4em;
   color:#ff77aa;
-}
-
-.interactive-btn{
-  padding:12px 24px;
-  background:#ff8fab;
-  color:#fff;
-  border:none;
-  border-radius:20px;
-  cursor:pointer;
-  font-size:1.2em;
 }
 
 /* ---------- HEART TRAIL ---------- */
@@ -78,171 +57,113 @@ h1{
   background:#ff4f87;
   transform:rotate(-45deg);
   pointer-events:none;
-  z-index:10;
-  animation:fadeHeart 1.2s ease forwards;
+  z-index:50;
+  animation:heartFade 1.2s ease forwards;
 }
-.heart::before,.heart::after{
+.heart:before,.heart:after{
   content:"";
   position:absolute;
-  width:14px;
-  height:14px;
+  width:14px;height:14px;
   background:#ff4f87;
   border-radius:50%;
 }
-.heart::before{top:-7px;}
-.heart::after{left:7px;}
+.heart:before{top:-7px;}
+.heart:after{left:7px;}
 
-@keyframes fadeHeart{
-  from{opacity:1;transform:scale(1) rotate(-45deg);}
+@keyframes heartFade{
   to{opacity:0;transform:scale(1.4) rotate(-45deg);}
 }
 
-/* ---------- MOON ---------- */
-#moon{
-  position:fixed;
-  top:40px;
-  right:40px;
-  font-size:80px;
-  color:#fffacd;
-  text-shadow:0 0 25px #fffacd;
-  opacity:0;
-  transition:opacity 3s ease;
-  z-index:2;
-}
-
-/* ---------- STARS ---------- */
-.star{
-  position:fixed;
-  width:2px;
-  height:2px;
-  background:white;
-  border-radius:50%;
-  opacity:0;
-  z-index:2;
-}
-@keyframes twinkle{
-  0%,100%{opacity:.3;}
-  50%{opacity:1;}
-}
-
-/* ---------- TULIPS ---------- */
-#tulip-garden{
-  position:fixed;
-  bottom:-80px;
-  left:0;
-  width:100%;
-  height:300px;
-  display:flex;
-  justify-content:space-around;
-  align-items:flex-end;
-  pointer-events:none;
-  z-index:3;
-  opacity:0;
-  transition:opacity 3s ease;
-}
-.tulip{
-  font-size:48px;
-  transform:scaleY(1.8);
-  opacity:0;
-  animation:growTulip 3s ease forwards;
-  animation-delay:var(--delay);
-}
-@keyframes growTulip{
-  from{opacity:0;transform:translateY(150px) scaleY(1.8);}
-  to{opacity:1;transform:translateY(0) scaleY(1.8);}
-}
-
-/* ---------- ENVELOPE ---------- */
-#letter-section{
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
-
-.envelope{
-  width:260px;
-  height:180px;
-  background:#f5f0ea;
-  border-radius:8px;
-  position:relative;
-  cursor:pointer;
-  box-shadow:0 15px 40px rgba(0,0,0,.25);
-  transition:transform .6s ease;
-}
-.envelope:hover{transform:scale(1.05);}
-
-.envelope:before{
-  content:"";
-  position:absolute;
-  width:0;height:0;
-  border-left:130px solid transparent;
-  border-right:130px solid transparent;
-  border-top:90px solid #e6ded3;
-  top:0;left:0;
-}
-
-.envelope span{
-  position:absolute;
-  bottom:20px;
-  width:100%;
-  text-align:center;
-  font-size:1.1em;
-  color:#777;
-}
-
-/* ---------- LETTER ---------- */
-#paper{
+/* ---------- LETTER OVERLAY ---------- */
+#letter-overlay{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.65);
+  background:rgba(0,0,0,.55);
   display:none;
   justify-content:center;
   align-items:center;
-  z-index:20;
+  z-index:100;
 }
 
-.paper-inner{
-  background:#fffaf3;
-  width:80%;
-  max-width:600px;
-  padding:50px 40px;
+/* ---------- SEALED ENVELOPE ---------- */
+#envelope{
+  width:260px;
+  height:180px;
+  background:#c9a36a;
   border-radius:6px;
-  box-shadow:0 20px 60px rgba(0,0,0,.4);
+  box-shadow:0 20px 50px rgba(0,0,0,.4);
+  cursor:pointer;
+  position:relative;
 }
 
-.type{
+#wax{
+  position:absolute;
+  width:50px;
+  height:50px;
+  background:#7b1e1e;
+  border-radius:50%;
+  bottom:25px;
+  left:50%;
+  transform:translateX(-50%);
+  box-shadow:inset 0 0 10px rgba(0,0,0,.4);
+}
+
+/* ---------- OPEN LETTER ---------- */
+#paper{
+  display:none;
+  background:
+    radial-gradient(circle at top left, rgba(0,0,0,.12), transparent 40%),
+    radial-gradient(circle at bottom right, rgba(0,0,0,.12), transparent 40%),
+    #f6eddc;
+  width:80%;
+  max-width:650px;
+  max-height:75vh;
+  padding:60px 45px;
+  border-radius:10px;
+  box-shadow:
+    inset 0 0 35px rgba(0,0,0,.15),
+    0 30px 70px rgba(0,0,0,.45);
+  overflow-y:auto;
+}
+
+#paper::-webkit-scrollbar{
+  width:6px;
+}
+#paper::-webkit-scrollbar-thumb{
+  background:#b08b57;
+  border-radius:10px;
+}
+
+/* ---------- HANDWRITING ---------- */
+#typewriter{
   font-family:'Great Vibes',cursive;
-  font-size:2.4em;
-  line-height:1.6;
+  font-size:2.3em;
+  line-height:1.7;
+  color:#4b2e15;
   white-space:pre-wrap;
 }
 
-/* ---------- MUSIC ---------- */
-audio{display:none;}
+/* ---------- CLOSE ---------- */
+#close{
+  position:absolute;
+  top:25px;
+  right:25px;
+  font-size:24px;
+  color:#fff;
+  cursor:pointer;
+}
+
+/* ---------- OBSERVER ---------- */
 </style>
 </head>
 
 <body>
 
-<audio id="bg-music" src="soft-music.mp3" loop></audio>
-
-<div id="moon">🌙</div>
-
-<div id="tulip-garden">
-  <div class="tulip" style="--delay:0s">🌷</div>
-  <div class="tulip" style="--delay:.3s">🌷</div>
-  <div class="tulip" style="--delay:.6s">🌷</div>
-  <div class="tulip" style="--delay:.9s">🌷</div>
-  <div class="tulip" style="--delay:1.2s">🌷</div>
-</div>
-
+<!-- MEMORIES (unchanged logic) -->
 <div class="section">
   <h1>Happy Birthday Ishita 💖</h1>
-  <button class="interactive-btn">Click to Start</button>
 </div>
 
-<!-- SNAPCHAT MEMORIES (UNCHANGED) -->
 <div class="section">
   <div class="text-bubble">Snapchat memories: Our first talks, little snaps, discovering each other slowly...</div>
   <div class="text-bubble">Thanks to Yogita we got closer earlier and I got your number...</div>
@@ -250,50 +171,34 @@ audio{display:none;}
   <div class="text-bubble">Because of Yogita's job search, we connected on WhatsApp and got to know each other more...</div>
 </div>
 
-<!-- WHATSAPP MEMORIES (UNCHANGED) -->
 <div class="section">
   <div class="text-bubble">WhatsApp memories: Long movie nights, deep talks, sending each other our favorite rom-coms 🎬💖</div>
-  <div class="text-bubble">Women's day tiramisu surprise for youu 🤭 You loved it, your reactions whenever I get a chance to make you smile, to make you happy 🤪 I try not to lose that chance</div>
-  <div class="text-bubble">During Navratri, when you sent that cheesecake for me 🥹 I was sooooo happy. I still have that jar and box 😄</div>
-  <div class="text-bubble">Whenever I see reels about How to Lose a Guy in 10 Days or 10 Things I Hate About You, it reminds me of you 😅💓</div>
-  <div class="text-bubble">I love how we both put so much thought into choosing the perfect caption, song, and pics 😁 it makes the whole thing even more special with you 💖</div>
+  <div class="text-bubble">Women's day tiramisu surprise for youu 🤭 You loved it… I never want to miss a chance to make you smile</div>
+  <div class="text-bubble">During Navratri when you sent that cheesecake 🥹 I still have the jar and the box with me</div>
+  <div class="text-bubble">Whenever I see rom-com reels, it reminds me of you 😅💓</div>
 </div>
 
-<!-- LETTER -->
-<div id="letter-section" class="section">
-  <div class="envelope" onclick="openLetter()">
-    <span>Tap to open</span>
+<!-- LETTER TRIGGER -->
+<div class="section">
+  <div class="text-bubble" onclick="openOverlay()">Touch this letter 🤍</div>
+</div>
+
+<!-- LETTER OVERLAY -->
+<div id="letter-overlay">
+  <div id="close" onclick="closeLetter()">✕</div>
+
+  <div id="envelope" onclick="openLetter()">
+    <div id="wax"></div>
   </div>
-</div>
 
-<div id="paper" onclick="closeLetter()">
-  <div class="paper-inner">
-    <div id="typewriter" class="type"></div>
+  <div id="paper">
+    <div id="typewriter"></div>
   </div>
 </div>
 
 <script>
-/* MUSIC */
-['click','scroll','touchstart'].forEach(e=>{
-  document.body.addEventListener(e,()=>{
-    const m=document.getElementById('bg-music');
-    if(m.paused) m.play().catch(()=>{});
-  },{once:true});
-});
-
-/* FADE */
-const obs=new IntersectionObserver(entries=>{
-  entries.forEach(en=>{
-    if(en.isIntersecting){
-      en.target.querySelectorAll('.text-bubble')
-        .forEach((b,i)=>setTimeout(()=>b.classList.add('fade-in'),i*250));
-    }
-  });
-},{threshold:.25});
-document.querySelectorAll('.section').forEach(s=>obs.observe(s));
-
-/* HEART TRAIL */
-function heartTrail(x,y){
+/* ---------- HEART TRAIL ---------- */
+function heart(x,y){
   const h=document.createElement('div');
   h.className='heart';
   h.style.left=x+'px';
@@ -301,52 +206,66 @@ function heartTrail(x,y){
   document.body.appendChild(h);
   setTimeout(()=>h.remove(),1200);
 }
-document.addEventListener('mousemove',e=>heartTrail(e.clientX,e.clientY));
+document.addEventListener('mousemove',e=>heart(e.clientX,e.clientY));
 document.addEventListener('touchmove',e=>{
-  [...e.touches].forEach(t=>heartTrail(t.clientX,t.clientY));
+  [...e.touches].forEach(t=>heart(t.clientX,t.clientY));
 });
 
-/* STARS */
-const stars=[];
-for(let i=0;i<120;i++){
-  const s=document.createElement('div');
-  s.className='star';
-  s.style.left=Math.random()*100+'vw';
-  s.style.top=Math.random()*60+'vh';
-  s.style.animation=`twinkle ${3+Math.random()*5}s infinite ${Math.random()*5}s`;
-  document.body.appendChild(s);
-  stars.push(s);
-}
+/* ---------- FADE IN ---------- */
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.text-bubble')
+        .forEach((b,i)=>setTimeout(()=>b.classList.add('fade-in'),i*250));
+    }
+  });
+},{threshold:.3});
+document.querySelectorAll('.section').forEach(s=>obs.observe(s));
 
-/* NIGHT */
-function night(){
-  const p=scrollY/(document.body.scrollHeight-innerHeight);
-  const on=p>.55;
-  moon.style.opacity=on?(p-.55)/.45:0;
-  document.getElementById('tulip-garden').style.opacity=on?1:0;
-  stars.forEach(s=>s.style.opacity=on?1:0);
-  requestAnimationFrame(night);
-}
-night();
+/* ---------- LETTER LOGIC ---------- */
+const overlay=document.getElementById('letter-overlay');
+const envelope=document.getElementById('envelope');
+const paper=document.getElementById('paper');
+const writer=document.getElementById('typewriter');
 
-/* LETTER */
 const text=`I don’t know what the future holds,
 but I’m really glad you’re part of my present 🤍
+
+Some things feel royal,
+not because they are grand,
+but because they are rare.
 
 Happy Birthday, Ishita.
 Always.`;
 
-let i=0;
-function openLetter(){
-  paper.style.display='flex';
-  typewriter.textContent='';
-  i=0;
-  const t=setInterval(()=>{
-    typewriter.textContent+=text[i++];
-    if(i>=text.length) clearInterval(t);
-  },55);
+let i=0, timer;
+
+function openOverlay(){
+  overlay.style.display='flex';
 }
-function closeLetter(){paper.style.display='none';}
+
+function openLetter(){
+  envelope.style.display='none';
+  paper.style.display='block';
+  writer.textContent='';
+  i=0;
+
+  timer=setInterval(()=>{
+    if(i<text.length){
+      writer.textContent+=text[i++];
+      paper.scrollTop=paper.scrollHeight;
+    }else{
+      clearInterval(timer);
+    }
+  },70);
+}
+
+function closeLetter(){
+  clearInterval(timer);
+  overlay.style.display='none';
+  envelope.style.display='block';
+  paper.style.display='none';
+}
 </script>
 
 </body>
