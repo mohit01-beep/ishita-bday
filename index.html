@@ -228,7 +228,7 @@ h1{
 
 <!-- LETTER -->
 <div class="section">
-  <div class="sealed-letter" onclick="openLetter()">✉️ Touch to open</div>
+  <div class="sealed-letter" onclick="openLetter()">✉️ Open the letter</div>
   <div class="letter-paper" id="letterPaper">
     <div id="typedText"></div>
   </div>
@@ -293,7 +293,7 @@ function night(){
 }
 night();
 
-/* LETTER TYPING */
+/* LETTER TYPING – FIXED */
 const letterText=`In a few days, according to Snapchat, it will be three years since we connected.
 
 I never imagined we would become this close or that our bond would feel so special.
@@ -308,20 +308,36 @@ I don’t know why, but with you, everything feels so calm.
 
 Once again, happieee birthdayyyyy, Elsa ❄️💗🥹`;
 
-let i=0,typing=true;
+let i=0;
+let typing=true;
+let resumeTimeout;
+
 function openLetter(){
   document.querySelector('.sealed-letter').style.display='none';
   const paper=document.getElementById('letterPaper');
   paper.style.display='block';
   typeText();
 }
+
 function typeText(){
-  if(i<letterText.length && typing){
-    document.getElementById('typedText').innerHTML+=letterText[i++];
+  if(i < letterText.length && typing){
+    document.getElementById('typedText').innerHTML += letterText[i++];
     setTimeout(typeText,70);
   }
 }
-document.getElementById('letterPaper').addEventListener('scroll',()=>typing=false);
+
+function pauseTyping(){
+  typing=false;
+  clearTimeout(resumeTimeout);
+  resumeTimeout=setTimeout(()=>{
+    typing=true;
+    typeText();
+  },1200);
+}
+
+const letterPaper=document.getElementById('letterPaper');
+letterPaper.addEventListener('scroll',pauseTyping);
+letterPaper.addEventListener('touchstart',pauseTyping);
 </script>
 
 </body>
