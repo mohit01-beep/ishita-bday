@@ -164,18 +164,7 @@ h1{
   line-height:1.6;
 }
 
-#toggleTyping{
-  position:sticky;
-  top:0;
-  margin-bottom:20px;
-  padding:8px 14px;
-  border:none;
-  border-radius:12px;
-  background:#d4b48c;
-  color:#4a2c1a;
-  font-size:.6em;
-  cursor:pointer;
-}
+
 </style>
 </head>
 
@@ -239,7 +228,7 @@ h1{
 <div class="section">
   <div class="sealed-letter" onclick="openLetter()">✉️ Open the letter</div>
   <div class="letter-paper" id="letterPaper">
-    <button id="toggleTyping">⏸ Pause writing</button>
+    
     <div id="typedText"></div>
   </div>
 </div>
@@ -332,12 +321,7 @@ function typeText(){
   }
 }
 
-document.getElementById('toggleTyping').addEventListener('click',()=>{
-  typing=!typing;
-  document.getElementById('toggleTyping').textContent=
-    typing?'⏸ Pause writing':'▶️ Resume writing';
-  if(typing) typeText();
-});
+
 </script>
 
 </body>
