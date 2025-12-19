@@ -108,7 +108,6 @@ h1{
   opacity:0;
   z-index:2;
 }
-
 @keyframes twinkle{
   0%,100%{opacity:.2;}
   50%{opacity:1;}
@@ -141,7 +140,7 @@ h1{
   to{opacity:1;transform:translateY(0) scaleY(2);}
 }
 
-/* ---------- ROYAL LETTER ---------- */
+/* ---------- LETTER ---------- */
 .sealed-letter{
   font-size:2em;
   padding:20px 30px;
@@ -163,6 +162,19 @@ h1{
   font-family:'Great Vibes', cursive;
   font-size:2.2em;
   line-height:1.6;
+}
+
+#toggleTyping{
+  position:sticky;
+  top:0;
+  margin-bottom:20px;
+  padding:8px 14px;
+  border:none;
+  border-radius:12px;
+  background:#d4b48c;
+  color:#4a2c1a;
+  font-size:.6em;
+  cursor:pointer;
 }
 </style>
 </head>
@@ -206,7 +218,6 @@ h1{
   <div class="text-bubble">
     Instagram memories: Apart from movies and series reels, whenever I see any reel that reminds me of you or your nature, I love sending it to you — just to keep reminding you, very often, how grateful I am to have you 💖
   </div>
-
   <div class="text-bubble">
     And thanks to my lovey-dovey feed, that kind of content keeps coming in different forms 😁 so I always have something to remind you, to make you feel special (because you are special for me), and to make you smile 🤍
   </div>
@@ -216,11 +227,9 @@ h1{
   <div class="text-bubble">
     Real life meet: Although we met only once, and that too for a very short time… it was still a really special moment for me 🤍
   </div>
-
   <div class="text-bubble">
     You were looking soooo prettyyyy. I mean, I’ve seen you in pics and snaps before, but in person… wowww. And that smileee 🤪 I’ve always been a fan of your smile.
   </div>
-
   <div class="text-bubble">
     And that doggooo 🐶 I hope it keeps reminding you of me whenever you look at it 😛
   </div>
@@ -230,6 +239,7 @@ h1{
 <div class="section">
   <div class="sealed-letter" onclick="openLetter()">✉️ Open the letter</div>
   <div class="letter-paper" id="letterPaper">
+    <button id="toggleTyping">⏸ Pause writing</button>
     <div id="typedText"></div>
   </div>
 </div>
@@ -280,20 +290,18 @@ for(let i=0;i<140;i++){
   stars.push(s);
 }
 
-/* NIGHT LOGIC */
+/* NIGHT */
 function night(){
   const p=scrollY/(document.body.scrollHeight-innerHeight);
   const nightOn=p>.55;
-
   document.getElementById('moon').style.opacity=nightOn?(p-.55)/.45:0;
   document.getElementById('tulip-garden').style.opacity=nightOn?1:0;
   stars.forEach(s=>s.style.opacity=nightOn?1:0);
-
   requestAnimationFrame(night);
 }
 night();
 
-/* LETTER TYPING – FIXED */
+/* LETTER TYPING */
 const letterText=`In a few days, according to Snapchat, it will be three years since we connected.
 
 I never imagined we would become this close or that our bond would feel so special.
@@ -310,12 +318,10 @@ Once again, happieee birthdayyyyy, Elsa ❄️💗🥹`;
 
 let i=0;
 let typing=true;
-let resumeTimeout;
 
 function openLetter(){
   document.querySelector('.sealed-letter').style.display='none';
-  const paper=document.getElementById('letterPaper');
-  paper.style.display='block';
+  document.getElementById('letterPaper').style.display='block';
   typeText();
 }
 
@@ -326,18 +332,12 @@ function typeText(){
   }
 }
 
-function pauseTyping(){
-  typing=false;
-  clearTimeout(resumeTimeout);
-  resumeTimeout=setTimeout(()=>{
-    typing=true;
-    typeText();
-  },1200);
-}
-
-const letterPaper=document.getElementById('letterPaper');
-letterPaper.addEventListener('scroll',pauseTyping);
-letterPaper.addEventListener('touchstart',pauseTyping);
+document.getElementById('toggleTyping').addEventListener('click',()=>{
+  typing=!typing;
+  document.getElementById('toggleTyping').textContent=
+    typing?'⏸ Pause writing':'▶️ Resume writing';
+  if(typing) typeText();
+});
 </script>
 
 </body>
